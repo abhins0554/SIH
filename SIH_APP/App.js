@@ -117,11 +117,11 @@
 
 
 import React from 'react';
-import SignpFormScreen from "./Source/Screen/AttractionCategoryScreen"
+import NewsDescriptionScreen from "./Source/Screen/NewsDescriptionScreen"
 
 function App(props) {
   return (
-    <SignpFormScreen />
+    <NewsDescriptionScreen />
   );
 }
 

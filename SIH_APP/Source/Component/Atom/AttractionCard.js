@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
 
+import ColorTheme from "../../Theme/ColorTheme";
+
 function AttractionCard(props) {
   const styles = StyleSheet.create({
     cardframe: {
@@ -9,10 +11,24 @@ function AttractionCard(props) {
       overflow: 'hidden',
       alignSelf: 'center',
       borderRadius: 20,
+      margin:8,
     },
     img: {
       width: Dimensions.get('window').width - 20,
       height: 220,
+    },
+    headingtxt:{
+      color:ColorTheme.white,
+      marginHorizontal:7,
+      marginTop:135,
+      fontSize:18,
+      fontWeight:'bold'
+    },
+    subheadingtxt:{
+      color:ColorTheme.white,
+      marginHorizontal:7,
+      fontSize:14,
+      marginTop:5,
     },
   });
   return (
@@ -35,7 +51,8 @@ function AttractionCard(props) {
         }}
       />
       <View style={{position: 'absolute'}}>
-        <Text>kedarnath Temple</Text>
+        <Text style={styles.headingtxt}>Kedarnath Temple</Text>
+        <Text style={styles.subheadingtxt}>A Kedarnath is a place to find th degnighty of shiva.</Text>
       </View>
     </View>
   );
