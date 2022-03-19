@@ -17,7 +17,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
 
-function LandingScreen(props) {
+function LandingScreen({navigation}) {
   const styles = StyleSheet.create({
     mainframe: {
       flex: 1,
@@ -34,7 +34,7 @@ function LandingScreen(props) {
       margin: 5,
     },
     logocontainer: {
-      backgroundColor: ColorTheme.lightGrey,
+      backgroundColor: 'white',
       alignSelf: 'center',
       marginTop: 25,
       borderRadius: 15,
@@ -63,13 +63,16 @@ function LandingScreen(props) {
       marginTop: 10,
     },
     infoIcons: {
-      textAlign: 'center',
+      borderRadius: 360,
+      height: Dimensions.get('window').width / 5,
+      width: Dimensions.get('window').width / 5,
+      alignSelf: 'center',
     },
-    datacontainer:{
+    datacontainer: {
       flex: 1,
-      justifyContent:'center',
-      margin:1,
-      backgroundColor:'white'
+      justifyContent: 'center',
+      margin: 1,
+      backgroundColor: 'white',
     },
   });
 
@@ -107,89 +110,85 @@ function LandingScreen(props) {
             </View>
           </View>
           <View style={styles.informationContentStart}>
-            <View style={{flex: 1, flexDirection: 'row',backgroundColor:'grey'}}>
-              <TouchableOpacity style={styles.datacontainer}>
-                <MaterialIcons
-                  name="attractions"
-                  size={35}
+            <View
+              style={{flex: 1, flexDirection: 'row', backgroundColor: 'grey'}}>
+              <TouchableOpacity style={styles.datacontainer} onPress={()=>navigation.navigate('AttractionScreen')}>
+                <Image
+                  source={require('../Assets/Image/attraction.png')}
                   style={styles.infoIcons}
                 />
                 <Text
                   style={[
                     styles.subtext,
-                    {fontSize: 16, color: ColorTheme.black},
+                    {fontSize: 16, color: ColorTheme.primary},
                   ]}>
                   Attractions
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.datacontainer}>
-                <MaterialIcons
-                  name="food-bank"
-                  size={35}
+                <Image
+                  source={require('../Assets/Image/fooddrink.png')}
                   style={styles.infoIcons}
                 />
                 <Text
                   style={[
                     styles.subtext,
-                    {fontSize: 16, color: ColorTheme.black},
+                    {fontSize: 16, color: ColorTheme.primary},
                   ]}>
                   {'Eat & Drink'}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.datacontainer}>
-                <MaterialIcons
-                  name="shopping-bag"
-                  size={35}
+              <TouchableOpacity style={styles.datacontainer} onPress={()=>navigation.navigate('AccomodationScreen')}>
+                <Image
+                  source={require('../Assets/Image/accomodation.png')}
                   style={styles.infoIcons}
                 />
                 <Text
                   style={[
                     styles.subtext,
-                    {fontSize: 16, color: ColorTheme.black},
+                    {fontSize: 16, color: ColorTheme.primary},
                   ]}>
                   Accomodation
                 </Text>
               </TouchableOpacity>
             </View>
-            <View style={{flex: 1, flexDirection: 'row',backgroundColor:'grey'}}>
-              <TouchableOpacity style={styles.datacontainer}>
-                <MaterialIcons
-                  name="event"
-                  size={35}
+            <View
+              style={{flex: 1, flexDirection: 'row', backgroundColor: 'grey'}}>
+              <TouchableOpacity style={styles.datacontainer} onPress={()=>navigation.navigate('EventScreen')}>
+                <Image
+                  source={require('../Assets/Image/event.png')}
                   style={styles.infoIcons}
                 />
                 <Text
                   style={[
                     styles.subtext,
-                    {fontSize: 16, color: ColorTheme.black},
+                    {fontSize: 16, color: ColorTheme.primary},
                   ]}>
                   Events
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.datacontainer}>
-                <Ionicons
-                  name="newspaper-outline"
-                  size={35}
+              <TouchableOpacity style={styles.datacontainer} onPress={()=>navigation.navigate('NewsScreen')}>
+                <Image
+                  source={require('../Assets/Image/news.png')}
                   style={styles.infoIcons}
                 />
                 <Text
                   style={[
                     styles.subtext,
-                    {fontSize: 16, color: ColorTheme.black},
+                    {fontSize: 16, color: ColorTheme.primary},
                   ]}>
                   News
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.datacontainer}>
-                <Octicons
-                  name="three-bars"
-                  size={35}
+                <Image
+                  source={require('../Assets/Image/more.png')}
                   style={styles.infoIcons}
                 />
                 <Text
                   style={[
                     styles.subtext,
-                    {fontSize: 16, color: ColorTheme.black},
+                    {fontSize: 16, color: ColorTheme.primary},
                   ]}>
                   More
                 </Text>

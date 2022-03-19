@@ -4,7 +4,7 @@ import {SafeAreaView, View, Text, StyleSheet, ScrollView} from 'react-native';
 import AttractionCard from '../Component/Atom/AttractionCard';
 import Header from '../Component/Atom/Header';
 
-function AttractionCategoryScreen(props) {
+function AttractionCategoryScreen({navigation}) {
   const styles = StyleSheet.create({
     mainframe: {
       flex: 1,
@@ -14,10 +14,12 @@ function AttractionCategoryScreen(props) {
     <SafeAreaView style={styles.mainframe}>
       <Header title={'Char Dham'} />
       <ScrollView style={{flex: 1}}>
-        <AttractionCard />
-        <AttractionCard />
-        <AttractionCard />
-        <AttractionCard />
+        <AttractionCard navigation={navigation} />
+        <AttractionCard navigation={navigation} />
+        <AttractionCard navigation={navigation} />
+        <AttractionCard navigation={navigation} />
+        <AttractionCard navigation={navigation} />
+        <AttractionCard navigation={navigation} />
       </ScrollView>
     </SafeAreaView>
   );

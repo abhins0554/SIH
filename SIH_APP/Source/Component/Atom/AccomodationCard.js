@@ -10,6 +10,8 @@ import {
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
+import ColorTheme from '../../Theme/ColorTheme';
+
 function AccomodationCard({
   image,
   hotel_name,
@@ -35,6 +37,7 @@ function AccomodationCard({
       fontWeight: 'bold',
       textAlign: 'center',
       paddingHorizontal: 2,
+      color:ColorTheme.textSecondary,
     },
     reviews: {
       fontSize: 12,
@@ -44,6 +47,7 @@ function AccomodationCard({
     },
     featuretxt: {
       fontSize: 12,
+      color:ColorTheme.textGrey,
     },
     pricetxt: {
       color: 'red',
@@ -63,11 +67,11 @@ function AccomodationCard({
       <Text style={styles.pricetxt}>₹{price}</Text>
       <Text style={styles.featuretxt}>{feature}</Text>
       <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-        <AntDesign name="star" />
-        <AntDesign name="star" />
-        <AntDesign name="star" />
-        <AntDesign name="star" />
-        <AntDesign name="staro" />
+        <AntDesign name="star" color={ColorTheme.primary} />
+        <AntDesign name="star" color={ColorTheme.primary} />
+        <AntDesign name="star" color={ColorTheme.primary} />
+        <AntDesign name="star" color={ColorTheme.primary} />
+        <AntDesign name="staro" color={ColorTheme.primary} />
         <Text style={styles.reviews}>{no_of_reviews} Reviews</Text>
       </View>
     </View>

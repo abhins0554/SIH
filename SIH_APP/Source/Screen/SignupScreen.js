@@ -6,6 +6,7 @@ import {
   Image,
   View,
   Text,
+  TouchableOpacity
 } from 'react-native';
 
 import {TextInput, Button} from 'react-native-paper';
@@ -18,7 +19,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
 
-function SignupScreen(props) {
+function SignupScreen({navigation}) {
   const [email, set_email] = useState('');
   const [password, set_password] = useState('');
   const [conf_password, set_conf_password] = useState('');
@@ -114,13 +115,15 @@ function SignupScreen(props) {
       />
       <Button
         mode="contained"
-        onPress={() => console.log('Pressed')}
+        onPress={() => navigation.navigate('SignpFormScreen')}
         style={{width: 100, alignSelf: 'center', marginTop: 15}}>
         Next
       </Button>
+      <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
       <Text style={[styles.forgotPassword, {textAlign: 'center'}]}>
         Have an account? Signin
       </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

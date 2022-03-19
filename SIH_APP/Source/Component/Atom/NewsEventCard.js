@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Dimensions, Image,TouchableOpacity} from 'react-
 
 import ColorTheme from "../../Theme/ColorTheme";
 
-function AttractionCard({navigation}) {
+function NewsEventCard({navigation}) {
   const styles = StyleSheet.create({
     cardframe: {
       width: Dimensions.get('window').width - 20,
@@ -32,7 +32,7 @@ function AttractionCard({navigation}) {
     },
   });
   return (
-    <TouchableOpacity style={styles.cardframe} onPress={()=>navigation.navigate('AttractionDetails')}>
+    <TouchableOpacity style={styles.cardframe} onPress={navigation}>
       <Image
         source={require('../../Assets/Image/kedarnath.jpg')}
         style={styles.img}
@@ -58,4 +58,4 @@ function AttractionCard({navigation}) {
   );
 }
 
-export default AttractionCard;
+export default NewsEventCard;

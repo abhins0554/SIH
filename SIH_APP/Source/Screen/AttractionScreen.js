@@ -1,11 +1,11 @@
 import React from 'react';
-import {SafeAreaView, View, StyleSheet, Image, Text} from 'react-native';
+import {SafeAreaView, View, StyleSheet, Image, Text,TouchableOpacity} from 'react-native';
 
 import Header from '../Component/Atom/Header';
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
 
-function AttractionScreen(props) {
+function AttractionScreen({navigation}) {
   const styles = StyleSheet.create({
     mainframe: {
       flex: 1,
@@ -66,50 +66,50 @@ function AttractionScreen(props) {
       <Header title={'Attractions'} />
       <View style={{flex: 1, flexDirection: 'column'}}>
         <View style={{flex: 1}}>
-          <View style={styles.att1container}>
+          <TouchableOpacity style={styles.att1container} onPress={()=>navigation.navigate('AttractionCategoryScreen')}>
             <Image
               source={require('../Assets/Image/kedarnath.jpg')}
               style={styles.attraction1img}
               resizeMode={'cover'}
             />
             <Text style={styles.heading}>Char Dham</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={{flex: 1, flexDirection: 'row'}}>
-          <View style={styles.att2container}>
+          <TouchableOpacity style={styles.att2container} onPress={()=>navigation.navigate('AttractionCategoryScreen')}>
             <Image
               source={require('../Assets/Image/kedarnath.jpg')}
               style={styles.attraction2img}
               resizeMode={'cover'}
             />
             <Text style={styles.heading2}>Cultural</Text>
-          </View>
-          <View style={styles.att2container}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.att2container} onPress={()=>navigation.navigate('AttractionCategoryScreen')}>
             <Image
               source={require('../Assets/Image/kedarnath.jpg')}
               style={styles.attraction2img}
               resizeMode={'cover'}
             />
             <Text style={styles.heading2}>Architecture</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={{flex: 1, flexDirection: 'row'}}>
-          <View style={styles.att2container}>
+          <TouchableOpacity style={styles.att2container} onPress={()=>navigation.navigate('AttractionCategoryScreen')}>
             <Image
               source={require('../Assets/Image/kedarnath.jpg')}
               style={styles.attraction2img}
               resizeMode={'cover'}
             />
             <Text style={styles.heading2}>Museumes</Text>
-          </View>
-          <View style={styles.att2container}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.att2container} onPress={()=>navigation.navigate('AttractionCategoryScreen')}>
             <Image
               source={require('../Assets/Image/kedarnath.jpg')}
               style={styles.attraction2img}
               resizeMode={'cover'}
             />
             <Text style={styles.heading2}>Camping</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

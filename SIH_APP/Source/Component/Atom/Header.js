@@ -18,7 +18,7 @@ function Header({title}) {
         flex:10,
         textAlign: 'center',
         fontSize: 25,
-        color: ColorTheme.black,
+        color: ColorTheme.primary,
         fontWeight: FontTheme.weight.normal,
         alignSelf:'center',
       },
@@ -29,14 +29,14 @@ function Header({title}) {
         name="arrowleft"
         style={{textAlign: 'left', margin: 10,flex:1}}
         size={30}
-        color={ColorTheme.black}
+        color={ColorTheme.primary}
       />
       <Text style={styles.heading}>{title}</Text>
       <Octicons
         name="three-bars"
         style={{textAlign: 'left', margin: 10,flex:1}}
         size={30}
-        color={ColorTheme.black}
+        color={ColorTheme.primary}
       />
     </View>
   );

@@ -3,7 +3,9 @@ import React from 'react';
 import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
 
 import {SliderBox} from 'react-native-image-slider-box';
+
 import Header from '../Component/Atom/Header';
+import ColorTheme from '../Theme/ColorTheme';
 
 function NewsDescriptionScreen(props) {
   const images = [
@@ -19,18 +21,27 @@ function NewsDescriptionScreen(props) {
     mainheading: {
       fontSize: 18,
       fontWeight: 'bold',
-      textAlign:'justify',
-      color:'black',
-      marginTop:7.5,
+      textAlign: 'justify',
+      color: ColorTheme.textPrimary,
+      marginTop: 7.5,
     },
     mainbodytxt: {
       fontSize: 14,
       fontWeight: '400',
-      textAlign:'justify',
-      marginTop:7.5,
+      textAlign: 'justify',
+      marginTop: 7.5,
+      color: ColorTheme.textSecondary,
     },
-    datetxt:{
-        marginTop:5,
+    datetxt: {
+      marginTop: 5,
+      color: ColorTheme.textSecondary,
+    },
+    barsSeperator: {
+      height: 3,
+      width: 60,
+      backgroundColor: ColorTheme.primary,
+      marginTop: 20,
+      marginBottom: 20,
     },
   });
   return (
@@ -42,22 +53,20 @@ function NewsDescriptionScreen(props) {
         sliderBoxHeight={240}
       />
       <View style={{paddingHorizontal: 10}}>
+        <Text style={styles.datetxt}>{moment().format('DD-MM-YYYY')}</Text>
         <Text style={styles.mainheading}>
           A new tiger resioure is open in the distruic of tamil naidu and will
           conserver over 200 tigher
         </Text>
-        <Text style={styles.datetxt}>{moment().format('DD-MM-YYYY')}</Text>
+        <View style={styles.barsSeperator} />
         <Text style={styles.mainbodytxt}>
           A new tiger resioure is open in the distruic of tamil naidu and will
-          conserver over 200 tigher
-          A new tiger resioure is open in the distruic of tamil naidu and will
-          conserver over 200 tigher
-          A new tiger resioure is open in the distruic of tamil naidu and will
-          conserver over 200 tigher
-          A new tiger resioure is open in the distruic of tamil naidu and will
-          conserver over 200 tigher
-          A new tiger resioure is open in the distruic of tamil naidu and will
-          conserver over 200 tigher
+          conserver over 200 tigher A new tiger resioure is open in the distruic
+          of tamil naidu and will conserver over 200 tigher A new tiger resioure
+          is open in the distruic of tamil naidu and will conserver over 200
+          tigher A new tiger resioure is open in the distruic of tamil naidu and
+          will conserver over 200 tigher A new tiger resioure is open in the
+          distruic of tamil naidu and will conserver over 200 tigher
         </Text>
       </View>
     </SafeAreaView>

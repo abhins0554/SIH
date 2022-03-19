@@ -18,7 +18,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
 
-function SignpScanner(props) {
+function SignpScanner({navigation}) {
   const [address, set_address] = useState('');
   const [pincode, set_pincode] = useState('');
   const [aadhar, set_aadhar] = useState('');
@@ -100,13 +100,10 @@ function SignpScanner(props) {
       </View>
       <Button
         mode="contained"
-        onPress={() => console.log('Pressed')}
+        onPress={() => navigation.navigate('LandingScreen')}
         style={{width: 100, alignSelf: 'center', marginTop: 15}}>
         SignUp
       </Button>
-      <Text style={[styles.forgotPassword, {textAlign: 'center'}]}>
-        Have an account? Signin
-      </Text>
     </SafeAreaView>
   );
 }

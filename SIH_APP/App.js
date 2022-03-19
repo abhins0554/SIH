@@ -114,14 +114,53 @@
 
 // export default App;
 
-
-
 import React from 'react';
-import NewsDescriptionScreen from "./Source/Screen/NewsDescriptionScreen"
+import {StatusBar, Text} from 'react-native';
+
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import 'react-native-gesture-handler';
+
+
+import LandingScreen from './Source/Screen/LandingScreen';
+import LoginScreen from './Source/Screen/LoginScreen';
+import SignupScreen from './Source/Screen/SignupScreen';
+import SignpFormScreen from './Source/Screen/SignpFormScreen';
+import AccomodationScreen from './Source/Screen/AccomodationScreen';
+import AttractionCategoryScreen from './Source/Screen/AttractionCategoryScreen';
+import AttractionDetails from './Source/Screen/AttractionDetails';
+import AttractionScreen from './Source/Screen/AttractionScreen';
+import EventScreen from './Source/Screen/EventScreen';
+import NewsDescriptionScreen from './Source/Screen/NewsDescriptionScreen';
+import NewsScreen from './Source/Screen/NewsScreen';
+import OTPVerificationScreen from './Source/Screen/OTPVerificationScreen';
+
+
+const Stack = createStackNavigator();
 
 function App(props) {
   return (
-    <NewsDescriptionScreen />
+    <>
+      <NavigationContainer>
+        <StatusBar backgroundColor="black" />
+        <Stack.Navigator
+          screenOptions={{headerShown: false}}
+          initialRouteName={'LoginScreen'}>
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="LandingScreen" component={LandingScreen} />
+          <Stack.Screen name="SignupScreen" component={SignupScreen} />
+          <Stack.Screen name="SignpFormScreen" component={SignpFormScreen} />
+          <Stack.Screen name="AccomodationScreen" component={AccomodationScreen} />
+          <Stack.Screen name="AttractionCategoryScreen" component={AttractionCategoryScreen} />
+          <Stack.Screen name="AttractionScreen" component={AttractionScreen} />
+          <Stack.Screen name="EventScreen" component={EventScreen} />
+          <Stack.Screen name="NewsDescriptionScreen" component={NewsDescriptionScreen} />
+          <Stack.Screen name="NewsScreen" component={NewsScreen} />
+          <Stack.Screen name="OTPVerificationScreen" component={OTPVerificationScreen} />
+          <Stack.Screen name="AttractionDetails" component={AttractionDetails} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
 

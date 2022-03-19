@@ -6,6 +6,7 @@ import {
   Image,
   View,
   Text,
+  TouchableOpacity,
 } from 'react-native';
 
 import {TextInput, Button} from 'react-native-paper';
@@ -16,8 +17,9 @@ import {
 
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
+import {NavigationContainer} from '@react-navigation/native';
 
-function LoginScreen(props) {
+function LoginScreen({navigation}) {
   const [email, set_email] = useState('');
   const [password, set_password] = useState('');
   const [password_visible, set_password_visible] = useState(true);
@@ -29,7 +31,7 @@ function LoginScreen(props) {
   const styles = StyleSheet.create({
     mainframe: {
       flex: 1,
-      backgroundColor: ColorTheme.white,
+      backgroundColor: ColorTheme.lightGrey,
     },
     applogo: {
       height: Dimensions.get('window').width / 2,
@@ -59,6 +61,7 @@ function LoginScreen(props) {
       alignSelf: 'center',
       height: 50,
       marginTop: 10,
+      backgroundColor: 'white',
     },
     forgotPassword: {
       marginHorizontal: 20,
@@ -102,7 +105,7 @@ function LoginScreen(props) {
       <Text style={styles.forgotPassword}>Forgot Password ?</Text>
       <Button
         mode="contained"
-        onPress={() => console.log('Pressed')}
+        onPress={() => navigation.navigate('LandingScreen')}
         style={{width: 80, alignSelf: 'center', marginTop: 15}}>
         LogIn
       </Button>
@@ -110,12 +113,14 @@ function LoginScreen(props) {
         Or Connect using Google
       </Text>
       <GoogleSigninButton
-        style={{width: 192, height: 48,alignSelf:'center'}}
+        style={{width: 192, height: 48, alignSelf: 'center'}}
         size={GoogleSigninButton.Size.Wide}
       />
-      <Text style={[styles.forgotPassword, {textAlign: 'center'}]}>
-        Don't have an account? Signup
-      </Text>
+      <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
+        <Text style={[styles.forgotPassword, {textAlign: 'center'}]}>
+          Don't have an account? Signup
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
