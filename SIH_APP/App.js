@@ -134,6 +134,7 @@ import EventScreen from './Source/Screen/EventScreen';
 import NewsDescriptionScreen from './Source/Screen/NewsDescriptionScreen';
 import NewsScreen from './Source/Screen/NewsScreen';
 import OTPVerificationScreen from './Source/Screen/OTPVerificationScreen';
+import PaymentScreen from './Source/Screen/PaymentScreen';
 
 
 const Stack = createStackNavigator();
@@ -158,6 +159,7 @@ function App(props) {
           <Stack.Screen name="NewsScreen" component={NewsScreen} />
           <Stack.Screen name="OTPVerificationScreen" component={OTPVerificationScreen} />
           <Stack.Screen name="AttractionDetails" component={AttractionDetails} />
+          <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
