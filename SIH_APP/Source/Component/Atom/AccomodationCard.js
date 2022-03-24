@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -19,6 +20,7 @@ function AccomodationCard({
   feature,
   no_of_reviews,
   rating,
+  navigation
 }) {
   const styles = StyleSheet.create({
     cardview: {
@@ -54,7 +56,7 @@ function AccomodationCard({
     },
   });
   return (
-    <View style={styles.cardview}>
+    <TouchableOpacity style={styles.cardview} onPress={()=>navigation.navigate('AccomodationDetailScreen')}>
       <Image
         source={{
           uri: image,
@@ -67,14 +69,14 @@ function AccomodationCard({
       <Text style={styles.pricetxt}>₹{price}</Text>
       <Text style={styles.featuretxt}>{feature}</Text>
       <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-        <AntDesign name="star" color={ColorTheme.primary} />
-        <AntDesign name="star" color={ColorTheme.primary} />
-        <AntDesign name="star" color={ColorTheme.primary} />
-        <AntDesign name="star" color={ColorTheme.primary} />
-        <AntDesign name="staro" color={ColorTheme.primary} />
+        <AntDesign name="star" color={ColorTheme.ratingColor} />
+        <AntDesign name="star" color={ColorTheme.ratingColor} />
+        <AntDesign name="star" color={ColorTheme.ratingColor} />
+        <AntDesign name="star" color={ColorTheme.ratingColor} />
+        <AntDesign name="staro" color={ColorTheme.ratingColor} />
         <Text style={styles.reviews}>{no_of_reviews} Reviews</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

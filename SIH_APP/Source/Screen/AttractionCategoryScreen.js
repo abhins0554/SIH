@@ -12,7 +12,7 @@ function AttractionCategoryScreen({navigation}) {
   });
   return (
     <SafeAreaView style={styles.mainframe}>
-      <Header title={'Char Dham'} />
+      <Header navigation={navigation} title={'Char Dham'} />
       <ScrollView style={{flex: 1}}>
         <AttractionCard navigation={navigation} />
         <AttractionCard navigation={navigation} />

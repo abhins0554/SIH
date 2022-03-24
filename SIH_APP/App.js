@@ -68,7 +68,7 @@
 //       <ScrollView
 //         contentInsetAdjustmentBehavior="automatic"
 //         style={backgroundStyle}>
-//         <Header />
+//         <Header navigation={navigation} />
 //         <View
 //           style={{
 //             backgroundColor: isDarkMode ? Colors.black : Colors.white,
@@ -135,6 +135,8 @@ import NewsDescriptionScreen from './Source/Screen/NewsDescriptionScreen';
 import NewsScreen from './Source/Screen/NewsScreen';
 import OTPVerificationScreen from './Source/Screen/OTPVerificationScreen';
 import PaymentScreen from './Source/Screen/PaymentScreen';
+import AccomodationDetailScreen from './Source/Screen/AccomodationDetailScreen';
+import SettingScreen from './Source/Screen/SettingScreen';
 
 
 const Stack = createStackNavigator();
@@ -160,6 +162,8 @@ function App(props) {
           <Stack.Screen name="OTPVerificationScreen" component={OTPVerificationScreen} />
           <Stack.Screen name="AttractionDetails" component={AttractionDetails} />
           <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
+          <Stack.Screen name="AccomodationDetailScreen" component={AccomodationDetailScreen} />
+          <Stack.Screen name="SettingScreen" component={SettingScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

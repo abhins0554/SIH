@@ -63,7 +63,7 @@ function AttractionScreen({navigation}) {
   });
   return (
     <SafeAreaView style={styles.mainframe}>
-      <Header title={'Attractions'} />
+      <Header navigation={navigation} title={'Attractions'} />
       <View style={{flex: 1, flexDirection: 'column'}}>
         <View style={{flex: 1}}>
           <TouchableOpacity style={styles.att1container} onPress={()=>navigation.navigate('AttractionCategoryScreen')}>

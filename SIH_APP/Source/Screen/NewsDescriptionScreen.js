@@ -46,7 +46,7 @@ function NewsDescriptionScreen(props) {
   });
   return (
     <SafeAreaView style={styles.mainframe}>
-      <Header title={'News'} />
+      <Header navigation={navigation} title={'News'} />
       <SliderBox
         images={images}
         onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}

@@ -44,7 +44,7 @@ function AttractionDetails({navigation}) {
   });
   return (
     <SafeAreaView style={styles.mainframe}>
-      <Header title={'Kedarnath'} />
+      <Header navigation={navigation} title={'Kedarnath'} />
       <ScrollView style={{flex:1}}>
       <SliderBox
         images={images}
