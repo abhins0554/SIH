@@ -137,6 +137,8 @@ import OTPVerificationScreen from './Source/Screen/OTPVerificationScreen';
 import PaymentScreen from './Source/Screen/PaymentScreen';
 import AccomodationDetailScreen from './Source/Screen/AccomodationDetailScreen';
 import SettingScreen from './Source/Screen/SettingScreen';
+import ForgotPassword from './Source/Screen/ForgotPassword';
+import OtpScreen from './Source/Screen/OtpScreen';
 
 
 const Stack = createStackNavigator();
@@ -148,7 +150,7 @@ function App(props) {
         <StatusBar backgroundColor="black" />
         <Stack.Navigator
           screenOptions={{headerShown: false}}
-          initialRouteName={'LoginScreen'}>
+          initialRouteName={'SettingScreen'}>
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="LandingScreen" component={LandingScreen} />
           <Stack.Screen name="SignupScreen" component={SignupScreen} />
@@ -164,6 +166,8 @@ function App(props) {
           <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
           <Stack.Screen name="AccomodationDetailScreen" component={AccomodationDetailScreen} />
           <Stack.Screen name="SettingScreen" component={SettingScreen} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+          <Stack.Screen name="OtpScreen" component={OtpScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

@@ -1,5 +1,7 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text, Modal, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, Modal, View,TouchableOpacity} from 'react-native';
+
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import Header from '../Component/Atom/Header';
 import ColorTheme from '../Theme/ColorTheme';
@@ -21,10 +23,12 @@ function SettingScreen({navigation}) {
       borderColor:ColorTheme.borderColor,
       marginHorizontal:20,
       marginTop:15,
-      padding:10
+      padding:10,
+      flexDirection:'row'
     },
     pickertext:{
-        fontSize:16
+        fontSize:16,
+        flex:1
     },
     seperator: {
         borderColor: '#E5E5E5',
@@ -38,9 +42,10 @@ function SettingScreen({navigation}) {
     <SafeAreaView style={styles.mainframe}>
       <Header navigation={navigation} title={'Setting'} navigation={navigation} />
       <Text style={styles.headingtxt}>Select Langage</Text>
-      <View style={styles.pickerbody}>
+      <TouchableOpacity style={styles.pickerbody}>
         <Text style={styles.pickertext}>English</Text>
-      </View>
+        <AntDesign name='caretdown' size={20} />
+      </TouchableOpacity>
       <Text style={styles.headingtxt}>My Profile</Text>
       <View style={styles.seperator}/>
       <Text style={styles.headingtxt}>Policy</Text>

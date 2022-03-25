@@ -36,12 +36,14 @@ function Header({title, navigation}) {
       </TouchableOpacity>
       <Text style={styles.heading}>{title}</Text>
       <TouchableOpacity>
+        {title!==""?
         <Octicons
           name="three-bars"
           style={{textAlign: 'left', margin: 10, flex: 1}}
           size={30}
           color={ColorTheme.primary}
         />
+        :<View/>}
       </TouchableOpacity>
     </View>
   );

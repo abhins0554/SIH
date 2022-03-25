@@ -102,7 +102,9 @@ function LoginScreen({navigation}) {
           )
         }
       />
-      <Text style={styles.forgotPassword}>Forgot Password ?</Text>
+      <TouchableOpacity onPress={()=>navigation.navigate('ForgotPassword')}>
+        <Text style={styles.forgotPassword}>Forgot Password ?</Text>
+      </TouchableOpacity>
       <Button
         mode="contained"
         onPress={() => navigation.navigate('LandingScreen')}

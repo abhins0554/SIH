@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -13,11 +13,50 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
+import moment from 'moment';
 
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
+import _fetch_weather from '../Api/WeatherApi';
 
 function LandingScreen({navigation}) {
+  const [weather_data, set_weather_data] = useState({
+    main: {
+      temp: 303.23,
+    },
+    name: 'Uttrakhand',
+    sys: {
+      country: 'IN',
+    },
+    weather: [
+      {
+        description: 'scattered clouds',
+      },
+    ],
+  });
+
+  React.useEffect(() => {
+    _fetch_weather()
+      .then(response => {
+        set_weather_data(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
+  function upperCaseConverter(mySentence) {
+    const finalSentence = mySentence.replace(/(^\w{1})|(\s+\w{1})/g, letter =>
+      letter.toUpperCase(),
+    );
+    return finalSentence;
+  }
+
+  function kelvinToCelsiusConverter(Kelvin) {
+    let Celsius = Kelvin - 273.15;
+    return Celsius.toFixed(2);
+  }
+
   const styles = StyleSheet.create({
     mainframe: {
       flex: 1,
@@ -29,8 +68,8 @@ function LandingScreen({navigation}) {
       flex: 1,
     },
     applogo: {
-      height: Dimensions.get('window').width / 2,
-      width: Dimensions.get('window').width / 2,
+      height: Dimensions.get('window').width / 2.8,
+      width: Dimensions.get('window').width / 2.8,
       margin: 5,
     },
     logocontainer: {
@@ -44,7 +83,8 @@ function LandingScreen({navigation}) {
       fontWeight: FontTheme.weight.semi,
       color: ColorTheme.white,
       textAlign: 'center',
-      marginTop: 15,
+      marginTop: 45,
+      marginBottom: 20,
     },
     subtext: {
       fontSize: 16,
@@ -55,7 +95,7 @@ function LandingScreen({navigation}) {
     },
     timeWeatherContainer: {
       flexDirection: 'row',
-      marginTop: 25,
+      marginTop: 45,
     },
     informationContentStart: {
       flex: 1,
@@ -91,28 +131,37 @@ function LandingScreen({navigation}) {
               resizeMode={'cover'}
             />
           </View>
-          <Text style={styles.subplacetext}>Dehradun</Text>
-          <Text style={styles.subtext}>Capital of Uttarakhand</Text>
+          <Text style={styles.subplacetext}>{weather_data?.name}</Text>
           <View style={styles.timeWeatherContainer}>
             <View style={[styles.bodyContainer, {flexDirection: 'column'}]}>
               <Text style={[styles.subtext, {fontSize: 12}]}>Local Time</Text>
-              <Text style={[styles.subplacetext, {marginTop: 5}]}>
-                10:30 PM
+              <Text
+                style={[styles.subplacetext, {marginTop: 5, marginBottom: 5}]}>
+                {moment().utcOffset('+0530').format('HH:MM A')}
               </Text>
               <Text style={[styles.subtext, {fontSize: 12}]}>10/12/2029</Text>
             </View>
             <View style={styles.bodyContainer}>
               <Text style={[styles.subtext, {fontSize: 12}]}>TODAY</Text>
-              <Text style={[styles.subplacetext, {marginTop: 5}]}>-2°C</Text>
+              <Text
+                style={[styles.subplacetext, {marginTop: 5, marginBottom: 5}]}>
+                {kelvinToCelsiusConverter(weather_data?.main?.temp)}°C
+              </Text>
               <Text style={[styles.subtext, {fontSize: 12}]}>
-                Statterred Cloudy
+                {upperCaseConverter(
+                  weather_data !== {}
+                    ? weather_data?.weather[0]?.description
+                    : '',
+                )}
               </Text>
             </View>
           </View>
           <View style={styles.informationContentStart}>
             <View
               style={{flex: 1, flexDirection: 'row', backgroundColor: 'grey'}}>
-              <TouchableOpacity style={styles.datacontainer} onPress={()=>navigation.navigate('AttractionScreen')}>
+              <TouchableOpacity
+                style={styles.datacontainer}
+                onPress={() => navigation.navigate('AttractionScreen')}>
                 <Image
                   source={require('../Assets/Image/attraction.png')}
                   style={styles.infoIcons}
@@ -138,7 +187,9 @@ function LandingScreen({navigation}) {
                   {'Eat & Drink'}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.datacontainer} onPress={()=>navigation.navigate('AccomodationScreen')}>
+              <TouchableOpacity
+                style={styles.datacontainer}
+                onPress={() => navigation.navigate('AccomodationScreen')}>
                 <Image
                   source={require('../Assets/Image/accomodation.png')}
                   style={styles.infoIcons}
@@ -154,7 +205,9 @@ function LandingScreen({navigation}) {
             </View>
             <View
               style={{flex: 1, flexDirection: 'row', backgroundColor: 'grey'}}>
-              <TouchableOpacity style={styles.datacontainer} onPress={()=>navigation.navigate('EventScreen')}>
+              <TouchableOpacity
+                style={styles.datacontainer}
+                onPress={() => navigation.navigate('EventScreen')}>
                 <Image
                   source={require('../Assets/Image/event.png')}
                   style={styles.infoIcons}
@@ -167,7 +220,9 @@ function LandingScreen({navigation}) {
                   Events
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.datacontainer} onPress={()=>navigation.navigate('NewsScreen')}>
+              <TouchableOpacity
+                style={styles.datacontainer}
+                onPress={() => navigation.navigate('NewsScreen')}>
                 <Image
                   source={require('../Assets/Image/news.png')}
                   style={styles.infoIcons}
