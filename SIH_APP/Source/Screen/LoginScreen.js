@@ -10,14 +10,13 @@ import {
 } from 'react-native';
 
 import {TextInput, Button} from 'react-native-paper';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-} from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
+import { GoogleSignin ,GoogleSigninButton, statusCodes} from '@react-native-google-signin/google-signin';
 
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
 import {NavigationContainer} from '@react-navigation/native';
+
 
 function LoginScreen({navigation}) {
   const [email, set_email] = useState('');
@@ -26,6 +25,67 @@ function LoginScreen({navigation}) {
 
   const changeSTE = async () => {
     set_password_visible(!password_visible);
+  };
+
+  const _sign = async () => {
+    try {
+      GoogleSignin.configure({
+        webClientId:
+          '975075523871-rs932m4h5fj6ji1osbvt4jodpfcsjmh0.apps.googleusercontent.com',
+        webClientSecret:
+          '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',
+        offlineAccess: true,
+        hostedDomain: '',
+        loginHint: '',
+        forceConsentPrompt: true,
+        accountName: '',
+      });
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const credential = auth.GoogleAuthProvider.credential(
+        userInfo.idToken,
+        userInfo.accessToken,
+        userInfo.user,
+        userInfo.serverAuthCode,
+      );
+      const firebaseUserCredential = await auth().signInWithCredential(credential);
+      console.log("FirebaseUserCredential",firebaseUserCredential);
+      console.log("userInfo",userInfo);
+      console.log("credential",credential);
+      // await AsyncStorage.setItem('email',String(firebaseUserCredential.additionalUserInfo.profile.email + ''),);
+      // await AsyncStorage.setItem('name',String(firebaseUserCredential.additionalUserInfo.profile.name),);
+      // await AsyncStorage.setItem('userId',String(userInfo.user.id),);
+      // updating_fmctoken_data_to_firebase(userInfo);
+    } catch (error) {
+      // alert(error)
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+        Alert.alert('Please Sign-In to Continue', '', [
+          {
+            text: 'Sign-in',
+            onPress: () => {
+              _sign();
+            },
+          },
+          {
+            text: 'Exit',
+            onPress: () => {
+              BackHandler.exitApp();
+            },
+          },
+        ]);
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (f.e. sign in) is in progress already
+        // alert('success')
+        // this.props.navigation.navigate('Main');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+        // alert('Play service')
+      } else {
+        // some other error happened
+        alert(error);
+      }
+    }
   };
 
   const styles = StyleSheet.create({
@@ -117,6 +177,7 @@ function LoginScreen({navigation}) {
       <GoogleSigninButton
         style={{width: 192, height: 48, alignSelf: 'center'}}
         size={GoogleSigninButton.Size.Wide}
+        onPress={_sign}
       />
       <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
         <Text style={[styles.forgotPassword, {textAlign: 'center'}]}>

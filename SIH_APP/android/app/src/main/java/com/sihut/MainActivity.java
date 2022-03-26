@@ -1,4 +1,4 @@
-package com.food;
+package com.sihut;
 
 import com.facebook.react.ReactActivity;
 

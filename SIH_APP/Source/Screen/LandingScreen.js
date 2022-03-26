@@ -18,6 +18,7 @@ import moment from 'moment';
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
 import _fetch_weather from '../Api/WeatherApi';
+import LandingScreenServices from '../Services/LandingScreenServices';
 
 function LandingScreen({navigation}) {
   const [weather_data, set_weather_data] = useState({
@@ -36,14 +37,20 @@ function LandingScreen({navigation}) {
   });
 
   React.useEffect(() => {
-    _fetch_weather()
-      .then(response => {
-        set_weather_data(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    fetch_weather_Report();
   }, []);
+
+  const fetch_weather_Report = async () => {
+    await LandingScreenServices.fetch_weather();
+    // console.log(data);
+      // .then(response => {
+      //   console.log(response);
+      //   // set_weather_data(response.data);
+      // })
+      // .catch(err => {
+      //   console.log(err);
+      // });
+  }
 
   function upperCaseConverter(mySentence) {
     const finalSentence = mySentence.replace(/(^\w{1})|(\s+\w{1})/g, letter =>
