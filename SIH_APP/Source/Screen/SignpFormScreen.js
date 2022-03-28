@@ -74,7 +74,7 @@ function SignpScanner({navigation}) {
         style={[styles.inputBoxStyle, {marginTop: 20}]}
       />
       <TextInput
-        label="Contry"
+        label="Country"
         // onChangeText={text => set_pincode(text)}
         style={[styles.inputBoxStyle, {marginTop: 20}]}
       />
@@ -84,17 +84,17 @@ function SignpScanner({navigation}) {
         onChangeText={text => set_aadhar(text)}
         style={[styles.inputBoxStyle, {marginTop: 20}]}
       />
-      <View style={{flexDirection: 'row',justifyContent:'center'}}>
+      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <Button
           mode="contained"
           onPress={() => console.log('Pressed')}
-          style={{width: 158, alignSelf: 'center', marginTop: 15,margin:5}}>
+          style={{width: 158, alignSelf: 'center', marginTop: 15, margin: 5}}>
           Upload Aadhar
         </Button>
         <Button
           mode="contained"
           onPress={() => console.log('Pressed')}
-          style={{width: 158, alignSelf: 'center', marginTop: 15,margin:5}}>
+          style={{width: 158, alignSelf: 'center', marginTop: 15, margin: 5}}>
           Upload Selfie
         </Button>
       </View>

@@ -1,9 +1,16 @@
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions, Image,TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 
-import ColorTheme from "../../Theme/ColorTheme";
+import ColorTheme from '../../Theme/ColorTheme';
 
-function AttractionCard({navigation}) {
+function AttractionCard({navigation, title, subtitle, image}) {
   const styles = StyleSheet.create({
     cardframe: {
       width: Dimensions.get('window').width - 20,
@@ -11,33 +18,35 @@ function AttractionCard({navigation}) {
       overflow: 'hidden',
       alignSelf: 'center',
       borderRadius: 20,
-      margin:8,
+      margin: 8,
     },
     img: {
       width: Dimensions.get('window').width - 20,
       height: 220,
+      opacity: 0.5,
+      backgroundColor: 'black',
     },
-    headingtxt:{
-      color:ColorTheme.white,
-      marginHorizontal:7,
-      marginTop:135,
-      fontSize:18,
-      fontWeight:'bold'
+    headingtxt: {
+      color: ColorTheme.white,
+      marginHorizontal: 7,
+      marginTop: 135,
+      fontSize: 18,
+      fontWeight: 'bold',
     },
-    subheadingtxt:{
-      color:ColorTheme.white,
-      marginHorizontal:7,
-      fontSize:14,
-      marginTop:5,
+    subheadingtxt: {
+      color: ColorTheme.white,
+      marginHorizontal: 7,
+      fontSize: 14,
+      marginTop: 5,
     },
   });
   return (
-    <TouchableOpacity style={styles.cardframe} onPress={()=>navigation.navigate('AttractionDetails')}>
-      <Image
-        source={require('../../Assets/Image/kedarnath.jpg')}
-        style={styles.img}
-        resizeMode="cover"
-      />
+    <TouchableOpacity
+      style={styles.cardframe}
+      onPress={() =>
+        navigation.navigate('AttractionDetails', {subtitle: subtitle})
+      }>
+      <Image source={{uri: image}} style={styles.img} resizeMode="cover" />
       <View
         style={{
           position: 'absolute',
@@ -51,8 +60,10 @@ function AttractionCard({navigation}) {
         }}
       />
       <View style={{position: 'absolute'}}>
-        <Text style={styles.headingtxt}>Kedarnath Temple</Text>
-        <Text style={styles.subheadingtxt}>A Kedarnath is a place to find th degnighty of shiva.</Text>
+        <Text style={styles.headingtxt}>{title}</Text>
+        <Text style={styles.subheadingtxt} numberOfLines={2}>
+          {subtitle}
+        </Text>
       </View>
     </TouchableOpacity>
   );

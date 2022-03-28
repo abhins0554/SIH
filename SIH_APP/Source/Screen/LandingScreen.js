@@ -42,14 +42,6 @@ function LandingScreen({navigation}) {
 
   const fetch_weather_Report = async () => {
     await LandingScreenServices.fetch_weather();
-    // console.log(data);
-      // .then(response => {
-      //   console.log(response);
-      //   // set_weather_data(response.data);
-      // })
-      // .catch(err => {
-      //   console.log(err);
-      // });
   }
 
   function upperCaseConverter(mySentence) {
