@@ -12,7 +12,7 @@ function EventScreen(props) {
   });
   return (
     <SafeAreaView style={styles.mainframe}>
-      <Header title={'Events'} />
+      <Header navigation={navigation} title={'Events'} />
       <ScrollView style={{flex: 1}}>
         <NewsEventCard />
         <NewsEventCard />

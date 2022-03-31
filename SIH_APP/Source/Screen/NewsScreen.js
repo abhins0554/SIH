@@ -12,7 +12,7 @@ function NewsScreen({navigation}) {
   });
   return (
     <SafeAreaView style={styles.mainframe}>
-      <Header title={'News'} />
+      <Header navigation={navigation} title={'News'} />
       <ScrollView style={{flex: 1}}>
         <NewsEventCard navigation={()=>navigation.navigate('NewsDescriptionScreen')}/>
         <NewsEventCard navigation={()=>navigation.navigate('NewsDescriptionScreen')}/>
