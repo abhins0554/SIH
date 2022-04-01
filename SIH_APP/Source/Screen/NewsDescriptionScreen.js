@@ -7,7 +7,7 @@ import {SliderBox} from 'react-native-image-slider-box';
 import Header from '../Component/Atom/Header';
 import ColorTheme from '../Theme/ColorTheme';
 
-function NewsDescriptionScreen(props) {
+function NewsDescriptionScreen({navigation}) {
   const images = [
     'https://source.unsplash.com/1024x768/?nature',
     'https://source.unsplash.com/1024x768/?water',

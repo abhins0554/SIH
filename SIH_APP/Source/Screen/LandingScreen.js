@@ -8,12 +8,11 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Modal,
 } from 'react-native';
 
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Octicons from 'react-native-vector-icons/Octicons';
 import moment from 'moment';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
@@ -21,6 +20,8 @@ import _fetch_weather from '../Api/WeatherApi';
 import LandingScreenServices from '../Services/LandingScreenServices';
 
 function LandingScreen({navigation}) {
+  const [more_modal, set_more_modal] = useState(false);
+  const [show_nearby, set_show_nearby] = useState(false);
   const [weather_data, set_weather_data] = useState({
     main: {
       temp: 303.23,
@@ -42,7 +43,7 @@ function LandingScreen({navigation}) {
 
   const fetch_weather_Report = async () => {
     await LandingScreenServices.fetch_weather();
-  }
+  };
 
   function upperCaseConverter(mySentence) {
     const finalSentence = mySentence.replace(/(^\w{1})|(\s+\w{1})/g, letter =>
@@ -173,7 +174,9 @@ function LandingScreen({navigation}) {
                   Attractions
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.datacontainer}>
+              <TouchableOpacity
+                style={styles.datacontainer}
+                onPress={() => navigation.navigate('EatndrinkScreen')}>
                 <Image
                   source={require('../Assets/Image/fooddrink.png')}
                   style={styles.infoIcons}
@@ -234,7 +237,9 @@ function LandingScreen({navigation}) {
                   News
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.datacontainer}>
+              <TouchableOpacity
+                style={styles.datacontainer}
+                onPress={() => set_more_modal(!more_modal)}>
                 <Image
                   source={require('../Assets/Image/more.png')}
                   style={styles.infoIcons}
@@ -251,6 +256,123 @@ function LandingScreen({navigation}) {
           </View>
         </View>
       </ImageBackground>
+      <Modal
+        visible={more_modal}
+        onRequestClose={() => set_more_modal(!more_modal)}
+        transparent={true}
+        animationType="slide">
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            alignContent: 'center',
+          }}>
+          <View style={{backgroundColor: 'white'}}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SuggestionComplaints')}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  margin: 7,
+                  borderWidth: 1,
+                  padding: 10,
+                  textAlign: 'center',
+                }}>
+                Suggestion & Complaints
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                borderWidth: 1,
+                marginHorizontal: 7,
+              }}
+              onPress={() => set_show_nearby(!show_nearby)}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  margin: 7,
+                  flex: 1,
+                  padding: 10,
+                  textAlign: 'center',
+                }}>
+                Near By
+              </Text>
+              {show_nearby ? (
+                <AntDesign
+                  name="up"
+                  size={30}
+                  style={{
+                    justifyContent: 'center',
+                    alignSelf: 'center',
+                    textAlign: 'center',
+                  }}
+                />
+              ) : (
+                <AntDesign
+                  name="down"
+                  size={30}
+                  style={{justifyContent: 'center'}}
+                />
+              )}
+            </TouchableOpacity>
+            {show_nearby ? (
+              <>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: '600',
+                    margin: 7,
+                    borderWidth: 1,
+                    padding: 10,
+                    textAlign: 'center',
+                  }}>
+                  Hospital
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: '600',
+                    margin: 7,
+                    borderWidth: 1,
+                    padding: 10,
+                    textAlign: 'center',
+                  }}>
+                  Police Station
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: '600',
+                    margin: 7,
+                    borderWidth: 1,
+                    padding: 10,
+                    textAlign: 'center',
+                  }}>
+                  Public Toilets
+                </Text>
+              </>
+            ) : null}
+            <TouchableOpacity onPress={() => set_more_modal(!more_modal)}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  margin: 7,
+                  borderWidth: 1,
+                  padding: 10,
+                  textAlign: 'center',
+                }}>
+                Close
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

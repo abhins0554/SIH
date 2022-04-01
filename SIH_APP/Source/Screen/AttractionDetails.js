@@ -13,6 +13,7 @@ import {
 import {SliderBox} from 'react-native-image-slider-box';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import VideoPlayer from 'react-native-video-player';
 
 import Header from '../Component/Atom/Header';
 import ColorTheme from '../Theme/ColorTheme';
@@ -236,7 +237,16 @@ function AttractionDetails({navigation, route}) {
             </Text>
           </>
         ) : active_tab === 'video' ? (
-          <></>
+          <>
+            <VideoPlayer
+              video={{
+                uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+              }}
+              videoWidth={1600}
+              videoHeight={900}
+              thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+            />
+          </>
         ) : active_tab === 'nearby' ? (
           <></>
         ) : null}

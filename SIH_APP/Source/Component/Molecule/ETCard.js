@@ -12,7 +12,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import ColorTheme from '../../Theme/ColorTheme';
 
-function ETCard(props) {
+function ETCard({title, rating, type, places, timing, navigation}) {
   const styles = StyleSheet.create({
     cards: {
       width: Dimensions.get('window').width - 20,
@@ -36,7 +36,9 @@ function ETCard(props) {
     },
   });
   return (
-    <TouchableOpacity style={styles.cards}>
+    <TouchableOpacity
+      style={styles.cards}
+      onPress={() => navigation.navigate('FoodListScreen')}>
       <View style={{flex: 1}}>
         <Image
           source={{
@@ -46,17 +48,15 @@ function ETCard(props) {
         />
       </View>
       <View style={{flex: 2, marginHorizontal: 10}}>
-        <Text style={styles.resturantName}>Kiva - Cafe.Music.Lounge</Text>
+        <Text style={styles.resturantName}>{title}</Text>
         <View style={{flexDirection: 'row'}}>
           <AntDesign name="star" color={ColorTheme.ratingColor} />
-          <Text>4.2 (20+)</Text>
+          <Text>{rating}</Text>
         </View>
-        <Text numberOfLines={1}>
-          Cafe, Pizza, Continental, Chinese................
-        </Text>
-        <Text>Nehru Nagar</Text>
+        <Text numberOfLines={1}>{type}</Text>
+        <Text>{places}</Text>
         <View style={styles.seperator} />
-        <Text>Close at 11 PM</Text>
+        <Text>{timing}</Text>
       </View>
     </TouchableOpacity>
   );
