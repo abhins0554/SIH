@@ -11,6 +11,7 @@
     "build": "npx react-native run-android --variant=release"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.17.3",
     "@react-native-clipboard/clipboard": "^1.8.5",
     "@react-native-community/datetimepicker": "^6.1.0",
     "@react-native-firebase/app": "^14.7.0",
@@ -27,6 +28,7 @@
     "react-i18next": "^11.15.5",
     "react-native": "0.67.3",
     "react-native-dotenv": "^3.3.1",
+    "react-native-encrypted-asyncstorage": "^2.1.1",
     "react-native-geolocation-service": "^5.3.0-beta.4",
     "react-native-gesture-handler": "^2.3.2",
     "react-native-image-slider-box": "^1.1.20",
@@ -36,6 +38,7 @@
     "react-native-screens": "^3.13.1",
     "react-native-svg": "^12.3.0",
     "react-native-svg-transformer": "^1.0.0",
+    "react-native-toast-message": "^2.1.5",
     "react-native-vector-icons": "^9.1.0",
     "react-native-video": "^5.2.0",
     "react-native-video-player": "^0.12.0",

@@ -9,7 +9,8 @@ const AWS = require("aws-sdk");
 const multer = require("multer");
 const userModel = require("./../Models/UserModel");
 const otpGenerator = require("otp-generator");
-const postModel = require("../Models/PostModel");
+const axios = require("axios");
+// const postModel = require("../Models/PostModel");
 // const s3 = new AWS.S3({
 //   accessKeyId: process.env.AWS_ID,
 //   secretAccessKey: process.env.AWS_SECRET,
@@ -21,17 +22,16 @@ const postModel = require("../Models/PostModel");
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './upload')
+    cb(null, "./upload");
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname)
-  }
-})
-exports.upload = multer({ storage: storage })
+    cb(null, file.originalname);
+  },
+});
+exports.upload = multer({ storage: storage });
 
 //user registration=======
 exports.register = async (req, res) => {
-  
   userModel.find({ email: req.body.email }, async (err, result1) => {
     if (err) {
       return res.json({
@@ -72,8 +72,8 @@ exports.register = async (req, res) => {
           otpEmail: otp.toString(),
           googleId: req.body.googleId,
           googleAuth: true,
-          adhaar_pic: req.files['adhaar_pic'][0]['path'],
-          selfie_pic: req.files['selfie_pic'][0]['path']
+          adhaar_pic: req.files["adhaar_pic"][0]["path"],
+          selfie_pic: req.files["selfie_pic"][0]["path"],
         });
 
         if (
@@ -85,9 +85,8 @@ exports.register = async (req, res) => {
           user.pincode &&
           user.country &&
           user.adhaar_number &&
-          user.googleId 
+          user.googleId
         ) {
-
           await user.save((err, result) => {
             //check error
             if (err) {
@@ -128,8 +127,7 @@ exports.register = async (req, res) => {
             code: 400,
           });
         }
-      }
-      else {
+      } else {
         const hashedPassword = bcrypt.hashSync(req.body.password, 8);
         //for email verification
         const otp = otpGenerator.generate(6, {
@@ -153,8 +151,8 @@ exports.register = async (req, res) => {
           createdOn: Date.now(),
           otpEmail: otp.toString(),
           googleAuth: false,
-          adhaar_pic: req.files['adhaar_pic'][0]['path'],
-          selfie_pic: req.files['selfie_pic'][0]['path']
+          adhaar_pic: req.files["adhaar_pic"][0]["path"],
+          selfie_pic: req.files["selfie_pic"][0]["path"],
         });
 
         if (
@@ -167,11 +165,10 @@ exports.register = async (req, res) => {
           user.country &&
           user.adhaar_number
         ) {
-
           await user.save((err, result) => {
             //check error
             if (err) {
-              console.log(err)
+              console.log(err);
               return res.json({
                 code: 400,
                 error: err,
@@ -181,7 +178,7 @@ exports.register = async (req, res) => {
                 { email: req.body.email, isBlocked: false, isDeleted: false },
                 (err, results) => {
                   if (err) {
-                    console.log(err)      
+                    console.log(err);
                     return res.status(500).send({
                       error: err,
                     });
@@ -211,7 +208,6 @@ exports.register = async (req, res) => {
           });
         }
       }
-
     }
   });
 };
@@ -245,16 +241,16 @@ exports.userlogin = async (req, res) => {
             message: "incorrect email or password",
           });
         } else {
-
           const id = results[0].id;
           // console.log("jbjh", results[0].id)
           const token = jwt.sign({ id: id }, process.env.JWT_SECRET_LOGIN, {
             expiresIn: process.env.LOGIN_JWT_EXPIRES_IN,
           });
           res.status(200).send({
-            message: "Login Successfull", token: token, result: results
+            message: "Login Successfull",
+            token: token,
+            result: results,
           });
-
         }
       }
     );
@@ -489,7 +485,7 @@ exports.request_password = async (req, res) => {
                 } else {
                   console.log(
                     "Success! an email with password reset OTP has been sent to you " +
-                    info.response
+                      info.response
                   );
                   res.status(200).json({
                     data: " an email with password reset OTP has been sent to you",
@@ -520,8 +516,7 @@ exports.forgotPassVerify = async (req, res) => {
       console.log(result1);
       // OTP stored in DB
       const realOTP = result1[0].otpPassword;
-      console.log(realOTP),
-        console.log(otp)
+      console.log(realOTP), console.log(otp);
       if (realOTP == otp) {
         res.send({
           message: "Correct OTP",
@@ -540,20 +535,25 @@ exports.forgotPassVerify = async (req, res) => {
 
 exports.changepassword = async (req, res) => {
   const { new_password, confirmpassword, email } = req.body;
-  console.log(new_password)
-  console.log(confirmpassword)
-  console.log(email)
-  if (new_password && confirmpassword && email && (new_password === confirmpassword)) {
+  console.log(new_password);
+  console.log(confirmpassword);
+  console.log(email);
+  if (
+    new_password &&
+    confirmpassword &&
+    email &&
+    new_password === confirmpassword
+  ) {
     const hashedNewPassword = bcrypt.hashSync(new_password, 8);
-    console.log(hashedNewPassword)
+    console.log(hashedNewPassword);
     userModel.find({ email }, (err, result1) => {
       if (err) {
         return res.status(500).send({
           message: "INTERNAL SERVER ERROR",
         });
       }
-      console.log(result1)
-      const user_id = result1[0].id
+      console.log(result1);
+      const user_id = result1[0].id;
       userModel.findByIdAndUpdate(
         user_id,
         { password: hashedNewPassword },
@@ -582,28 +582,24 @@ exports.changepassword = async (req, res) => {
                 "  has been changed.",
             };
 
-            transporter.sendMail(
-              mailOptions,
-              function (error, info) {
-                if (error) {
-                  console.log(error);
-                  return res.status(400).json(error);
-                } else {
-                  console.log(
-                    "Success! Your password has been changed" +
-                    info.response
-                  );
-                  res.status(200).json({
-                    data: " 'Success! Your password has been changed.'",
-                    success: true,
-                  });
-                }
+            transporter.sendMail(mailOptions, function (error, info) {
+              if (error) {
+                console.log(error);
+                return res.status(400).json(error);
+              } else {
+                console.log(
+                  "Success! Your password has been changed" + info.response
+                );
+                res.status(200).json({
+                  data: " 'Success! Your password has been changed.'",
+                  success: true,
+                });
               }
-            );
+            });
           }
         }
       );
-    })
+    });
   } else {
     console.log("error");
     return res.status(400).send({
@@ -712,50 +708,53 @@ exports.userdelete = async (req, res) => {
 exports.email_verify = async (req, res) => {
   const { otp, user_id } = req.body;
   if (otp && user_id) {
-    userModel.find({ _id: user_id, isDeleted: false, isBlocked: false }, (err, result1) => {
-      if (err) {
-        return res.status(500).send({
-          message: "Internal Server Error",
-        });
-      }
-      if (result1[0].isEmailVerify === false) {
-        const ogOTP = result1[0].otpEmail;
-        if (ogOTP) {
-          const userOTP = otp;
-          if (userOTP === ogOTP) {
-            userModel.findByIdAndUpdate(
-              user_id,
-              { $set: { isEmailVerify: true } },
-              { new: true },
-              (err, result2) => {
-                if (err) {
-                  return res.status(500).send({
-                    message: "Internal Server Error",
-                  });
-                } else {
-                  console.log(result2);
-                  return res.send({
-                    message: "Email Verified Successfully",
-                  });
+    userModel.find(
+      { _id: user_id, isDeleted: false, isBlocked: false },
+      (err, result1) => {
+        if (err) {
+          return res.status(500).send({
+            message: "Internal Server Error",
+          });
+        }
+        if (result1[0].isEmailVerify === false) {
+          const ogOTP = result1[0].otpEmail;
+          if (ogOTP) {
+            const userOTP = otp;
+            if (userOTP === ogOTP) {
+              userModel.findByIdAndUpdate(
+                user_id,
+                { $set: { isEmailVerify: true } },
+                { new: true },
+                (err, result2) => {
+                  if (err) {
+                    return res.status(500).send({
+                      message: "Internal Server Error",
+                    });
+                  } else {
+                    console.log(result2);
+                    return res.send({
+                      message: "Email Verified Successfully",
+                    });
+                  }
                 }
-              }
-            );
+              );
+            } else {
+              res.status(401).send({
+                message: "Please Enter the correct otp. Access Denied.",
+              });
+            }
           } else {
-            res.status(401).send({
-              message: "Please Enter the correct otp. Access Denied.",
+            return res.status(400).send({
+              message: "something happened",
             });
           }
         } else {
-          return res.status(400).send({
-            message: "something happened",
+          res.status(400).send({
+            message: "email is already verified",
           });
         }
-      } else {
-        res.status(400).send({
-          message: "email is already verified",
-        });
       }
-    });
+    );
   } else {
     res.status(401).send({
       message: "Please Enter the otp",
@@ -826,7 +825,6 @@ exports.profilePicChange = async (req, res) => {
   }
 };
 
-
 //=====================mail sending function===============================
 const send_mail = (email, otp) => {
   var transporter = nodemailer.createTransport({
@@ -874,8 +872,6 @@ const sendLoginOtp = (email, otp) => {
     }
   });
 };
-
-
 
 //=======searcg by username
 
@@ -927,6 +923,39 @@ exports.fetch_count = async (req, res) => {
     });
   } else {
     console.log("error");
+    return res.status(400).send({
+      message: "Please Provide valid details",
+    });
+  }
+};
+
+exports.fetchWeather = async (req, res) => {
+  const { latitude, longitude, language } = req.body;
+  const id = req.tokenObject.id;
+  if (latitude && longitude && language && id) {
+    let locationAPI = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&lang=${language}&appid=60a27bac5e46189541a2e929d81cf795`;
+    axios.default
+      .get(locationAPI)
+      .then((response) => {
+        userModel.findById(id, async (err, results1) => {
+          if (err) {
+            return res.status(400).send({
+              error: err,
+            });
+          } else {
+            // Saving Longitude & Latitude to db
+            return res.status(200).send({
+              message: "Data Successfully Fetched",
+              code: 200,
+              data: response.data,
+            });
+          }
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
     return res.status(400).send({
       message: "Please Provide valid details",
     });

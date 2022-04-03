@@ -13,6 +13,7 @@ import {
 
 import moment from 'moment';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useSelector, useDispatch} from 'react-redux';
 
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
@@ -20,29 +21,18 @@ import _fetch_weather from '../Api/WeatherApi';
 import LandingScreenServices from '../Services/LandingScreenServices';
 
 function LandingScreen({navigation}) {
+  const dispatch = useDispatch();
+
   const [more_modal, set_more_modal] = useState(false);
   const [show_nearby, set_show_nearby] = useState(false);
-  const [weather_data, set_weather_data] = useState({
-    main: {
-      temp: 303.23,
-    },
-    name: 'Uttrakhand',
-    sys: {
-      country: 'IN',
-    },
-    weather: [
-      {
-        description: 'scattered clouds',
-      },
-    ],
-  });
+  const weather_data = useSelector(state => state.weather.weather);
 
   React.useEffect(() => {
     fetch_weather_Report();
   }, []);
 
   const fetch_weather_Report = async () => {
-    await LandingScreenServices.fetch_weather();
+    await LandingScreenServices.fetch_weather(dispatch);
   };
 
   function upperCaseConverter(mySentence) {
