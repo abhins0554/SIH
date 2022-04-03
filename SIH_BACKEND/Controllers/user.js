@@ -9,7 +9,7 @@ const AWS = require("aws-sdk");
 const multer = require("multer");
 const userModel = require("./../Models/UserModel");
 const otpGenerator = require("otp-generator");
-const postModel = require("../Models/PostModel");
+
 // const s3 = new AWS.S3({
 //   accessKeyId: process.env.AWS_ID,
 //   secretAccessKey: process.env.AWS_SECRET,
@@ -220,44 +220,77 @@ exports.register = async (req, res) => {
 exports.userlogin = async (req, res) => {
   console.log(req.body);
   try {
-    const { email, password } = req.body;
+    const { email, password, googleId} = req.body;
 
-    if (!email || !password) {
-      return res.status(400).send({
-        message: "Please provide a valid email and password",
-      });
-    }
-
-    userModel.find(
-      { email: email, isDeleted: false, isBlocked: false },
-      (err, results) => {
-        if (err) {
-          return res.status(500).send({
-            error: err,
-          });
+    if(googleId){
+      userModel.find(
+        { email: email, isDeleted: false, isBlocked: false, googleAuth: true },
+        (err, results) => {
+          if (err) {
+            return res.status(500).send({
+              error: err,
+            });
+          }
+          if (
+            !results.length
+          ) {
+            console.log(results);
+            res.status(400).send({
+              message: "user not found",
+            });
+          } else {
+  
+            const id = results[0].id;
+            // console.log("jbjh", results[0].id)
+            const token = jwt.sign({ id: id }, process.env.JWT_SECRET_LOGIN, {
+              expiresIn: process.env.LOGIN_JWT_EXPIRES_IN,
+            });
+            res.status(200).send({
+              message: "Login Successfull", token: token, result: results
+            });
+  
+          }
         }
-        if (
-          !results.length ||
-          !bcrypt.compareSync(password, results[0].password)
-        ) {
-          console.log(results);
-          res.status(400).send({
-            message: "incorrect email or password",
-          });
-        } else {
-
-          const id = results[0].id;
-          // console.log("jbjh", results[0].id)
-          const token = jwt.sign({ id: id }, process.env.JWT_SECRET_LOGIN, {
-            expiresIn: process.env.LOGIN_JWT_EXPIRES_IN,
-          });
-          res.status(200).send({
-            message: "Login Successfull", token: token, result: results
-          });
-
-        }
+      );
+    }else{
+      if (!email || !password) {
+        return res.status(400).send({
+          message: "Please provide a valid email and password",
+        });
       }
-    );
+  
+      userModel.find(
+        { email: email, isDeleted: false, isBlocked: false },
+        (err, results) => {
+          if (err) {
+            return res.status(500).send({
+              error: err,
+            });
+          }
+          if (
+            !results.length ||
+            !bcrypt.compareSync(password, results[0].password)
+          ) {
+            console.log(results);
+            res.status(400).send({
+              message: "incorrect email or password",
+            });
+          } else {
+  
+            const id = results[0].id;
+            // console.log("jbjh", results[0].id)
+            const token = jwt.sign({ id: id }, process.env.JWT_SECRET_LOGIN, {
+              expiresIn: process.env.LOGIN_JWT_EXPIRES_IN,
+            });
+            res.status(200).send({
+              message: "Login Successfull", token: token, result: results
+            });
+  
+          }
+        }
+      );
+    }
+    
   } catch (error) {
     console.log(error);
   }
@@ -830,7 +863,7 @@ exports.profilePicChange = async (req, res) => {
 //=====================mail sending function===============================
 const send_mail = (email, otp) => {
   var transporter = nodemailer.createTransport({
-    service: "quickblog.tech",
+    service: "gmail",
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
