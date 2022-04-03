@@ -11,12 +11,17 @@ import {
 
 import {TextInput, Button} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
-import { GoogleSignin ,GoogleSigninButton, statusCodes} from '@react-native-google-signin/google-signin';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import Toast from 'react-native-toast-message';
 
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
 import {NavigationContainer} from '@react-navigation/native';
-
+import LoginAPI from '../Api/LoginApi';
 
 function LoginScreen({navigation}) {
   const [email, set_email] = useState('');
@@ -27,13 +32,16 @@ function LoginScreen({navigation}) {
     set_password_visible(!password_visible);
   };
 
+  const _email_pwd_login = async () => {
+    LoginAPI(email, password, navigation);
+  };
+
   const _sign = async () => {
     try {
       GoogleSignin.configure({
         webClientId:
           '975075523871-rs932m4h5fj6ji1osbvt4jodpfcsjmh0.apps.googleusercontent.com',
-        webClientSecret:
-          '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',
+        webClientSecret: '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',
         offlineAccess: true,
         hostedDomain: '',
         loginHint: '',
@@ -48,10 +56,12 @@ function LoginScreen({navigation}) {
         userInfo.user,
         userInfo.serverAuthCode,
       );
-      const firebaseUserCredential = await auth().signInWithCredential(credential);
-      console.log("FirebaseUserCredential",firebaseUserCredential);
-      console.log("userInfo",userInfo);
-      console.log("credential",credential);
+      const firebaseUserCredential = await auth().signInWithCredential(
+        credential,
+      );
+      console.log('FirebaseUserCredential', firebaseUserCredential);
+      console.log('userInfo', userInfo);
+      console.log('credential', credential);
       // await AsyncStorage.setItem('email',String(firebaseUserCredential.additionalUserInfo.profile.email + ''),);
       // await AsyncStorage.setItem('name',String(firebaseUserCredential.additionalUserInfo.profile.name),);
       // await AsyncStorage.setItem('userId',String(userInfo.user.id),);
@@ -131,6 +141,9 @@ function LoginScreen({navigation}) {
   });
   return (
     <SafeAreaView style={styles.mainframe}>
+      <View style={{zIndex: 99}}>
+        <Toast />
+      </View>
       <View style={styles.logocontainer}>
         <Image
           source={{
@@ -162,12 +175,12 @@ function LoginScreen({navigation}) {
           )
         }
       />
-      <TouchableOpacity onPress={()=>navigation.navigate('ForgotPassword')}>
+      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
         <Text style={styles.forgotPassword}>Forgot Password ?</Text>
       </TouchableOpacity>
       <Button
         mode="contained"
-        onPress={() => navigation.navigate('LandingScreen')}
+        onPress={() => _email_pwd_login()}
         style={{width: 80, alignSelf: 'center', marginTop: 15}}>
         LogIn
       </Button>

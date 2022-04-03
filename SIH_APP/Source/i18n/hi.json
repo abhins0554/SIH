@@ -1,6 +1,13 @@
 {
   "translation": {
     "hello": "नमस्ते",
-    "this line is translated": "यह पंक्ति अनुवादित है"
+    "this line is translated": "यह पंक्ति अनुवादित है",
+    "localtime": "स्थानीय समय",
+    "attraction": "आकर्षण",
+    "eatdrink": "खाओ पियो",
+    "accomodation": "आवास",
+    "event": "आयोजन",
+    "news": "समाचार",
+    "more": "अधिक"
   }
 }

@@ -1,6 +1,13 @@
 {
   "translation": {
     "hello": "Hello",
-    "this line is translated": "This line is translated"
+    "this line is translated": "This line is translated",
+    "localtime": "Local Time",
+    "attraction": "Attraction",
+    "eatdrink": "Eat & Drink",
+    "accomodation": "Accomodation",
+    "event": "Event",
+    "news": "News",
+    "more": "More"
   }
 }

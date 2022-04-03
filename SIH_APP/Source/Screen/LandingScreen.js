@@ -8,40 +8,77 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Modal,
 } from 'react-native';
 
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Octicons from 'react-native-vector-icons/Octicons';
 import moment from 'moment';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useSelector, useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
-import _fetch_weather from '../Api/WeatherApi';
-import LandingScreenServices from '../Services/LandingScreenServices';
+import get_geo_location_permission from '../Services/LocationPermission';
+import Geolocation from 'react-native-geolocation-service';
+import fetch_weather from '../Api/WeatherApi';
+import '../i18n/i18n';
+import {
+  Get_Encrypted_AsyncStorage,
+  Set_Encrypted_AsyncStorage,
+} from 'react-native-encrypted-asyncstorage';
 
 function LandingScreen({navigation}) {
-  const [weather_data, set_weather_data] = useState({
-    main: {
-      temp: 303.23,
-    },
-    name: 'Uttrakhand',
-    sys: {
-      country: 'IN',
-    },
-    weather: [
-      {
-        description: 'scattered clouds',
-      },
-    ],
-  });
+  const dispatch = useDispatch();
+  const {t, i18n} = useTranslation();
+  const [more_modal, set_more_modal] = useState(false);
+  const [show_nearby, set_show_nearby] = useState(false);
+  const weather_data = useSelector(state => state.weather.weather);
+  const language = useSelector(state => state.language.language);
 
   React.useEffect(() => {
     fetch_weather_Report();
+    changeLanguage(language);
   }, []);
 
+  const changeLanguage = value => {
+    i18n
+      .changeLanguage(value)
+      .then(() => console.log(value))
+      .catch(err => console.log(err));
+  };
+
   const fetch_weather_Report = async () => {
-    await LandingScreenServices.fetch_weather();
+    let granted = get_geo_location_permission();
+    if (granted) {
+      Geolocation.getCurrentPosition(
+        position => {
+          WeatherAPICall(position);
+        },
+        error => {
+          // See error code charts below.
+          console.log(error.code, error.message);
+        },
+        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      );
+    } else {
+      alert('Location Permission is necessary for smooth onboarding process');
+    }
+  };
+
+  async function WeatherAPICall(position) {
+    let token = await Get_Encrypted_AsyncStorage('text', 'token', 'SIH');
+    fetch_weather(
+      position.coords.latitude,
+      position.coords.longitude,
+      language,
+      token,
+    )
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   function upperCaseConverter(mySentence) {
@@ -133,12 +170,16 @@ function LandingScreen({navigation}) {
           <Text style={styles.subplacetext}>{weather_data?.name}</Text>
           <View style={styles.timeWeatherContainer}>
             <View style={[styles.bodyContainer, {flexDirection: 'column'}]}>
-              <Text style={[styles.subtext, {fontSize: 12}]}>Local Time</Text>
+              <Text style={[styles.subtext, {fontSize: 12}]}>
+                {t('localtime')}
+              </Text>
               <Text
                 style={[styles.subplacetext, {marginTop: 5, marginBottom: 5}]}>
                 {moment().utcOffset('+0530').format('HH:MM A')}
               </Text>
-              <Text style={[styles.subtext, {fontSize: 12}]}>10/12/2029</Text>
+              <Text style={[styles.subtext, {fontSize: 12}]}>
+                {moment().format('DD/MM/YYYY')}
+              </Text>
             </View>
             <View style={styles.bodyContainer}>
               <Text style={[styles.subtext, {fontSize: 12}]}>TODAY</Text>
@@ -170,10 +211,12 @@ function LandingScreen({navigation}) {
                     styles.subtext,
                     {fontSize: 16, color: ColorTheme.primary},
                   ]}>
-                  Attractions
+                  {t('attraction')}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.datacontainer}>
+              <TouchableOpacity
+                style={styles.datacontainer}
+                onPress={() => navigation.navigate('EatndrinkScreen')}>
                 <Image
                   source={require('../Assets/Image/fooddrink.png')}
                   style={styles.infoIcons}
@@ -183,7 +226,7 @@ function LandingScreen({navigation}) {
                     styles.subtext,
                     {fontSize: 16, color: ColorTheme.primary},
                   ]}>
-                  {'Eat & Drink'}
+                  {t('eatdrink')}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -198,7 +241,7 @@ function LandingScreen({navigation}) {
                     styles.subtext,
                     {fontSize: 16, color: ColorTheme.primary},
                   ]}>
-                  Accomodation
+                  {t('accomodation')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -216,7 +259,7 @@ function LandingScreen({navigation}) {
                     styles.subtext,
                     {fontSize: 16, color: ColorTheme.primary},
                   ]}>
-                  Events
+                  {t('event')}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -231,10 +274,12 @@ function LandingScreen({navigation}) {
                     styles.subtext,
                     {fontSize: 16, color: ColorTheme.primary},
                   ]}>
-                  News
+                  {t('news')}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.datacontainer}>
+              <TouchableOpacity
+                style={styles.datacontainer}
+                onPress={() => set_more_modal(!more_modal)}>
                 <Image
                   source={require('../Assets/Image/more.png')}
                   style={styles.infoIcons}
@@ -244,13 +289,130 @@ function LandingScreen({navigation}) {
                     styles.subtext,
                     {fontSize: 16, color: ColorTheme.primary},
                   ]}>
-                  More
+                  {t('more')}
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
       </ImageBackground>
+      <Modal
+        visible={more_modal}
+        onRequestClose={() => set_more_modal(!more_modal)}
+        transparent={true}
+        animationType="slide">
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            alignContent: 'center',
+          }}>
+          <View style={{backgroundColor: 'white'}}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SuggestionComplaints')}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  margin: 7,
+                  borderWidth: 1,
+                  padding: 10,
+                  textAlign: 'center',
+                }}>
+                Suggestion & Complaints
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                borderWidth: 1,
+                marginHorizontal: 7,
+              }}
+              onPress={() => set_show_nearby(!show_nearby)}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  margin: 7,
+                  flex: 1,
+                  padding: 10,
+                  textAlign: 'center',
+                }}>
+                Near By
+              </Text>
+              {show_nearby ? (
+                <AntDesign
+                  name="up"
+                  size={30}
+                  style={{
+                    justifyContent: 'center',
+                    alignSelf: 'center',
+                    textAlign: 'center',
+                  }}
+                />
+              ) : (
+                <AntDesign
+                  name="down"
+                  size={30}
+                  style={{justifyContent: 'center'}}
+                />
+              )}
+            </TouchableOpacity>
+            {show_nearby ? (
+              <>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: '600',
+                    margin: 7,
+                    borderWidth: 1,
+                    padding: 10,
+                    textAlign: 'center',
+                  }}>
+                  Hospital
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: '600',
+                    margin: 7,
+                    borderWidth: 1,
+                    padding: 10,
+                    textAlign: 'center',
+                  }}>
+                  Police Station
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: '600',
+                    margin: 7,
+                    borderWidth: 1,
+                    padding: 10,
+                    textAlign: 'center',
+                  }}>
+                  Public Toilets
+                </Text>
+              </>
+            ) : null}
+            <TouchableOpacity onPress={() => set_more_modal(!more_modal)}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  margin: 7,
+                  borderWidth: 1,
+                  padding: 10,
+                  textAlign: 'center',
+                }}>
+                Close
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

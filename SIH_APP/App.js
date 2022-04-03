@@ -25,6 +25,7 @@ import ForgotPassword from './Source/Screen/ForgotPassword';
 import OtpScreen from './Source/Screen/OtpScreen';
 import EatndrinkScreen from './Source/Screen/EatndrinkScreen';
 import FoodListScreen from './Source/Screen/FoodListScreen';
+import SuggestionComplaints from './Source/Screen/SuggestionComplaints';
 
 const Stack = createStackNavigator();
 const firebaseConfig = {
@@ -50,7 +51,7 @@ function App(props) {
         <StatusBar backgroundColor="black" />
         <Stack.Navigator
           screenOptions={{headerShown: false}}
-          initialRouteName={'LoginScreen'}>
+          initialRouteName={'LandingScreen'}>
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="LandingScreen" component={LandingScreen} />
           <Stack.Screen name="SignupScreen" component={SignupScreen} />
@@ -88,6 +89,10 @@ function App(props) {
           <Stack.Screen name="OtpScreen" component={OtpScreen} />
           <Stack.Screen name="EatndrinkScreen" component={EatndrinkScreen} />
           <Stack.Screen name="FoodListScreen" component={FoodListScreen} />
+          <Stack.Screen
+            name="SuggestionComplaints"
+            component={SuggestionComplaints}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
