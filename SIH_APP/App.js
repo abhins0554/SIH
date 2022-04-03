@@ -51,7 +51,7 @@ function App(props) {
         <StatusBar backgroundColor="black" />
         <Stack.Navigator
           screenOptions={{headerShown: false}}
-          initialRouteName={'LoginScreen'}>
+          initialRouteName={'LandingScreen'}>
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="LandingScreen" component={LandingScreen} />
           <Stack.Screen name="SignupScreen" component={SignupScreen} />

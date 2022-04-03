@@ -1,1 +1,1 @@
-export const BASE_URL = 'http://developmentserver.quickblog.tech/';
+export const BASE_URL = 'https://developmentserver.quickblog.tech/';

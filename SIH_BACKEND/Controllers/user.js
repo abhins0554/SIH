@@ -929,27 +929,20 @@ exports.fetch_count = async (req, res) => {
   }
 };
 
+// ============ Fetch Weather with localizations.
+
 exports.fetchWeather = async (req, res) => {
   const { latitude, longitude, language } = req.body;
-  const id = req.tokenObject.id;
   if (latitude && longitude && language && id) {
     let locationAPI = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&lang=${language}&appid=60a27bac5e46189541a2e929d81cf795`;
     axios.default
       .get(locationAPI)
       .then((response) => {
-        userModel.findById(id, async (err, results1) => {
-          if (err) {
-            return res.status(400).send({
-              error: err,
-            });
-          } else {
-            // Saving Longitude & Latitude to db
-            return res.status(200).send({
-              message: "Data Successfully Fetched",
-              code: 200,
-              data: response.data,
-            });
-          }
+        // Saving Longitude & Latitude to db
+        return res.status(200).send({
+          message: "Data Successfully Fetched",
+          code: 200,
+          data: response.data,
         });
       })
       .catch((error) => {

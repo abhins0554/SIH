@@ -14,26 +14,72 @@ import {
 import moment from 'moment';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useSelector, useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
-import _fetch_weather from '../Api/WeatherApi';
-import LandingScreenServices from '../Services/LandingScreenServices';
+import get_geo_location_permission from '../Services/LocationPermission';
+import Geolocation from 'react-native-geolocation-service';
+import fetch_weather from '../Api/WeatherApi';
+import '../i18n/i18n';
+import {
+  Get_Encrypted_AsyncStorage,
+  Set_Encrypted_AsyncStorage,
+} from 'react-native-encrypted-asyncstorage';
 
 function LandingScreen({navigation}) {
   const dispatch = useDispatch();
-
+  const {t, i18n} = useTranslation();
   const [more_modal, set_more_modal] = useState(false);
   const [show_nearby, set_show_nearby] = useState(false);
   const weather_data = useSelector(state => state.weather.weather);
+  const language = useSelector(state => state.language.language);
 
   React.useEffect(() => {
     fetch_weather_Report();
+    changeLanguage(language);
   }, []);
 
-  const fetch_weather_Report = async () => {
-    await LandingScreenServices.fetch_weather(dispatch);
+  const changeLanguage = value => {
+    i18n
+      .changeLanguage(value)
+      .then(() => console.log(value))
+      .catch(err => console.log(err));
   };
+
+  const fetch_weather_Report = async () => {
+    let granted = get_geo_location_permission();
+    if (granted) {
+      Geolocation.getCurrentPosition(
+        position => {
+          WeatherAPICall(position);
+        },
+        error => {
+          // See error code charts below.
+          console.log(error.code, error.message);
+        },
+        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      );
+    } else {
+      alert('Location Permission is necessary for smooth onboarding process');
+    }
+  };
+
+  async function WeatherAPICall(position) {
+    let token = await Get_Encrypted_AsyncStorage('text', 'token', 'SIH');
+    fetch_weather(
+      position.coords.latitude,
+      position.coords.longitude,
+      language,
+      token,
+    )
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   function upperCaseConverter(mySentence) {
     const finalSentence = mySentence.replace(/(^\w{1})|(\s+\w{1})/g, letter =>
@@ -124,12 +170,16 @@ function LandingScreen({navigation}) {
           <Text style={styles.subplacetext}>{weather_data?.name}</Text>
           <View style={styles.timeWeatherContainer}>
             <View style={[styles.bodyContainer, {flexDirection: 'column'}]}>
-              <Text style={[styles.subtext, {fontSize: 12}]}>Local Time</Text>
+              <Text style={[styles.subtext, {fontSize: 12}]}>
+                {t('localtime')}
+              </Text>
               <Text
                 style={[styles.subplacetext, {marginTop: 5, marginBottom: 5}]}>
                 {moment().utcOffset('+0530').format('HH:MM A')}
               </Text>
-              <Text style={[styles.subtext, {fontSize: 12}]}>10/12/2029</Text>
+              <Text style={[styles.subtext, {fontSize: 12}]}>
+                {moment().format('DD/MM/YYYY')}
+              </Text>
             </View>
             <View style={styles.bodyContainer}>
               <Text style={[styles.subtext, {fontSize: 12}]}>TODAY</Text>
@@ -161,7 +211,7 @@ function LandingScreen({navigation}) {
                     styles.subtext,
                     {fontSize: 16, color: ColorTheme.primary},
                   ]}>
-                  Attractions
+                  {t('attraction')}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -176,7 +226,7 @@ function LandingScreen({navigation}) {
                     styles.subtext,
                     {fontSize: 16, color: ColorTheme.primary},
                   ]}>
-                  {'Eat & Drink'}
+                  {t('eatdrink')}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -191,7 +241,7 @@ function LandingScreen({navigation}) {
                     styles.subtext,
                     {fontSize: 16, color: ColorTheme.primary},
                   ]}>
-                  Accomodation
+                  {t('accomodation')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -209,7 +259,7 @@ function LandingScreen({navigation}) {
                     styles.subtext,
                     {fontSize: 16, color: ColorTheme.primary},
                   ]}>
-                  Events
+                  {t('event')}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -224,7 +274,7 @@ function LandingScreen({navigation}) {
                     styles.subtext,
                     {fontSize: 16, color: ColorTheme.primary},
                   ]}>
-                  News
+                  {t('news')}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -239,7 +289,7 @@ function LandingScreen({navigation}) {
                     styles.subtext,
                     {fontSize: 16, color: ColorTheme.primary},
                   ]}>
-                  More
+                  {t('more')}
                 </Text>
               </TouchableOpacity>
             </View>
