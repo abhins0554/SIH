@@ -80,6 +80,9 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    otpEmail: {
+        type: String
+    },
     googleAuth: {
         type: Boolean
     },
