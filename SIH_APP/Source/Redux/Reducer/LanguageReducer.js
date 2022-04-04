@@ -1,5 +1,5 @@
 import Constant from '../../Constant/ReduxConstant';
-const initLanguage = {language: 'hi'};
+const initLanguage = {language: 'en'};
 
 const LanguageReducer = (state = initLanguage, action) => {
   switch (action.type) {

@@ -1292,6 +1292,11 @@
   resolved "https://registry.npmjs.org/@react-native-google-signin/google-signin/-/google-signin-7.2.1.tgz"
   integrity sha512-DZxITp7c77Mtirwzr74up6LSHPP4baGHEN4x8yknpgEUQwDx/6edchhtwVQqW9Uw06+l8Ge/gsUeDZ0TYIm01w==
 
+"@react-native-picker/picker@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.4.0.tgz#7ca2e01a3bdf854ee01ca752762ffa73c0e83313"
+  integrity sha512-duGZc3a8Qa21YPrA4U3oR9NAUzBA66FTjubGK2CodA6rNjiwN+xC32hOZ5unkf4qD3DqLWeoPjg3fYf54bVMjA==
+
 "@react-native/assets@1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@react-native/assets/-/assets-1.0.0.tgz"
@@ -6043,6 +6048,11 @@ react-native-gesture-handler@^2.3.2:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
+react-native-image-crop-picker@^0.37.3:
+  version "0.37.3"
+  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.37.3.tgz#f260e40b6a6ba8e98f4db3dde25a8f09e0936385"
+  integrity sha512-ih+0pWWRUNEFQyaHwGbH9rqJNOb7EBYMwKJhTY0VmsKIA9E+usfwMmQXAFIfOnee7fTn0A2vOXkBCPQZwyvnQw==
+
 react-native-image-slider-box@^1.1.20:
   version "1.1.20"
   resolved "https://registry.npmjs.org/react-native-image-slider-box/-/react-native-image-slider-box-1.1.20.tgz"
@@ -6068,6 +6078,11 @@ react-native-razorpay@^2.2.8:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/react-native-razorpay/-/react-native-razorpay-2.2.8.tgz#8aad1c78a64f75d6136d69f5cca84a8dda763674"
   integrity sha512-rq75oN5ENvRvlpq3rtVA52JEXAD68lj4tlZH1CHtnhZUxSd6mljwEZl3y41QVNY8f4+XbpQhx8XHFTF4Azq8fg==
+
+react-native-restart@^0.0.24:
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/react-native-restart/-/react-native-restart-0.0.24.tgz#c7036f25d900d9221b84d3e5129b02d4289d4e94"
+  integrity sha512-pvJNU3NwQk6bCG2gOWcQpZ4IxhtELB0K9gzmtixfsaTFbW1UXXHkJNjk1kHazcbH5hrD7QbUkR63fsAVh8X4VQ==
 
 react-native-safe-area-context@^4.2.1:
   version "4.2.1"

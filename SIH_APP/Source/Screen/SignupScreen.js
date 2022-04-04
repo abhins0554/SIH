@@ -6,7 +6,7 @@ import {
   Image,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 
 import {TextInput, Button} from 'react-native-paper';
@@ -30,6 +30,8 @@ function SignupScreen({navigation}) {
   const changeSTE = async () => {
     set_password_visible(!password_visible);
   };
+
+  const _send_data_to_new_page = async () => {};
 
   const styles = StyleSheet.create({
     mainframe: {
@@ -62,9 +64,13 @@ function SignupScreen({navigation}) {
   });
   return (
     <SafeAreaView style={styles.mainframe}>
-      <AntDesign name="arrowleft" style={{textAlign: 'left', margin: 10}} size={30}/>
-      <Text style={[styles.heading,{marginTop:10}]}>Lets Get Started</Text>
-      <Text style={[styles.subheading,{marginTop:10}]}>
+      <AntDesign
+        name="arrowleft"
+        style={{textAlign: 'left', margin: 10}}
+        size={30}
+      />
+      <Text style={[styles.heading, {marginTop: 10}]}>Lets Get Started</Text>
+      <Text style={[styles.subheading, {marginTop: 10}]}>
         Create an account to access all feature
       </Text>
       <TextInput
@@ -116,13 +122,17 @@ function SignupScreen({navigation}) {
       <Button
         mode="contained"
         onPress={() => navigation.navigate('SignpFormScreen')}
-        style={{width: 100, alignSelf: 'center', marginTop: 15}}>
+        style={{
+          width: Dimensions.get('window') - 40,
+          alignSelf: 'center',
+          marginTop: 15,
+        }}>
         Next
       </Button>
       <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-      <Text style={[styles.forgotPassword, {textAlign: 'center'}]}>
-        Have an account? Signin
-      </Text>
+        <Text style={[styles.forgotPassword, {textAlign: 'center'}]}>
+          Have an account? Signin
+        </Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

@@ -9,11 +9,17 @@ import {
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import RNRestart from 'react-native-restart';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Header from '../Component/Atom/Header';
 import ColorTheme from '../Theme/ColorTheme';
 
 function SettingScreen({navigation}) {
+  const _logout = async () => {
+    AsyncStorage.clear();
+    RNRestart.Restart();
+  };
   const styles = StyleSheet.create({
     mainframe: {
       flex: 1,
@@ -47,11 +53,7 @@ function SettingScreen({navigation}) {
   });
   return (
     <SafeAreaView style={styles.mainframe}>
-      <Header
-        navigation={navigation}
-        title={'Setting'}
-        navigation={navigation}
-      />
+      <Header navigation={navigation} title={'Setting'} />
       <Text style={styles.headingtxt}>Select Langage</Text>
       <TouchableOpacity style={styles.pickerbody}>
         <Text style={styles.pickertext}>English</Text>
@@ -63,7 +65,9 @@ function SettingScreen({navigation}) {
       <View style={styles.seperator} />
       <Text style={styles.headingtxt}>Terms & Condition</Text>
       <View style={styles.seperator} />
-      <Text style={styles.headingtxt}>Log Out</Text>
+      <TouchableOpacity onPress={() => _logout()}>
+        <Text style={styles.headingtxt}>Log Out</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
