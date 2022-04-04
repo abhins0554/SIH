@@ -19,6 +19,10 @@ const userSchema = mongoose.Schema({
         type: String,
         //required: true,
     },
+    dob: {
+        type: Date,
+        //required: true,
+    },
     isEmailVerify: {
         type: Boolean,
         default: false
@@ -81,6 +85,9 @@ const userSchema = mongoose.Schema({
         default: false
     },
     otpEmail: {
+        type: String
+    },
+    otpPassword: {
         type: String
     },
     googleAuth: {

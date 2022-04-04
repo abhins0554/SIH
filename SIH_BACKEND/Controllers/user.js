@@ -11,7 +11,7 @@ const userModel = require("./../Models/UserModel");
 const otpGenerator = require("otp-generator");
 
 const axios = require("axios");
-// const postModel = require("../Models/PostModel");
+
 // const s3 = new AWS.S3({
 //   accessKeyId: process.env.AWS_ID,
 //   secretAccessKey: process.env.AWS_SECRET,
@@ -33,6 +33,7 @@ exports.upload = multer({ storage: storage });
 
 //user registration=======
 exports.register = async (req, res) => {
+  
   userModel.find({ email: req.body.email }, async (err, result1) => {
     if (err) {
       return res.json({
@@ -62,6 +63,8 @@ exports.register = async (req, res) => {
           name: req.body.name,
           email: req.body.email,
           // password: hashedPassword,
+          dob: req.body.dob,
+          gender: req.body.gender,
           mobile: req.body.mobile,
           address: req.body.address,
           pincode: req.body.pincode,
@@ -73,14 +76,16 @@ exports.register = async (req, res) => {
           otpEmail: otp.toString(),
           googleId: req.body.googleId,
           googleAuth: true,
-          adhaar_pic: req.files["adhaar_pic"][0]["path"],
-          selfie_pic: req.files["selfie_pic"][0]["path"],
+          adhaar_pic: req.files?(req.files["adhaar_pic"]?req.files["adhaar_pic"][0]["path"]:null):null,
+          selfie_pic: req.files?(req.files["selfie_pic"]?req.files["selfie_pic"][0]["path"]:null):null,
         });
 
         if (
           user.name &&
           user.email &&
           // user.password &&
+          user.gender &&
+          user.dob &&
           user.mobile &&
           user.address &&
           user.pincode &&
@@ -142,6 +147,8 @@ exports.register = async (req, res) => {
           name: req.body.name,
           email: req.body.email,
           password: hashedPassword,
+          dob: req.body.dob,
+          gender: req.body.gender,
           mobile: req.body.mobile,
           address: req.body.address,
           pincode: req.body.pincode,
@@ -152,14 +159,16 @@ exports.register = async (req, res) => {
           createdOn: Date.now(),
           otpEmail: otp.toString(),
           googleAuth: false,
-          adhaar_pic: req.files["adhaar_pic"][0]["path"],
-          selfie_pic: req.files["selfie_pic"][0]["path"],
+          adhaar_pic: req.files?(req.files["adhaar_pic"]?req.files["adhaar_pic"][0]["path"]:null):null,
+          selfie_pic: req.files?(req.files["selfie_pic"]?req.files["selfie_pic"][0]["path"]:null):null,
         });
 
         if (
           user.name &&
           user.email &&
           user.password &&
+          user.gender &&
+          user.dob &&
           user.mobile &&
           user.address &&
           user.pincode &&
@@ -326,19 +335,20 @@ exports.selectuserbyid = async (req, res) => {
 //==========================user update================================
 exports.userupdate = async (req, res) => {
   console.log("Request Recieved for : ", req.body);
-
+  
   const {
-    firstName,
-    lastName,
-    dateOfBirth,
+    name,
+    dob,
     gender,
+    address,
+    pincode,
     state,
+    city,
     country,
     mobile,
     latitude,
     longitude,
-    about,
-    hobbies,
+    adhaar_number
   } = req.body;
 
   const id = req.tokenObject.id;
@@ -350,22 +360,25 @@ exports.userupdate = async (req, res) => {
       });
     } else {
       if (results1.isDeleted == false && results1.isBlocked == false) {
+       
         userModel.findByIdAndUpdate(
           id,
           {
-            firstName: firstName,
-            lastName: lastName,
-            dateOfBirth: dateOfBirth,
+            name: name,
+            dob: dob,
             gender: gender,
             mobile: mobile,
             city: city,
             state: state,
+            address:address,
+            pincode:pincode,
             country: country,
             latitude: latitude,
             longitude: longitude,
+            adhaar_number:adhaar_number,
+            adhaar_pic: req.files?(req.files["adhaar_pic"]?req.files["adhaar_pic"][0]["path"]:results1.adhaar_pic):results1.adhaar_pic,
+            selfie_pic: req.files?(req.files["selfie_pic"]?req.files["selfie_pic"][0]["path"]:results1.selfie_pic):results1.selfie_pic,
             updatedOn: Date.now(),
-            about: about,
-            hobbies: hobbies,
           },
           { new: true },
           (error, results) => {
@@ -382,6 +395,8 @@ exports.userupdate = async (req, res) => {
             }
           }
         );
+        
+       
       } else {
         return res.status(400).send({ message: "user not found" });
       }
@@ -500,13 +515,12 @@ exports.request_password = async (req, res) => {
                 },
               });
               var mailOptions = {
-                from: "Maven",
+                from: "Uttarakhand",
                 to: email,
-                subject: "request for password reset",
+                subject: "Request for password reset",
                 html:
                   "Hello, " +
-                  results[0].firstName +
-                  results[0].lastName +
+                  results[0].name +
                   "<br> Here is your OTP: " +
                   otp.toString() +
                   "<br> If you did not request this, please ignore this email and your password will remain unchanged.",
@@ -607,11 +621,11 @@ exports.changepassword = async (req, res) => {
             });
 
             var mailOptions = {
-              from: "Maven",
+              from: "Uttarakhand",
               to: email,
               subject: "Your password has been changed",
               html:
-                "Hello<br>This is a confirmation mail that the password for your Maven account with email  " +
+                "Hello<br>This is a confirmation mail that the password for your Uttarakhand account with email  " +
                 email +
                 "  has been changed.",
             };
@@ -796,68 +810,7 @@ exports.email_verify = async (req, res) => {
   }
 };
 
-//change profile pic==
 
-exports.profilePicChange = async (req, res) => {
-  const id = req.tokenObject.id;
-  console.log("id", id);
-  console.log("profile picture file", req.file);
-
-  if (req.file) {
-    userModel.findById(id, async (error, results1) => {
-      if (error) {
-        return res.status(500).send({ message: "INTERNAL SERVER ERROR" });
-      } else {
-        console.log(results1);
-        if (results1.isDeleted == false && results1.isBlocked == false) {
-          const params = {
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: Date.now() + req.file.originalname,
-            Body: req.file.buffer,
-            ACL: "public-read",
-          };
-          s3.upload(params, (error, data) => {
-            console.log(error, data);
-
-            if (error) {
-              return res.status(500).send(error);
-            }
-            userModel.findByIdAndUpdate(
-              id,
-              { profile_picture: data.Location },
-              { new: true },
-              async (error, results) => {
-                if (error) {
-                  console.log(error);
-                  return res.status(500).send({
-                    message: "INTERNAL SERVER ERROR",
-                  });
-                } else {
-                  if (results) {
-                    return res.send({
-                      message: "profile picture update successful",
-                      updated_details: results,
-                      result: results["profile_picture"],
-                    });
-                  }
-                }
-              }
-            );
-          });
-        } else {
-          res.status(400).send({
-            error: "data not found",
-          });
-        }
-      }
-    });
-  } else {
-    console.log("error");
-    return res.status(400).send({
-      message: "please provide valid details",
-    });
-  }
-};
 
 //=====================mail sending function===============================
 const send_mail = (email, otp) => {
@@ -881,86 +834,6 @@ const send_mail = (email, otp) => {
       console.log("email has been sent", info.response);
     }
   });
-};
-
-//sending mail for otp login
-const sendLoginOtp = (email, otp) => {
-  var transporter = nodemailer.createTransport({
-    service: "quickblog.tech",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-  var mailOptions = {
-    from: "Uttarakhand",
-    to: email,
-    subject: "Login Otp",
-    html: "Here is your OTP for Login: " + otp,
-  };
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("email has been sent", info.response);
-    }
-  });
-};
-
-//=======searcg by username
-
-exports.fetch_data_byUname = async (req, res) => {
-  userModel.find(
-    { username: { $regex: req.body.uname, $options: "i" } },
-    (err, result) => {
-      if (err) {
-        return res.status(500).send({ message: "internal server error" });
-      }
-      return res.status(200).send({ result: result });
-    }
-  );
-};
-
-// ============ Fetch Count of Followers , Following and posts.
-exports.fetch_count = async (req, res) => {
-  const id = req.tokenObject.id;
-  if (id) {
-    userModel.findById(id, (err, results1) => {
-      if (err) {
-        return res.status(500).send({
-          message: "Internal Server Error",
-        });
-      }
-      console.log(results1);
-      const followerCount = results1.followers.length;
-      const followingCount = results1.following.length;
-      // console.log(`followerCount : ${followerCount}`)
-      // console.log(`followingCount : ${followingCount}`)
-      postModel.find({ createdBy: id, isDeleted: false }, (err, results2) => {
-        if (err) {
-          return res.status(500).send({
-            message: "Internal Server Error",
-          });
-        }
-        const postsCount = results2.length;
-        const allinone = {
-          followerCount,
-          followingCount,
-          postsCount,
-        };
-        return res.status(200).send({
-          message: "Data Successfully Fetched",
-          code: 200,
-          data: allinone,
-        });
-      });
-    });
-  } else {
-    console.log("error");
-    return res.status(400).send({
-      message: "Please Provide valid details",
-    });
-  }
 };
 
 // ============ Fetch Weather with localizations.
