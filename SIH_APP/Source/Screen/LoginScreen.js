@@ -181,10 +181,10 @@ function LoginScreen({navigation}) {
       <Button
         mode="contained"
         onPress={() => _email_pwd_login()}
-        style={{width: 80, alignSelf: 'center', marginTop: 15}}>
+        style={{width: 150, alignSelf: 'center', marginTop: 15}}>
         LogIn
       </Button>
-      <Text style={[styles.forgotPassword, {textAlign: 'center'}]}>
+      <Text style={[styles.forgotPassword, {textAlign: 'center', width: 250}]}>
         Or Connect using Google
       </Text>
       <GoogleSigninButton

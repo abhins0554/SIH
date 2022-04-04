@@ -1,11 +1,67 @@
-## [1.0.0] 2021-10-05
+# Changelog
 
-### Original Release
+# [1.3.2]
 
-- Started project from [Muse Ant Design Dashboard](https://www.creative-tim.com/product/muse-ant-design-dashboard?ref=changelog-madd)
-- Updated all dependencies from [Muse Ant Design Dashboard](https://www.creative-tim.com/product/muse-ant-design-dashboard?ref=changelog-madd) and those dependencies that were not working with the new React v17+ API, were deleted and/or replaced
+### Updated
+- Packages updated
+- Edited README.md
 
-### Warning
+# [1.3.1]
 
-_Warnings might appear while doing a clean npm install - they do not affect the UI or the functionality of the product, and they appear because of NodeJS and not from the product itself._
-_This product was designed and developed using NodeJS version 14.16.0 LTS, so please make sure to have a compatible version of NodeJS._
+### Updated
+- Added link to flatlogic on login and register pages
+
+# [1.3.0]
+
+### Updated
+- Update packages
+
+### Fixed
+- Header button on md adjusting
+- Dashboard page make more responsive
+- Notification page fix
+- Tables page fix TableBody paddings
+
+# [1.2.3]
+
+### Updated
+- Fixed security vulnerabilities in dependencies
+
+# [1.2.2]
+
+### Updated
+- Packages updated
+
+# [1.2.1]
+
+### Updated
+- Packages updated
+
+### Fixed
+- Sign up name type of input
+- Dot component size prop
+- Performance errors
+
+# [1.2.0]
+
+### Updated
+- Packages update
+- Link to Full version
+
+### Fixed
+- User login state improvements
+
+## [1.1.0]
+
+### New Feactures
+
+- React v16.8.6
+- React Router v5
+- new React Hooks
+- Material UI v4.3
+
+Bug fixes
+
+## [1.0.0]
+
+Initial version of the project

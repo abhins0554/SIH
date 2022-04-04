@@ -4,6 +4,8 @@ import axios from 'axios';
 import validateEmail from '../Validators/EmailValidation';
 import {BASE_URL} from '../Constant/Constant';
 
-const SignupAPI = async () => {};
+const SignupAPI = async () => {
+  let data = new FormData();
+};
 
 export default SignupAPI;

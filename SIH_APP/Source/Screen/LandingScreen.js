@@ -15,6 +15,11 @@ import moment from 'moment';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {
+  Get_Encrypted_AsyncStorage,
+  Set_Encrypted_AsyncStorage,
+} from 'react-native-encrypted-asyncstorage';
+import LottieView from 'lottie-react-native';
 
 import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
@@ -22,22 +27,22 @@ import get_geo_location_permission from '../Services/LocationPermission';
 import Geolocation from 'react-native-geolocation-service';
 import fetch_weather from '../Api/WeatherApi';
 import '../i18n/i18n';
-import {
-  Get_Encrypted_AsyncStorage,
-  Set_Encrypted_AsyncStorage,
-} from 'react-native-encrypted-asyncstorage';
+import {weatherAction} from '../Redux/Action/WeatherAction';
 
 function LandingScreen({navigation}) {
   const dispatch = useDispatch();
+
   const {t, i18n} = useTranslation();
   const [more_modal, set_more_modal] = useState(false);
   const [show_nearby, set_show_nearby] = useState(false);
   const weather_data = useSelector(state => state.weather.weather);
   const language = useSelector(state => state.language.language);
+  const [loading, setloading] = useState(true);
 
   React.useEffect(() => {
-    fetch_weather_Report();
-    changeLanguage(language);
+    setTimeout(() => {
+      fetch_weather_Report();
+    }, 5000);
   }, []);
 
   const changeLanguage = value => {
@@ -74,10 +79,12 @@ function LandingScreen({navigation}) {
       token,
     )
       .then(response => {
-        console.log(response.data);
+        dispatch(weatherAction(response.data));
+        setloading(false);
       })
       .catch(error => {
         console.log(error);
+        console.log(error.response);
       });
   }
 
@@ -91,6 +98,20 @@ function LandingScreen({navigation}) {
   function kelvinToCelsiusConverter(Kelvin) {
     let Celsius = Kelvin - 273.15;
     return Celsius.toFixed(2);
+  }
+
+  if (loading) {
+    return (
+      <LottieView
+        source={require('../Assets/loading.json')}
+        autoPlay
+        style={{
+          flex: 1,
+          alignSelf: 'center',
+        }}
+        resizeMode="cover"
+      />
+    );
   }
 
   const styles = StyleSheet.create({

@@ -15,10 +15,12 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment';
+import {useSelector} from 'react-redux';
+import {Button} from 'react-native-paper';
 
 import Header from '../Component/Atom/Header';
 import ColorTheme from '../Theme/ColorTheme';
-import {Button} from 'react-native-paper';
+import _create_payment from '../Services/PaymentGateway';
 
 function AccomodationDetailScreen({navigation}) {
   const images = [
@@ -32,6 +34,9 @@ function AccomodationDetailScreen({navigation}) {
   const [mode, setMode] = useState('date');
   const [showfrom, setShowfrom] = useState(false);
   const [showto, setShowto] = useState(false);
+  const userData = useSelector(S => S.userdata.userdata);
+
+  console.log(userData);
 
   const onChangeDateFrom = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -57,7 +62,7 @@ function AccomodationDetailScreen({navigation}) {
 
   return (
     <SafeAreaView style={styles.mainframe}>
-      <Header navigation={navigation} title={'Accomadation'} navigation={navigation} />
+      <Header navigation={navigation} title={'Accomadation'} />
       <ScrollView style={{flex: 1}}>
         <SliderBox
           images={images}
@@ -226,7 +231,7 @@ function AccomodationDetailScreen({navigation}) {
           </View>
           <Button
             mode="contained"
-            onPress={() => navigation.navigate('PaymentScreen')}
+            onPress={() => _create_payment(userData, 2500)}
             style={{width: 150, alignSelf: 'center', marginTop: 15}}>
             Book Now
           </Button>

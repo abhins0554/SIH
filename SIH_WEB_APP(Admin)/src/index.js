@@ -1,22 +1,27 @@
-/*!
-=========================================================
-* Muse Ant Design Dashboard - v1.0.0
-=========================================================
-* Product Page: https://www.creative-tim.com/product/muse-ant-design-dashboard
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/muse-ant-design-dashboard/blob/main/LICENSE.md)
-* Coded by Creative Tim
-=========================================================
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-import App from "./App";
+import { ThemeProvider } from "@material-ui/styles";
+import { CssBaseline } from "@material-ui/core";
+
+import Themes from "./themes";
+import App from "./components/App";
+import * as serviceWorker from "./serviceWorker";
+import { LayoutProvider } from "./context/LayoutContext";
+import { UserProvider } from "./context/UserContext";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <LayoutProvider>
+    <UserProvider>
+      <ThemeProvider theme={Themes.default}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
+    </UserProvider>
+  </LayoutProvider>,
   document.getElementById("root"),
 );
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.unregister();

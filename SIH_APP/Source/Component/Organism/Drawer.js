@@ -9,10 +9,21 @@ import {
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useSelector, useDispatch} from 'react-redux';
+import RNRestart from 'react-native-restart';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import colors from '../../Theme/ColorTheme';
+import {BASE_URL} from '../../Constant/Constant';
 
 function Drawer({navigation, modalState, modalToggle}) {
+  const userData = useSelector(s => s.userdata.userdata);
+
+  const _logout = async () => {
+    AsyncStorage.clear();
+    RNRestart.Restart();
+  };
+
   const styles = StyleSheet.create({
     mainframe: {
       flex: 1,
@@ -82,15 +93,15 @@ function Drawer({navigation, modalState, modalToggle}) {
           />
           <Image
             source={{
-              uri: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80',
+              uri: `${BASE_URL}${userData.selfie_pic}`,
             }}
             style={styles.userProfilePicture}
           />
           <Text style={styles.userName} numberOfLines={1}>
-            Abhishek Tripathi
+            {userData?.name}
           </Text>
           <Text style={styles.email} numberOfLines={1}>
-            user@mail.com
+            {userData?.email}
           </Text>
           <View style={styles.seperator} />
           <Text style={styles.category} numberOfLines={1}>
@@ -116,7 +127,7 @@ function Drawer({navigation, modalState, modalToggle}) {
             Send SOS
           </Text>
           <View style={styles.seperator} />
-          <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+          <TouchableOpacity onPress={() => _logout()}>
             <Text style={styles.category} numberOfLines={1}>
               Log Out
             </Text>
