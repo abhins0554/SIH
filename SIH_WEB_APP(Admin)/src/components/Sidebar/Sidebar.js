@@ -1,156 +1,165 @@
-import React, { useState, useEffect } from "react";
-import { Drawer, IconButton, List } from "@material-ui/core";
-import {
-  Home as HomeIcon,
-  NotificationsNone as NotificationsIcon,
-  FormatSize as TypographyIcon,
-  FilterNone as UIElementsIcon,
-  BorderAll as TableIcon,
-  QuestionAnswer as SupportIcon,
-  LibraryBooks as LibraryIcon,
-  HelpOutline as FAQIcon,
-  ArrowBack as ArrowBackIcon,
-} from "@material-ui/icons";
-import { useTheme } from "@material-ui/styles";
-import { withRouter } from "react-router-dom";
+/*eslint-disable*/
+import React from "react";
 import classNames from "classnames";
+import PropTypes from "prop-types";
+import { NavLink, useLocation } from "react-router-dom";
+// @material-ui/core components
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import Hidden from "@material-ui/core/Hidden";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Icon from "@material-ui/core/Icon";
+// core components
+import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
+import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks.js";
 
-// styles
-import useStyles from "./styles";
+import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 
-// components
-import SidebarLink from "./components/SidebarLink/SidebarLink";
-import Dot from "./components/Dot";
+const useStyles = makeStyles(styles);
 
-// context
-import {
-  useLayoutState,
-  useLayoutDispatch,
-  toggleSidebar,
-} from "../../context/LayoutContext";
-
-const structure = [
-  { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
-  {
-    id: 1,
-    label: "Typography",
-    link: "/app/typography",
-    icon: <TypographyIcon />,
-  },
-  { id: 2, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
-  {
-    id: 3,
-    label: "Notifications",
-    link: "/app/notifications",
-    icon: <NotificationsIcon />,
-  },
-  {
-    id: 4,
-    label: "UI Elements",
-    link: "/app/ui",
-    icon: <UIElementsIcon />,
-    children: [
-      { label: "Icons", link: "/app/ui/icons" },
-      { label: "Charts", link: "/app/ui/charts" },
-      { label: "Maps", link: "/app/ui/maps" },
-    ],
-  },
-  { id: 5, type: "divider" },
-  { id: 6, type: "title", label: "HELP" },
-  { id: 7, label: "Library", link: "https://flatlogic.com/templates", icon: <LibraryIcon /> },
-  { id: 8, label: "Support", link: "https://flatlogic.com/forum", icon: <SupportIcon /> },
-  { id: 9, label: "FAQ", link: "https://flatlogic.com/forum", icon: <FAQIcon /> },
-  { id: 10, type: "divider" },
-  { id: 11, type: "title", label: "PROJECTS" },
-  {
-    id: 12,
-    label: "My recent",
-    link: "",
-    icon: <Dot size="small" color="warning" />,
-  },
-  {
-    id: 13,
-    label: "Starred",
-    link: "",
-    icon: <Dot size="small" color="primary" />,
-  },
-  {
-    id: 14,
-    label: "Background",
-    link: "",
-    icon: <Dot size="small" color="secondary" />,
-  },
-];
-
-function Sidebar({ location }) {
-  var classes = useStyles();
-  var theme = useTheme();
-
-  // global
-  var { isSidebarOpened } = useLayoutState();
-  var layoutDispatch = useLayoutDispatch();
-
-  // local
-  var [isPermanent, setPermanent] = useState(true);
-
-  useEffect(function() {
-    window.addEventListener("resize", handleWindowWidthChange);
-    handleWindowWidthChange();
-    return function cleanup() {
-      window.removeEventListener("resize", handleWindowWidthChange);
-    };
-  });
-
-  return (
-    <Drawer
-      variant={isPermanent ? "permanent" : "temporary"}
-      className={classNames(classes.drawer, {
-        [classes.drawerOpen]: isSidebarOpened,
-        [classes.drawerClose]: !isSidebarOpened,
-      })}
-      classes={{
-        paper: classNames({
-          [classes.drawerOpen]: isSidebarOpened,
-          [classes.drawerClose]: !isSidebarOpened,
-        }),
-      }}
-      open={isSidebarOpened}
-    >
-      <div className={classes.toolbar} />
-      <div className={classes.mobileBackButton}>
-        <IconButton onClick={() => toggleSidebar(layoutDispatch)}>
-          <ArrowBackIcon
-            classes={{
-              root: classNames(classes.headerIcon, classes.headerIconCollapse),
-            }}
-          />
-        </IconButton>
-      </div>
-      <List className={classes.sidebarList}>
-        {structure.map(link => (
-          <SidebarLink
-            key={link.id}
-            location={location}
-            isSidebarOpened={isSidebarOpened}
-            {...link}
-          />
-        ))}
-      </List>
-    </Drawer>
-  );
-
-  // ##################################################################
-  function handleWindowWidthChange() {
-    var windowWidth = window.innerWidth;
-    var breakpointWidth = theme.breakpoints.values.md;
-    var isSmallScreen = windowWidth < breakpointWidth;
-
-    if (isSmallScreen && isPermanent) {
-      setPermanent(false);
-    } else if (!isSmallScreen && !isPermanent) {
-      setPermanent(true);
-    }
+export default function Sidebar(props) {
+  const classes = useStyles();
+  let location = useLocation();
+  // verifies if routeName is the one active (in browser input)
+  function activeRoute(routeName) {
+    return location.pathname === routeName;
   }
+  const { color, logo, image, logoText, routes } = props;
+  var links = (
+    <List className={classes.list}>
+      {routes.map((prop, key) => {
+        var activePro = " ";
+        var listItemClasses;
+        if (prop.path === "/upgrade-to-pro") {
+          activePro = classes.activePro + " ";
+          listItemClasses = classNames({
+            [" " + classes[color]]: true,
+          });
+        } else {
+          listItemClasses = classNames({
+            [" " + classes[color]]: activeRoute(prop.layout + prop.path),
+          });
+        }
+        const whiteFontClasses = classNames({
+          [" " + classes.whiteFont]: activeRoute(prop.layout + prop.path),
+        });
+        return (
+          <NavLink
+            to={prop.layout + prop.path}
+            className={activePro + classes.item}
+            activeClassName="active"
+            key={key}
+          >
+            <ListItem button className={classes.itemLink + listItemClasses}>
+              {typeof prop.icon === "string" ? (
+                <Icon
+                  className={classNames(classes.itemIcon, whiteFontClasses, {
+                    [classes.itemIconRTL]: props.rtlActive,
+                  })}
+                >
+                  {prop.icon}
+                </Icon>
+              ) : (
+                <prop.icon
+                  className={classNames(classes.itemIcon, whiteFontClasses, {
+                    [classes.itemIconRTL]: props.rtlActive,
+                  })}
+                />
+              )}
+              <ListItemText
+                primary={props.rtlActive ? prop.rtlName : prop.name}
+                className={classNames(classes.itemText, whiteFontClasses, {
+                  [classes.itemTextRTL]: props.rtlActive,
+                })}
+                disableTypography={true}
+              />
+             
+            </ListItem>
+          </NavLink>
+        );
+      })}
+    </List>
+  );
+  var brand = (
+    <div className={""}>
+      <a
+        href="https://www.creative-tim.com?ref=mdr-sidebar"
+        className={classNames(classes.logoLink, {
+          [classes.logoLinkRTL]: props.rtlActive,
+        })}
+        target="_blank"
+      >
+        <div className={classes.logoImage}>
+          <img src={logo} alt="logo" className={classes.img} />
+        </div>
+        {logoText}
+      </a>
+    </div>
+  );
+  return (
+    <div>
+      <Hidden mdUp implementation="css">
+        <Drawer
+          variant="temporary"
+          anchor={props.rtlActive ? "left" : "right"}
+          open={props.open}
+          classes={{
+            paper: classNames(classes.drawerPaper, {
+              [classes.drawerPaperRTL]: props.rtlActive,
+            }),
+          }}
+          onClose={props.handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          {brand}
+          <div className={classes.sidebarWrapper}>
+            {props.rtlActive ? <RTLNavbarLinks /> : <AdminNavbarLinks />}
+            {links}
+          </div>
+          {image !== undefined ? (
+            <div
+              className={classes.background}
+              style={{ backgroundImage: "url(" + image + ")" }}
+            />
+          ) : null}
+        </Drawer>
+      </Hidden>
+      <Hidden smDown implementation="css">
+        <Drawer
+          anchor={props.rtlActive ? "right" : "left"}
+          variant="permanent"
+          open
+          classes={{
+            paper: classNames(classes.drawerPaper, {
+              [classes.drawerPaperRTL]: props.rtlActive,
+            }),
+          }}
+        >
+          {brand}
+          <div className={classes.sidebarWrapper}>{links}</div>
+          {image !== undefined ? (
+            <div
+              className={classes.background}
+              style={{ backgroundImage: "url(" + image + ")" }}
+            />
+          ) : null}
+        </Drawer>
+      </Hidden>
+    </div>
+  );
 }
 
-export default withRouter(Sidebar);
+Sidebar.propTypes = {
+  rtlActive: PropTypes.bool,
+  handleDrawerToggle: PropTypes.func,
+  bgColor: PropTypes.oneOf(["purple", "blue", "green", "orange", "red"]),
+  logo: PropTypes.string,
+  image: PropTypes.string,
+  logoText: PropTypes.string,
+  routes: PropTypes.arrayOf(PropTypes.object),
+  open: PropTypes.bool,
+};

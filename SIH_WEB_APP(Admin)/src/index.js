@@ -1,27 +1,25 @@
+
 import React from "react";
 import ReactDOM from "react-dom";
-import { ThemeProvider } from "@material-ui/styles";
-import { CssBaseline } from "@material-ui/core";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
-import Themes from "./themes";
-import App from "./components/App";
-import * as serviceWorker from "./serviceWorker";
-import { LayoutProvider } from "./context/LayoutContext";
-import { UserProvider } from "./context/UserContext";
+// core components
+import Admin from "layouts/Admin.js";
+import Login from "views/Login";
+import "assets/css/material-dashboard-react.css?v=1.10.0";
+
+let token = localStorage.getItem('token');
 
 ReactDOM.render(
-  <LayoutProvider>
-    <UserProvider>
-      <ThemeProvider theme={Themes.default}>
-        <CssBaseline />
-        <App />
-      </ThemeProvider>
-    </UserProvider>
-  </LayoutProvider>,
-  document.getElementById("root"),
+  <BrowserRouter>
+    <Switch>
+      {
+        token !== null ?
+          <Login />
+          :
+          <Admin />
+      }
+    </Switch>
+  </BrowserRouter>,
+  document.getElementById("root")
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
