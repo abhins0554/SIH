@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import service from '../Service/service';
 
 function index(props) {
+    const [user, set_user] = useState([]);
     React.useEffect(() => {
         service._get_all_user()
-        .then(response=>{
-            console.log(response.data)
-        })
-        .catch(error=>{
-            console.log("error",error);
-        })
+            .then(response => {
+                if (response?.data?.message === " Successful") {
+                    set_user(response.data.result);
+                }
+            })
+            .catch(error => {
+                console.log("error", error);
+            })
     }, []);
     return (
         <div>
@@ -18,30 +21,28 @@ function index(props) {
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Mobile</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Pincode</th>
+                        <th scope="col">Aadhaar Number</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
+                    {user?.map((item, index) => {
+                        return (
+                            <tr id={item?._id}>
+                                <th scope="col">{index + 1}</th>
+                                <th scope="col">{item?.name}</th>
+                                <th scope="col">{item?.email}</th>
+                                <th scope="col">{item?.mobile}</th>
+                                <th scope="col">{item?.state}</th>
+                                <th scope="col">{item?.pincode}</th>
+                                <th scope="col">{item?.adhaar_number}</th>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
         </div>
