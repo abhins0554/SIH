@@ -33,13 +33,13 @@ function index(props) {
                     {user?.map((item, index) => {
                         return (
                             <tr id={item?._id}>
-                                <th scope="col">{index + 1}</th>
-                                <th scope="col">{item?.name}</th>
-                                <th scope="col">{item?.email}</th>
-                                <th scope="col">{item?.mobile}</th>
-                                <th scope="col">{item?.state}</th>
-                                <th scope="col">{item?.pincode}</th>
-                                <th scope="col">{item?.adhaar_number}</th>
+                                <th>{index + 1}</th>
+                                <th>{item?.name}</th>
+                                <th>{item?.email}</th>
+                                <th>{item?.mobile}</th>
+                                <th>{item?.state}</th>
+                                <th>{item?.pincode}</th>
+                                <th>{item?.adhaar_number}</th>
                             </tr>
                         );
                     })}
