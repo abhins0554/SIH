@@ -9,11 +9,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 const userRoute = require('./Routes/userRoute');
+const attractionRoute = require('./Routes/attractionRoute')
 
 app.use(express.static(__dirname + '/public'));
 app.use('/upload', express.static('upload'));
 
 app.use("/user", userRoute);
+app.use("/attraction", attractionRoute);
 
 app.listen(3000, (req, res) => {
     console.log('server is running...');

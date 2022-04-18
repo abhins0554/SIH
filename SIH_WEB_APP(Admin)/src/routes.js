@@ -19,6 +19,13 @@ const dashboardRoutes = [
     component: UserManagement,
     layout: "/admin",
   },
+  {
+    path: "/disaster_management",
+    name: "Disaster Management",
+    icon: BrandingWatermark,
+    component: UserManagement,
+    layout: "/admin",
+  },
 ];
 
 export default dashboardRoutes;
