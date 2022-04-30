@@ -17,7 +17,7 @@ function index(props) {
     }, []);
     return (
         <div>
-            <table class="table">
+            <table className="table">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -32,7 +32,7 @@ function index(props) {
                 <tbody>
                     {user?.map((item, index) => {
                         return (
-                            <tr id={item?._id}>
+                            <tr id={item?._id} key={item?._id}>
                                 <th>{index + 1}</th>
                                 <th>{item?.name}</th>
                                 <th>{item?.email}</th>

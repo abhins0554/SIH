@@ -286,7 +286,7 @@ function LandingScreen({navigation}) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.datacontainer}
-                onPress={() => navigation.navigate('NewsScreen')}>
+                onPress={() => navigation.navigate('NewsScreen',{data:"technology"})}>
                 <Image
                   source={require('../Assets/Image/news.png')}
                   style={styles.infoIcons}

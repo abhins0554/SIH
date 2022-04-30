@@ -7,8 +7,6 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(email==="123456"&&password==="123456"){

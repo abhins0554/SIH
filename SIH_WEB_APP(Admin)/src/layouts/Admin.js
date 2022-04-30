@@ -42,11 +42,8 @@ const switchRoutes = (
 const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {
-  // styles
   const classes = useStyles();
-  // ref to help us initialize PerfectScrollbar on windows devices
   const mainPanel = React.createRef();
-  // states and functions
   const [image, setImage] = React.useState(bgImage);
   const [color, setColor] = React.useState("blue");
   const [fixedClasses, setFixedClasses] = React.useState("dropdown show");
@@ -97,7 +94,7 @@ export default function Admin({ ...rest }) {
     <div className={classes.wrapper}>
       <Sidebar
         routes={routes}
-        logoText={"Creative Tim"}
+        logoText={"SIH UT"}
         logo={logo}
         image={image}
         handleDrawerToggle={handleDrawerToggle}
