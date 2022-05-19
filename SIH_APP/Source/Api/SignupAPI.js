@@ -79,11 +79,12 @@ const SignupAPI = async (
             : selfieImage[i].uri.replace('file://', ''),
       });
     }
-
+    console.log("response1");
     axios
       .post(`${BASE_URL}user/register`, data)
       .then(function (response) {
         console.log(response.data);
+        alert("SIGN UP Successful ");
       })
       .catch(function (error) {
         console.log(error);
