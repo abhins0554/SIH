@@ -53,11 +53,12 @@ function LandingScreen({navigation}) {
   };
 
   const fetch_weather_Report = async () => {
+    WeatherAPICall()
     let granted = get_geo_location_permission();
     if (granted) {
       Geolocation.getCurrentPosition(
         position => {
-          WeatherAPICall(position);
+          // WeatherAPICall(position);
         },
         error => {
           // See error code charts below.
@@ -73,12 +74,13 @@ function LandingScreen({navigation}) {
   async function WeatherAPICall(position) {
     let token = await Get_Encrypted_AsyncStorage('text', 'token', 'SIH');
     fetch_weather(
-      position.coords.latitude,
-      position.coords.longitude,
+      "21.2093",
+      '81.3111',
       language,
       token,
     )
       .then(response => {
+        console.log(response.data);
         dispatch(weatherAction(response.data));
         setloading(false);
       })

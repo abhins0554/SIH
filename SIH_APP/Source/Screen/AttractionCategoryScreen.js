@@ -1,10 +1,26 @@
 import React from 'react';
 import {SafeAreaView, View, Text, StyleSheet, ScrollView} from 'react-native';
+import { _fetchAttractionDataByCategory } from '../Api/AttractionAPI';
 
 import AttractionCard from '../Component/Atom/AttractionCard';
 import Header from '../Component/Atom/Header';
 
-function AttractionCategoryScreen({navigation}) {
+function AttractionCategoryScreen({navigation,route}) {
+  
+  const _get_data = async () => {
+    _fetchAttractionDataByCategory(route?.params?.category)
+      .then(response=>{
+        console.log(response.data);
+      })
+      .catch(error=>{
+        console.log(error);
+      })
+  }
+
+  React.useEffect(() => {
+    _get_data();
+  }, []);
+
   const styles = StyleSheet.create({
     mainframe: {
       flex: 1,
