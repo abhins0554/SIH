@@ -87,7 +87,9 @@ const SignupAPI = async (
         alert("SIGN UP Successful ");
       })
       .catch(function (error) {
-        console.log(error);
+        alert(error?.response?.data);
+        alert(error?.response);
+        alert(error);
       });
   } else if (address === '') {
     Toast.show({

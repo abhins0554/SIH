@@ -1,29 +1,25 @@
 {
-  "name": "MavenWithMongodbNodejs",
+  "name": "firebaseauthbackend",
   "version": "1.0.0",
-  "description": "",
+  "description": "testing firebase auth",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "test": "node index.js",
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "firebase"
+  ],
+  "author": "Abhishek Tripathi",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.929.0",
-    "axios": "^0.26.1",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.0",
     "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "firebase-admin": "^10.2.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.12",
-    "multer": "^1.4.2",
-    "nanoid": "^3.3.1",
-    "nodemailer": "^6.6.1",
-    "otp-generator": "^2.0.1",
-    "path": "^0.12.7"
+    "mongoose": "^6.3.3",
+    "multer": "^1.4.4"
   }
 }

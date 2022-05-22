@@ -7,6 +7,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 
 import {TextInput, Button} from 'react-native-paper';
@@ -22,6 +23,7 @@ import FontTheme from '../Theme/FontTheme';
 import ColorTheme from '../Theme/ColorTheme';
 import {NavigationContainer} from '@react-navigation/native';
 import LoginAPI from '../Api/LoginApi';
+import axios from 'axios';
 
 function LoginScreen({navigation}) {
   const [email, set_email] = useState('');
@@ -33,8 +35,18 @@ function LoginScreen({navigation}) {
   };
 
   const _email_pwd_login = async () => {
-    LoginAPI(email, password, navigation);
+    // LoginAPI(email, password, navigation);
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(response => {
+        LoginAPI(response,navigation,email);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
+
+
 
   const _sign = async () => {
     try {
@@ -144,59 +156,62 @@ function LoginScreen({navigation}) {
       <View style={{zIndex: 99}}>
         <Toast />
       </View>
-      <View style={styles.logocontainer}>
-        <Image
-          source={{
-            uri: 'https://uttarakhandtourism.gov.in/sites/default/files/2021-09/uttarakhand-logo-english.png',
-          }}
-          style={styles.applogo}
-          resizeMode={'cover'}
+      <ScrollView>
+        <View style={styles.logocontainer}>
+          <Image
+            source={{
+              uri: 'https://uttarakhandtourism.gov.in/sites/default/files/2021-09/uttarakhand-logo-english.png',
+            }}
+            style={styles.applogo}
+            resizeMode={'cover'}
+          />
+        </View>
+        <Text style={styles.heading}>Welcome Back!</Text>
+        <Text style={styles.subheading}>Log in to your existing account</Text>
+        <TextInput
+          label="Email"
+          value={email}
+          onChangeText={text => set_email(text)}
+          style={[styles.inputBoxStyle, {marginTop: 20}]}
         />
-      </View>
-      <Text style={styles.heading}>Welcome Back!</Text>
-      <Text style={styles.subheading}>Log in to your existing account</Text>
-      <TextInput
-        label="Email"
-        value={email}
-        onChangeText={text => set_email(text)}
-        style={[styles.inputBoxStyle, {marginTop: 20}]}
-      />
-      <TextInput
-        label="Password"
-        value={password}
-        onChangeText={text => set_password(text)}
-        style={[styles.inputBoxStyle, {marginTop: 20}]}
-        secureTextEntry={password_visible}
-        right={
-          password_visible ? (
-            <TextInput.Icon name="eye-off" onPress={changeSTE} />
-          ) : (
-            <TextInput.Icon name="eye" onPress={changeSTE} />
-          )
-        }
-      />
-      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-        <Text style={styles.forgotPassword}>Forgot Password ?</Text>
-      </TouchableOpacity>
-      <Button
-        mode="contained"
-        onPress={() => _email_pwd_login()}
-        style={{width: 150, alignSelf: 'center', marginTop: 15}}>
-        LogIn
-      </Button>
-      <Text style={[styles.forgotPassword, {textAlign: 'center', width: 250}]}>
-        Or Connect using Google
-      </Text>
-      <GoogleSigninButton
-        style={{width: 192, height: 48, alignSelf: 'center'}}
-        size={GoogleSigninButton.Size.Wide}
-        onPress={_sign}
-      />
-      <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
-        <Text style={[styles.forgotPassword, {textAlign: 'center'}]}>
-          Don't have an account? Signup
+        <TextInput
+          label="Password"
+          value={password}
+          onChangeText={text => set_password(text)}
+          style={[styles.inputBoxStyle, {marginTop: 20}]}
+          secureTextEntry={password_visible}
+          right={
+            password_visible ? (
+              <TextInput.Icon name="eye-off" onPress={changeSTE} />
+            ) : (
+              <TextInput.Icon name="eye" onPress={changeSTE} />
+            )
+          }
+        />
+        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+          <Text style={styles.forgotPassword}>Forgot Password ?</Text>
+        </TouchableOpacity>
+        <Button
+          mode="contained"
+          onPress={() => _email_pwd_login()}
+          style={{width: 150, alignSelf: 'center', marginTop: 15}}>
+          LogIn
+        </Button>
+        <Text
+          style={[styles.forgotPassword, {textAlign: 'center', width: 250}]}>
+          Or Connect using Google
         </Text>
-      </TouchableOpacity>
+        <GoogleSigninButton
+          style={{width: 192, height: 48, alignSelf: 'center'}}
+          size={GoogleSigninButton.Size.Wide}
+          onPress={_sign}
+        />
+        <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
+          <Text style={[styles.forgotPassword, {textAlign: 'center'}]}>
+            Don't have an account? Signup
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 }
