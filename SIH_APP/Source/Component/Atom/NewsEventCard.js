@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet, Dimensions, Image,TouchableOpacity} from 'react-native';
+import { BASE_URL } from '../../Constant/Constant';
 
 import ColorTheme from "../../Theme/ColorTheme";
 
-function NewsEventCard({navigation}) {
+function NewsEventCard({navigation,item}) {
   const styles = StyleSheet.create({
     cardframe: {
       width: Dimensions.get('window').width - 20,
@@ -34,7 +35,7 @@ function NewsEventCard({navigation}) {
   return (
     <TouchableOpacity style={styles.cardframe} onPress={navigation}>
       <Image
-        source={require('../../Assets/Image/kedarnath.jpg')}
+        source={{uri:`${BASE_URL}${item.image}`}}
         style={styles.img}
         resizeMode="cover"
       />
@@ -51,8 +52,8 @@ function NewsEventCard({navigation}) {
         }}
       />
       <View style={{position: 'absolute'}}>
-        <Text style={styles.headingtxt}>Kedarnath Temple</Text>
-        <Text style={styles.subheadingtxt}>A Kedarnath is a place to find th degnighty of shiva.</Text>
+        <Text style={styles.headingtxt} numberOfLines={2}>{item.title}</Text>
+        <Text style={styles.subheadingtxt} numberOfLines={1}>{item.description}</Text>
       </View>
     </TouchableOpacity>
   );

@@ -8,15 +8,20 @@ import Header from '../Component/Atom/Header';
 import colors from '../Theme/ColorTheme';
 import axios from 'axios';
 
+import auth from '@react-native-firebase/auth';
+
 function NewsScreen({navigation,props}) {
   const [news_category,set_category]=useState('all');
   const [news_data,set_news_data]=useState([]);
 
   const get_news = async () => {
-      await fetch_news(news_category)
+    const idTokenResult = await auth().currentUser.getIdTokenResult();
+
+      await fetch_news(idTokenResult)
       .then(response=>{
-        console.log(response.data);
-        alert("No data found");
+        if(response.data.code===200){
+          set_news_data(response?.data?.data);
+        }
       })
       .catch(error=>{
         console.log(error);
@@ -47,7 +52,7 @@ function NewsScreen({navigation,props}) {
     <SafeAreaView style={styles.mainframe}>
       <Header navigation={navigation} title={'News'} />
       <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <TouchableOpacity style={[styles.catgory,{backgroundColor:news_category==="all"?colors.primary:colors.secondary}]} onPress={()=>set_category('all')}>
             <Text style={[styles.catgorytxt,{color:news_category==="all"?"white":"black"}]}>All</Text>
           </TouchableOpacity>
@@ -69,7 +74,7 @@ function NewsScreen({navigation,props}) {
           <TouchableOpacity style={[styles.catgory,{backgroundColor:news_category==="business"?colors.primary:colors.secondary}]}  onPress={()=>set_category('business')}>
             <Text style={[styles.catgorytxt,{color:news_category==="business"?"white":"black"}]}>Business</Text>
           </TouchableOpacity>
-        </ScrollView>
+        </ScrollView> */}
         {news_data?.map((item,index)=>{
           return (
             <NewsEventCard
@@ -78,9 +83,6 @@ function NewsScreen({navigation,props}) {
           />
           )
         })}
-          <NewsEventCard
-            navigation={() => navigation.navigate('NewsDescriptionScreen',{item:item})}
-          />
 
       </ScrollView>
     </SafeAreaView>

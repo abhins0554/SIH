@@ -53,16 +53,16 @@ function LandingScreen({navigation}) {
   };
 
   const fetch_weather_Report = async () => {
-    WeatherAPICall()
     let granted = get_geo_location_permission();
     if (granted) {
       Geolocation.getCurrentPosition(
         position => {
-          // WeatherAPICall(position);
+          let url = `http://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&lang=${language}&appid=60a27bac5e46189541a2e929d81cf795`
+          WeatherAPICall(url);
         },
         error => {
           // See error code charts below.
-          console.log(error.code, error.message);
+          alert(error.code, error.message);
         },
         {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
       );
@@ -71,16 +71,12 @@ function LandingScreen({navigation}) {
     }
   };
 
-  async function WeatherAPICall(position) {
-    let token = await Get_Encrypted_AsyncStorage('text', 'token', 'SIH');
+  async function WeatherAPICall(url) {
+    console.log(url);
     fetch_weather(
-      "21.2093",
-      '81.3111',
-      language,
-      token,
+      url
     )
       .then(response => {
-        console.log(response.data);
         dispatch(weatherAction(response.data));
         setloading(false);
       })

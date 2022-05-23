@@ -1,11 +1,11 @@
 import axios from "axios";
 import { BASE_URL } from "../Constant/Constant";
 
-const fetch_news = async (idTokenResult) => {
+const fetch_event = async (idTokenResult) => {
     // let response = await axios.get(`${BASE_URL}newsevent/getNewsByCategory`,{
     //     category:category,
     // });
-    let response = await axios.get(`${BASE_URL}news/fetchAll`,{
+    let response = await axios.get(`${BASE_URL}event/fetchAll`,{
         headers: {
           authorization: `Bearer ${idTokenResult.token}`
         }
@@ -13,4 +13,4 @@ const fetch_news = async (idTokenResult) => {
     return response;
 }
 
-export default fetch_news;
+export default fetch_event;

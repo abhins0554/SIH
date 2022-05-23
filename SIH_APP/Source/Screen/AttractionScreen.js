@@ -79,7 +79,7 @@ function AttractionScreen({navigation}) {
         <View style={{flex: 1}}>
           <TouchableOpacity
             style={styles.att1container}
-            onPress={() => navigation.navigate('AttractionCategoryScreen')}>
+            onPress={() => navigation.navigate('AttractionCategoryScreen',{type:'chardham'})}>
             <Image
               source={require('../Assets/Image/kedarnath.jpg')}
               style={styles.attraction1img}
@@ -91,7 +91,7 @@ function AttractionScreen({navigation}) {
         <View style={{flex: 1, flexDirection: 'row'}}>
           <TouchableOpacity
             style={styles.att2container}
-            onPress={() => navigation.navigate('AttractionCategoryScreen')}>
+            onPress={() => navigation.navigate('AttractionCategoryScreen',{type:'cultural'})}>
             <Image
               source={{
                 uri: 'https://www.revv.co.in/blogs/wp-content/uploads/2020/07/Baijnath-Temple-700x445.jpg',
@@ -103,7 +103,7 @@ function AttractionScreen({navigation}) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.att2container}
-            onPress={() => navigation.navigate('AttractionCategoryScreen')}>
+            onPress={() => navigation.navigate('AttractionCategoryScreen',{type:'architecture'})}>
             <Image
               source={{
                 uri: 'https://www.tourmyindia.com/blog//wp-content/uploads/2015/07/Historical-Places-to-visit-in-Uttarakhand.jpg',
@@ -117,7 +117,7 @@ function AttractionScreen({navigation}) {
         <View style={{flex: 1, flexDirection: 'row'}}>
           <TouchableOpacity
             style={styles.att2container}
-            onPress={() => navigation.navigate('AttractionCategoryScreen')}>
+            onPress={() => navigation.navigate('AttractionCategoryScreen',{type:'museums'})}>
             <Image
               source={{
                 uri: 'https://img.traveltriangle.com/blog/wp-content/uploads/2019/04/cover-for-museums-in-dehradun.jpg',
@@ -125,11 +125,11 @@ function AttractionScreen({navigation}) {
               style={styles.attraction2img}
               resizeMode={'cover'}
             />
-            <Text style={styles.heading2}>Museumes</Text>
+            <Text style={styles.heading2}>Museums</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.att2container}
-            onPress={() => navigation.navigate('AttractionCategoryScreen')}>
+            onPress={() => navigation.navigate('AttractionCategoryScreen',{type:'camping'})}>
             <Image
               source={{
                 uri: 'https://ihplb.b-cdn.net/wp-content/uploads/2015/05/chopta.jpg',

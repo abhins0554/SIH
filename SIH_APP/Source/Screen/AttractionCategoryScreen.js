@@ -4,16 +4,18 @@ import { _fetchAttractionDataByCategory } from '../Api/AttractionAPI';
 
 import AttractionCard from '../Component/Atom/AttractionCard';
 import Header from '../Component/Atom/Header';
+import auth from '@react-native-firebase/auth';
 
 function AttractionCategoryScreen({navigation,route}) {
   
   const _get_data = async () => {
-    _fetchAttractionDataByCategory(route?.params?.category)
+    const idTokenResult = await auth().currentUser.getIdTokenResult();
+    _fetchAttractionDataByCategory(route?.params?.type,idTokenResult)
       .then(response=>{
         console.log(response.data);
       })
       .catch(error=>{
-        console.log(error);
+        console.log(error.response.data);
       })
   }
 

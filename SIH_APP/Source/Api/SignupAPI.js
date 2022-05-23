@@ -5,6 +5,9 @@ import moment from 'moment';
 import validateEmail from '../Validators/EmailValidation';
 import {BASE_URL} from '../Constant/Constant';
 
+
+import auth from '@react-native-firebase/auth';
+
 const SignupAPI = async (
   email,
   password,
@@ -41,56 +44,27 @@ const SignupAPI = async (
     data.append('name', name);
     data.append('email', email);
     data.append('mobile', mobile);
-    if (password) {
-      data.append('password', password);
-    }
-    if (googleId) {
-      data.append('googleId', googleId);
-    }
     data.append('address', address);
     data.append('pincode', pincode);
     data.append('country', country);
     data.append('city', city);
     data.append('state', state);
     data.append('adhaar_number', aadhar);
+    data.append('latitude',"82.0")
+    data.append('longitude',"21.5")
 
     data.append('gender', gender);
     data.append('dob', moment(dob).format('YYYY/MM/DD'));
     for (let i = 0; i < aadharImage.length; i++) {
-      let ext = aadharImage[i].mime.split('/').pop();
-      data.append('adhaar_pic', {
-        name: 'name' + String(Math.random()) + '.' + ext,
-        type: aadharImage[i].mime,
-        uri:
-          Platform.OS === 'android'
-            ? aadharImage[i].path
-            : aadharImage[i].uri.replace('file://', ''),
-      });
+      data.append('coverImage', aadharImage[i]);
     }
 
     for (let i = 0; i < selfieImage.length; i++) {
-      let ext = selfieImage[i].mime.split('/').pop();
-      data.append('selfie_pic', {
-        name: 'name' + String(Math.random()) + '.' + ext,
-        type: selfieImage[i].mime,
-        uri:
-          Platform.OS === 'android'
-            ? selfieImage[i].path
-            : selfieImage[i].uri.replace('file://', ''),
-      });
+      data.append('userImage', selfieImage[i]);
     }
-    console.log("response1");
-    axios
-      .post(`${BASE_URL}user/register`, data)
-      .then(function (response) {
-        console.log(response.data);
-        alert("SIGN UP Successful ");
-      })
-      .catch(function (error) {
-        alert(error?.response?.data);
-        alert(error?.response);
-        alert(error);
-      });
+    _email_signUp_firebase(email, password, "d", mobile, address, city, state, pincode, country, gender, selfieImage, aadharImage, name, "navigate");
+
+
   } else if (address === '') {
     Toast.show({
       type: 'error',
@@ -141,5 +115,66 @@ const SignupAPI = async (
     });
   }
 };
+
+
+const _email_signUp_firebase = async (email, password, rpassword, phone, address, city, state, pincode, country, gender, profileI, profileCover, name, navigate) => {
+
+  auth().createUserWithEmailAndPassword(email,password)
+  .then(response=>{
+    _apiSignUp(email, password, rpassword, phone, address, city, state, pincode, country, gender, profileI, profileCover, name, navigate);
+  })
+  .catch(error=>{
+    console.log(error);
+  })
+}
+
+
+const _apiSignUp = async (email, password, rpassword, phone, address, city, state, pincode, country, gender, profileI, profileCover, name, navigate) => {
+  const idTokenResult = await auth().currentUser.getIdTokenResult();
+  _send_data_to_node_server(idTokenResult.token, email, password, rpassword, phone, address, city, state, pincode, country, gender, profileI, profileCover, name, navigate)
+}
+
+
+
+const _send_data_to_node_server = async (t, email, password, rpassword, phone, address, city, state, pincode, country, gender, profileI, profileCover, name, navigate) => {
+  let data = new FormData();
+  data.append('name', name);
+  data.append('email', email);
+  data.append('mobile', phone);
+  data.append('address', address);
+  data.append('pincode', pincode);
+  data.append('city', city);
+  data.append('state', state);
+  data.append('country', country);
+  data.append('longitude', '80.21');
+  data.append('latitude', '21.55');
+  data.append('userImage',profileI);
+  data.append('coverImage',profileCover);
+  await axios.post(`${BASE_URL}user/signup`, data , {
+      headers: {
+          authorization: `Bearer ${t}`
+      }
+  })
+      .then(response => {
+          console.log(response.data);
+          if (response?.data?.code === 200) {
+              alert("SignUp Successful, Welcome User");
+              setTimeout(() => {
+                  // navigate('/home');
+              }, 700);
+          }
+          else if (response?.data?.code === 400) {
+              alert('400 Database Error');
+          }
+      })
+      .catch(error => {
+          if (error?.response?.status === 401) {
+              alert(error?.response?.statusText);
+          }
+          else {
+              alert(error?.response?.statusText);
+          }
+      })
+}
 
 export default SignupAPI;

@@ -4,8 +4,8 @@
   "description": "testing firebase auth",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js",
-    "start": "node index.js"
+    "test": "nodemon index.js",
+    "start": "nodemon index.js"
   },
   "keywords": [
     "firebase"
