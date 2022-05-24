@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {SafeAreaView, View, Text, StyleSheet, ScrollView} from 'react-native';
 import { _fetchAttractionDataByCategory } from '../Api/AttractionAPI';
 
 import AttractionCard from '../Component/Atom/AttractionCard';
 import Header from '../Component/Atom/Header';
 import auth from '@react-native-firebase/auth';
+import { Get_Encrypted_AsyncStorage } from 'react-native-encrypted-asyncstorage';
+import { BASE_URL } from '../Constant/Constant';
 
 function AttractionCategoryScreen({navigation,route}) {
+
+  const [attraction_list,set_attraction_list]=useState([]);
   
   const _get_data = async () => {
-    const idTokenResult = await auth().currentUser.getIdTokenResult();
-    _fetchAttractionDataByCategory(route?.params?.type,idTokenResult)
+    let token = await Get_Encrypted_AsyncStorage('text', 'token', 'SIH');
+    _fetchAttractionDataByCategory(route?.params?.type,token)
       .then(response=>{
-        console.log(response.data);
+        if(response.data.code===200){
+          set_attraction_list(response?.data?.data);
+        }
       })
       .catch(error=>{
         console.log(error.response.data);
@@ -32,42 +38,20 @@ function AttractionCategoryScreen({navigation,route}) {
     <SafeAreaView style={styles.mainframe}>
       <Header navigation={navigation} title={'Char Dham'} />
       <ScrollView style={{flex: 1}}>
-        <AttractionCard
-          navigation={navigation}
-          title={'Kedarnath'}
-          subtitle={
-            'Kedarnath is a town in Rudraprayag district in the state of Uttarakhand in India and has gained importance because of the Kedarnath Temple. It is approximately 86 kilometres from Rudraprayag, the district headquarter. It is a Nagar panchayat in the Rudraprayag district. '
-          }
-          image={
-            'https://www.euttaranchal.com/tourism/photos/kedarnath-2240900.jpg'
-          }
-        />
-        <AttractionCard
-          navigation={navigation}
-          title={'Badrinath'}
-          image={
-            'https://i0.wp.com/www.opindia.com/wp-content/uploads/2021/07/lord-badrinath-temple-lord-vishnu_g.jpeg?fit=1200%2C900&ssl=1'
-          }
-          subtitle={`Badrinath is a town and nagar panchayat in Chamoli district in the state of Uttarakhand, India. A Hindu holy place, it is one of the four sites in India's Char Dham pilgrimage and is also part of India's Chota Char Dham pilgrimage circuit. It gets its name from the Badrinath Temple`}
-        />
-        <AttractionCard
-          navigation={navigation}
-          title={'Yamunotri'}
-          image={
-            'https://upload.wikimedia.org/wikipedia/commons/8/88/Yamunotri_temple_and_ashram.jpg'
-          }
-          subtitle={
-            'Yamunotri, also Jamnotri, is the source of the Yamuna River and the seat of the Goddess Yamuna in Hinduism. '
-          }
-        />
-        <AttractionCard
-          navigation={navigation}
-          title={'Gangotri'}
-          image={'https://static.toiimg.com/img/87566657/Master.jpg'}
-          subtitle={
-            'Gangotri is a town and a Nagar Panchayat in Uttarkashi district in the state of Uttarakhand, India. It is 99 km from Uttarkashi, the main district headquarter. It is a Hindu pilgrim town on the banks of the river Bhagirathi and origin of the river Ganges.'
-          }
-        />
+        {
+          attraction_list.map((item,index)=>{
+            return (
+              <AttractionCard
+              key={index}
+              navigation={navigation}
+              item={item}
+              title={item?.name}
+              subtitle={item?.description}
+              image={`${BASE_URL}${item?.image}`}
+            />
+            )
+          })
+        }
       </ScrollView>
     </SafeAreaView>
   );

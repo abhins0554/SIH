@@ -10,7 +10,7 @@ import {
 
 import ColorTheme from '../../Theme/ColorTheme';
 
-function AttractionCard({navigation, title, subtitle, image}) {
+function AttractionCard({navigation, title, subtitle, image,item}) {
   const styles = StyleSheet.create({
     cardframe: {
       width: Dimensions.get('window').width - 20,
@@ -44,7 +44,7 @@ function AttractionCard({navigation, title, subtitle, image}) {
     <TouchableOpacity
       style={styles.cardframe}
       onPress={() =>
-        navigation.navigate('AttractionDetails', {subtitle: subtitle})
+        navigation.navigate('AttractionDetails', {item:item})
       }>
       <Image source={{uri: image}} style={styles.img} resizeMode="cover" />
       <View

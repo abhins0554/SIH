@@ -18,7 +18,6 @@ import {BASE_URL} from '../../Constant/Constant';
 
 function Drawer({navigation, modalState, modalToggle}) {
   const userData = useSelector(s => s.userdata.userdata);
-
   const _logout = async () => {
     AsyncStorage.clear();
     RNRestart.Restart();
@@ -90,10 +89,11 @@ function Drawer({navigation, modalState, modalToggle}) {
             style={{textAlign: 'right', margin: 10}}
             size={30}
             color={colors.primary}
+            onPress={modalToggle}
           />
           <Image
             source={{
-              uri: `${BASE_URL}${userData.selfie_pic}`,
+              uri: `${BASE_URL}${userData.personalImage.pI1}`,
             }}
             style={styles.userProfilePicture}
           />

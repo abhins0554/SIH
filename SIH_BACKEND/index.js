@@ -38,6 +38,10 @@ app.use("/event",eventRoute);
 app.use('/news',newsRoute);
 app.use('/attraction',attractionRoute);
 
+app.get('/test',(req,res)=>{
+  res.send("Network Working !");
+})
+
 // app.post("/api/v1/upload", upload.single("image"), (req, res) => {
 //   if (!req.file) {
 //     console.log("No file upload");

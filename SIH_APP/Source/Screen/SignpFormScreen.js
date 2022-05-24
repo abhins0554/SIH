@@ -66,6 +66,7 @@ function SignpScanner({navigation, route}) {
         gender,
         aadharImage,
         selfieImage,
+        navigation,
       );
     } else {
       Toast.show({

@@ -37,7 +37,7 @@ function LandingScreen({navigation}) {
   const [show_nearby, set_show_nearby] = useState(false);
   const weather_data = useSelector(state => state.weather.weather);
   const language = useSelector(state => state.language.language);
-  const [loading, setloading] = useState(true);
+  const [loading, setloading] = useState(false);
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -62,9 +62,10 @@ function LandingScreen({navigation}) {
         },
         error => {
           // See error code charts below.
-          alert(error.code, error.message);
+          alert("Location Error",error.code, error.message);
+          console.log("LE",error);
         },
-        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+        {enableHighAccuracy: true, timeout: 25000},
       );
     } else {
       alert('Location Permission is necessary for smooth onboarding process');
@@ -72,7 +73,6 @@ function LandingScreen({navigation}) {
   };
 
   async function WeatherAPICall(url) {
-    console.log(url);
     fetch_weather(
       url
     )

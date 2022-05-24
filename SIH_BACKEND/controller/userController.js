@@ -100,3 +100,9 @@ exports.userDataAll = async (req,res) => {
     }
   })
 }
+
+
+
+exports.getTest = async (req,res) => {
+  res.send("token validated and success");
+}

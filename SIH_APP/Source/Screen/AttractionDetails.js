@@ -16,14 +16,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import VideoPlayer from 'react-native-video-player';
 
 import Header from '../Component/Atom/Header';
+import { BASE_URL } from '../Constant/Constant';
 import ColorTheme from '../Theme/ColorTheme';
 
 function AttractionDetails({navigation, route}) {
   const [active_tab, set_active_tab] = useState('info');
   const images = [
-    'https://www.euttaranchal.com/tourism/photos/kedarnath-2240900.jpg',
-    'https://static.toiimg.com/thumb/75601271.cms?resizemode=75&width=1200&height=900',
-    'https://badrinath-kedarnath.gov.in/Assets/image/k3.jpg',
+    `${BASE_URL}${route?.params?.item?.image}`,
   ];
   const styles = StyleSheet.create({
     mainframe: {
@@ -52,7 +51,7 @@ function AttractionDetails({navigation, route}) {
   });
   return (
     <SafeAreaView style={styles.mainframe}>
-      <Header navigation={navigation} title={'Kedarnath'} />
+      <Header navigation={navigation} title={route?.params?.item?.name} />
       <ScrollView style={{flex: 1}}>
         <SliderBox
           images={images}
@@ -149,7 +148,7 @@ function AttractionDetails({navigation, route}) {
         />
         {active_tab === 'info' ? (
           <>
-            <Text style={styles.descriptiontxt}>{route.params.subtitle}</Text>
+            <Text style={styles.descriptiontxt}>{route?.params?.item?.description}</Text>
             <View style={{flexDirection: 'row'}}>
               <View style={{flex: 1}}>
                 <View style={{flexDirection: 'row', alignSelf: 'center'}}>
@@ -211,9 +210,9 @@ function AttractionDetails({navigation, route}) {
                 fontWeight: '700',
                 marginVertical: 20,
               }}>
-              Nodal Officer :- +919876543210
+              Nodal Officer :- {route?.params?.item?.phone}
             </Text>
-            <Text
+            {/* <Text
               style={{
                 textAlign: 'left',
                 color: ColorTheme.textSecondary,
@@ -223,7 +222,7 @@ function AttractionDetails({navigation, route}) {
                 marginVertical: 20,
               }}>
               Website :- kedarnath.gov.in
-            </Text>
+            </Text> */}
             <Text
               style={{
                 textAlign: 'left',
@@ -233,19 +232,25 @@ function AttractionDetails({navigation, route}) {
                 fontWeight: '700',
                 marginVertical: 20,
               }}>
-              Email :- kedarnath@gov.in
+              Email :- {route?.params?.item?.email}
             </Text>
           </>
         ) : active_tab === 'video' ? (
           <>
             <VideoPlayer
               video={{
-                uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                uri: route?.params?.item?.video
               }}
               videoWidth={1600}
               videoHeight={900}
               thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
             />
+                {/* <WebView
+        style={ {  marginTop: (Platform.OS == 'ios') ? 20 : 0,} }
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
+        source={{uri: 'https://www.youtube.com/embed/'+this.state.pictureData.idVideo }}
+    /> */}
           </>
         ) : active_tab === 'nearby' ? (
           <></>
