@@ -3,7 +3,7 @@ const router = express.Router();
 const validateToken = require("../Middleware/jwtValidation");
 const controller = require("../controller/userController");
 
-router.post("/signup",controller.upload.fields([
+router.post("/signup",validateToken,controller.upload.fields([
     {name:'userImage',maxCount:1},
     {name:'coverImage',maxCount:1},
 ]), controller.userSignup);
