@@ -3,25 +3,44 @@ import NavBar from "../component/NavBar";
 
 import $ from "jquery";
 import { Link } from "react-router-dom";
+import { _add_attrcation, _fetch_attraction_data } from "../services/attractionService";
 
 import Modal from "react-modal";
-import { _fetch_user_data_mongodDB } from "../services/homeServices";
+import { toast } from "react-toastify";
 
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
+function Attraction(props) {
 
-function Home(props) {
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
+
   function toggledrawer(params) {
     $("#sidebar").toggleClass("active");
   }
+
+  const [attraction_list,set_attraction_list]=useState([]);
+
+  const _get_data = async () => {
+    _fetch_attraction_data()
+      .then((response) => {
+        set_attraction_list(response?.data?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  React.useEffect(() => {
+    _get_data();
+  }, []);
+
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -33,24 +52,31 @@ function Home(props) {
     setIsOpen(false);
   }
 
-  const [user_list, set_user_list] = useState([]);
 
-  const _getData = async () => {
-    _fetch_user_data_mongodDB()
-      .then((response) => {
-        set_user_list(response?.data?.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const [name,set_name]=useState("");
+  const [description,set_description]=useState("");
+  const [image,set_image]=useState("");
+  const [longitude,set_longitude]=useState("");
+  const [latitude,set_latitude]=useState("");
+  const [category,set_category]=useState("");
+  const [cEmail,set_cEmail]=useState("");
+  const [cPhone,set_cPhone]=useState("");
+  const [videoLink,set_videoLink]=useState("");
 
-  React.useEffect(() => {
-    _getData();
-    setTimeout(() => {
-      _getData();
-    }, 5000);
-  }, []);
+  const add_news = async () => {
+    _add_attrcation(name,description,image,longitude,latitude,category,cEmail,cPhone,videoLink)
+    .then(response=>{
+      if(response.data.code===200){
+          response.data.message
+          toast.success(response?.data?.message);
+          closeModal();
+          _get_data();
+      }
+    })
+    .catch(error=>{
+      console.log(error);
+    })
+  }
 
   return (
     <div className="wrapper">
@@ -77,36 +103,39 @@ function Home(props) {
           <thead className="thead-primary">
             <tr>
               <th>Id</th>
-              <th>Name</th>
+              <th>Title</th>
               <th />
-              <th>Email</th>
+              <th>Description</th>
               <th />
               <th />
-              <th>Mobile No</th>
-              <th>State</th>
+              <th>Date</th>
               <th />
-              <th>Last Location</th>
+              <th>Location</th>
+              <th/>
+              <th>Category</th>
               <th></th>
               <th />
               <th>Action</th>
             </tr>
           </thead>
           <tbody style={{ height: "75vh", overflow: "scroll" }}>
-            {user_list.map((item, index) => {
+            {attraction_list.map((item, index) => {
               return (
                 <tr className="alert" role="alert" id={item._id}>
                   <td>{index + 1}</td>
                   <td>{item?.name}</td>
                   <td>
                     <div className="email">
-                      <span>{item?.email}</span>
+                      <span className="wrapperText">{item?.description}</span>
                       {/* <span>Fugiat voluptates quasi nemo, ipsa perferendis</span>s */}
                     </div>
                   </td>
-                  <td>{item?.mobile}</td>
-                  <td className="quantity">{item?.state}</td>
+                  <td>{item?.createdOn}</td>
                   <td>
                     <Link to="/">Click Here</Link>
+                  </td>
+                  <td>
+                    {item?.category.toUpperCase()}
                   </td>
                   <td className="d-flex justify-content-around">
                     <button
@@ -138,75 +167,92 @@ function Home(props) {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <h2>Add User</h2>
+        <h2>Add Attraction</h2>
         <button onClick={closeModal}>close</button>
         <form onSubmit={(e) => e.preventDefault()}>
-          <div className="form-group">
             <div className="form-wrapper">
               <label htmlFor="">Name:</label>
               <div className="form-holder">
-                <input type="text" className="form-control" />
+                <input type="text" className="form-control" value={name} onChange={e=>set_name(e.target.value)} />
               </div>
             </div>
-            <div className="form-wrapper">
-              <label htmlFor="">Email:</label>
-              <div className="form-holder">
-                <input type="text" className="form-control" />
-              </div>
-            </div>
-          </div>
           <div className="form-group">
             <div className="form-wrapper">
-              <label htmlFor="">Password:</label>
+              <label htmlFor="">Latitude:</label>
               <div className="form-holder">
                 <input
-                  type="password"
+                  type="text"
                   className="form-control"
-                  placeholder="********"
+                  value={latitude} onChange={e=>set_latitude(e.target.value)}
                 />
               </div>
             </div>
             <div className="form-wrapper">
-              <label htmlFor="">Re-Password:</label>
+              <label htmlFor="">Longitude:</label>
               <div className="form-holder">
                 <input
-                  type="password"
+                  type="text"
                   className="form-control"
-                  placeholder="********"
+                  value={longitude} onChange={e=>set_longitude(e.target.value)}
                 />
               </div>
             </div>
           </div>
           <div className="form-group">
             <div className="form-wrapper">
-              <label htmlFor="">Address:</label>
+              <label htmlFor="">Contact Email:</label>
               <div className="form-holder">
-                <input type="text" className="form-control" />
+                <input
+                  type="text"
+                  className="form-control"
+                  value={cEmail} onChange={e=>set_cEmail(e.target.value)}
+                />
               </div>
             </div>
             <div className="form-wrapper">
-              <label htmlFor="">City:</label>
+              <label htmlFor="">Contact Phone:</label>
               <div className="form-holder">
-                <input type="text" className="form-control" />
+                <input
+                  type="text"
+                  className="form-control"
+                  value={cPhone} onChange={e=>set_cPhone(e.target.value)}
+                />
               </div>
             </div>
           </div>
-          <div className="form-group">
             <div className="form-wrapper">
-              <label htmlFor="">Pincode:</label>
+              <label htmlFor="">Description:</label>
               <div className="form-holder">
-                <input type="text" className="form-control" />
+                <textarea type="text" className="form-control" value={description} onChange={e=>set_description(e.target.value)} />
               </div>
             </div>
             <div className="form-wrapper">
-              <label htmlFor="">State:</label>
+              <label htmlFor="">Category:</label>
               <div className="form-holder">
-                <input type="text" className="form-control" />
+                <select value={category} onChange={e=>set_category(e.target.value)}>
+                  <option>Select Option</option>
+                  <option value={"chardham"}>CHAR DHAM</option>
+                  <option value={"cultural"}>CULTURAL</option>
+                  <option value={"architecture"}>ARCHITECTURE</option>
+                  <option value={"museums"}>MUSEUMS</option>
+                  <option value={"camping"}>CAMPING</option>
+                </select>
               </div>
             </div>
-          </div>
+            <div className="form-wrapper">
+              <label htmlFor="">Video Link:</label>
+              <div className="form-holder">
+                <input type="text"  className="form-control" value={videoLink} onChange={e=>set_videoLink(e.target.value)} />
+              </div>
+            </div>
+            <div className="form-wrapper">
+              <label htmlFor="">Image:</label>
+              <div className="form-holder">
+                <input type="file"  className="form-control" accept="image/*" onChange={e=>set_image(e.target.files[0])} />
+              </div>
+            </div>
           <div className="d-flex justify-content-around">
-            <button>Add</button>
+            <button onClick={()=>add_news()}>Add</button>
           </div>
         </form>
       </Modal>
@@ -214,4 +260,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default Attraction;

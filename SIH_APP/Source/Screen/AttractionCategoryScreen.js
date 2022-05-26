@@ -13,8 +13,7 @@ function AttractionCategoryScreen({navigation,route}) {
   const [attraction_list,set_attraction_list]=useState([]);
   
   const _get_data = async () => {
-    let token = await Get_Encrypted_AsyncStorage('text', 'token', 'SIH');
-    _fetchAttractionDataByCategory(route?.params?.type,token)
+    _fetchAttractionDataByCategory(route?.params?.type)
       .then(response=>{
         if(response.data.code===200){
           set_attraction_list(response?.data?.data);

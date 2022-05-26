@@ -13,6 +13,8 @@ import SignUp from '../pages/Signup';
 
 import { onIdTokenChanged } from 'firebase/auth'
 import News from '../pages/News';
+import Event from '../pages/Event';
+import Attraction from '../pages/Attraction';
 
 function Router() {
 
@@ -30,7 +32,7 @@ function Router() {
   return (
     <>
       {
-        !user&&login ?
+        !user&&!login ?
           <>
             <BrowserRouter>
               <Routes>
@@ -47,6 +49,8 @@ function Router() {
                     <Route path="/" exact element={<Home />} />
                     <Route path="/home" exact element={<Home />} />
                     <Route path="/news" exact element={<News />} />
+                    <Route path="/event" exact element={<Event />} />
+                    <Route path="/attraction" exact element={<Attraction />} />
                   </Routes>
                 </BrowserRouter>
           </>

@@ -2,6 +2,7 @@ import { auth } from "../configs/firebase";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import axios from "axios";
+import { BASE_URL } from "../constant/constant";
 
 export const _User_signUp = async (email, password, rpassword, phone, address, city, state, pincode, country, gender, profileI, profileCover, name, navigate) => {
     if (email && password && rpassword && phone && address && city && state && pincode && country && gender && profileI && profileCover && name && password === rpassword && password.length >= 6) {
@@ -47,7 +48,7 @@ const _send_data_to_node_server = async (t, email, password, rpassword, phone, a
     data.append('latitude', '21.55');
     data.append('userImage',profileI);
     data.append('coverImage',profileCover);
-    await axios.post('/user/signup', data , {
+    await axios.post(`${BASE_URL}/user/signup`, data , {
         headers: {
             authorization: `Bearer ${t}`
         }

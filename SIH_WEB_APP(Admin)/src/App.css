@@ -262,3 +262,14 @@ a {
 }
 
 
+
+
+
+
+.wrapperText {
+  display: block;
+  width: 180px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

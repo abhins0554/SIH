@@ -2,6 +2,7 @@ import { auth } from "../configs/firebase";
 import { toast } from "react-toastify";
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import axios from 'axios';
+import { BASE_URL } from "../constant/constant";
 
 export const _userLogin = async (email,password,navigate) => {
     signInWithEmailAndPassword(auth,email,password)
@@ -39,7 +40,7 @@ export const _userLogin = async (email,password,navigate) => {
 
 
 const _send_data_to_node_server = async (t, email, navigate) => {
-    await axios.post('/user/login', {
+    await axios.post(`${BASE_URL}/user/login`, {
         email:email,
     } , {
         headers: {

@@ -1,18 +1,12 @@
 import axios from "axios";
-let t = localStorage.getItem('token');
+import { BASE_URL } from "../constant/constant";
+
 
 export const _fetch_user_data_mongodDB = async () => {
-    let response = await axios.get('/user/get_allUserDataMongoDB',{
-        headers:{
-            authorization:`Bearer ${t}`
-        }
-    });
-    return response;
-}
-
-
-export const _fetch_user_data_firebase = async () => {
-    let response = await axios.get('/user/get_allUserDataFirebase',{
+    let t =await localStorage.getItem('token');
+    let response = await axios.post(`${BASE_URL}/user/fetchUser`,{
+        data:'data',
+    },{
         headers:{
             authorization:`Bearer ${t}`
         }

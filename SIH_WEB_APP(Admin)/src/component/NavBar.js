@@ -2,12 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../css/navbar.css";
 
+import {signOut}  from 'firebase/auth'
+
 function NavBar(props) {
+
+    const logout = async () => {
+        localStorage.clear();
+        window.location.href();
+    }
+
     return (
         <div>
             <nav id="sidebar">
                 <div className="sidebar-header">
-                    <h3>UT Tourism</h3>
+                    <h3>UK Tourism</h3>
                 </div>
 
                 <ul className="list-unstyled components">
@@ -24,7 +32,7 @@ function NavBar(props) {
                         <Link to="/attraction">Attraction Management</Link>
                     </li>
                     <li>
-                        <Link to="/disaster">Disaster Management</Link>
+                        <a onClick={()=>logout()}>Logout</a>
                     </li>
                 </ul>
             </nav>
