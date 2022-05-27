@@ -15,6 +15,7 @@ import { onIdTokenChanged } from 'firebase/auth'
 import News from '../pages/News';
 import Event from '../pages/Event';
 import Attraction from '../pages/Attraction';
+import Accommodation from '../pages/Accommodation';
 
 function Router() {
 
@@ -51,6 +52,7 @@ function Router() {
                     <Route path="/news" exact element={<News />} />
                     <Route path="/event" exact element={<Event />} />
                     <Route path="/attraction" exact element={<Attraction />} />
+                    <Route path="/accommodation" exact element={<Accommodation />} />
                   </Routes>
                 </BrowserRouter>
           </>

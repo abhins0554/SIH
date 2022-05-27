@@ -21,13 +21,11 @@ import {Button} from 'react-native-paper';
 import Header from '../Component/Atom/Header';
 import ColorTheme from '../Theme/ColorTheme';
 import _create_payment from '../Services/PaymentGateway';
+import { Image_BASE_URL } from '../Constant/Constant';
 
-function AccomodationDetailScreen({navigation}) {
+function AccomodationDetailScreen({navigation,route}) {
   const images = [
-    'https://source.unsplash.com/1024x768/?nature',
-    'https://source.unsplash.com/1024x768/?water',
-    'https://source.unsplash.com/1024x768/?girl',
-    'https://source.unsplash.com/1024x768/?tree',
+    `${Image_BASE_URL}${route?.params?.item?.image}`
   ];
   const [datefrom, setDatefrom] = useState(new Date(1598051730000));
   const [dateto, setDateto] = useState(new Date(1598051730000));
@@ -35,20 +33,31 @@ function AccomodationDetailScreen({navigation}) {
   const [showfrom, setShowfrom] = useState(false);
   const [showto, setShowto] = useState(false);
   const userData = useSelector(S => S.userdata.userdata);
-
-  console.log(userData);
+  const [date_diff,set_date_diff]=useState(1);
 
   const onChangeDateFrom = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShowfrom(false);
     setDatefrom(currentDate);
+    setTimeout(() => {
+      get_time_diff();
+    }, 700);
   };
 
   const onChangeDateTo = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShowto(false);
     setDateto(currentDate);
+    setTimeout(() => {
+      get_time_diff();
+    }, 700);
   };
+
+  const get_time_diff = async () => {
+    let a = moment(dateto)
+    let b = moment(datefrom)
+    set_date_diff(a.diff(b, 'days'))
+  }
 
   const showDatepickerfrom = currentMode => {
     setShowfrom(true);
@@ -78,7 +87,7 @@ function AccomodationDetailScreen({navigation}) {
               {fontSize: 14, marginRight: 20, marginLeft: 20},
             ]}
             numberOfLines={1}>
-            Acura Night Shine
+            {route?.params?.item?.name}
           </Text>
           <Text
             style={[
@@ -86,7 +95,7 @@ function AccomodationDetailScreen({navigation}) {
               {fontSize: 12, marginRight: 20, marginLeft: 20},
             ]}
             numberOfLines={1}>
-            The hotel description
+            {route?.params?.item?.description}
           </Text>
         </View>
         <View
@@ -109,7 +118,7 @@ function AccomodationDetailScreen({navigation}) {
             <Text
               style={[styles.datanametxt, {color: '#303633'}]}
               numberOfLines={1}>
-              ₹ 957.500
+              ₹ {route?.params?.item?.price}
             </Text>
           </View>
           <View style={styles.seperator} />
@@ -227,11 +236,11 @@ function AccomodationDetailScreen({navigation}) {
             style={{flexDirection: 'row', marginTop: 5}}
             onPress={showDatepickerto}>
             <Text style={styles.dateheading}>Total Price :- </Text>
-            <Text style={styles.datetxt}>₹ 2500</Text>
+            <Text style={styles.datetxt}>₹ {route?.params?.item?.price*date_diff}</Text>
           </View>
           <Button
             mode="contained"
-            onPress={() => _create_payment(userData, 2500)}
+            onPress={() => _create_payment(userData, route?.params?.item?.price*date_diff)}
             style={{width: 150, alignSelf: 'center', marginTop: 15}}>
             Book Now
           </Button>
@@ -256,7 +265,7 @@ function AccomodationDetailScreen({navigation}) {
           </View>
           <View style={{flexDirection: 'row', marginTop: 0, marginBottom: 5}}>
             <Image
-              source={require('../Assets/Image/ac_active.png')}
+              source={require(`../Assets/Image/ac_active.png`)}
               style={{height: 35, width: 35}}
             />
           </View>

@@ -12,6 +12,7 @@ const userRouter = require("./router/userRoute");
 const eventRoute = require("./router/eventRoute");
 const newsRoute = require('./router/newsRoute');
 const attractionRoute = require('./router/attractionRoute');
+const accommodationRoute = require('./router/accommodationRoute');
 
 const serviceAccount = require("./serviceAccountKey.json");
 
@@ -37,6 +38,7 @@ app.use("/user", userRouter);
 app.use("/event",eventRoute);
 app.use('/news',newsRoute);
 app.use('/attraction',attractionRoute);
+app.use('/accommodation',accommodationRoute);
 
 app.get('/test',(req,res)=>{
   res.send("Network Working !");

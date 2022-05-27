@@ -13,4 +13,6 @@ router.get('/fetchAll',validateToken,controller.newsAllFetch);
 router.post('/updateNews',validateToken,controller.updateNews);
 router.post('/deleteNews',validateToken,controller.deleteNews);
 
+router.get('/test',controller.testNews);
+
 module.exports = router;

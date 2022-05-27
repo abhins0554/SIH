@@ -14,7 +14,7 @@ import RNRestart from 'react-native-restart';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import colors from '../../Theme/ColorTheme';
-import {BASE_URL} from '../../Constant/Constant';
+import {Image_BASE_URL} from '../../Constant/Constant';
 
 function Drawer({navigation, modalState, modalToggle}) {
   const userData = useSelector(s => s.userdata.userdata);
@@ -93,7 +93,7 @@ function Drawer({navigation, modalState, modalToggle}) {
           />
           <Image
             source={{
-              uri: `${BASE_URL}${userData.personalImage.pI1}`,
+              uri: `${Image_BASE_URL}${userData.personalImage.pI1}`,
             }}
             style={styles.userProfilePicture}
           />

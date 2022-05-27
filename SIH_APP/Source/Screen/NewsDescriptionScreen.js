@@ -5,12 +5,12 @@ import {SafeAreaView, StyleSheet, View, Text,ScrollView} from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
 
 import Header from '../Component/Atom/Header';
-import { BASE_URL } from '../Constant/Constant';
+import { BASE_URL,Image_BASE_URL } from '../Constant/Constant';
 import ColorTheme from '../Theme/ColorTheme';
 
 function NewsDescriptionScreen({navigation,route}) {
   const images = [
-    `${BASE_URL}${route?.params?.item?.image}`,
+    `${Image_BASE_URL}${route?.params?.item?.image}`,
   ];
   const styles = StyleSheet.create({
     mainframe: {

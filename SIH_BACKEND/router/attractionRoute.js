@@ -9,7 +9,7 @@ router.post("/createAttraction",validateToken,uploadController.upload.fields([
     {name:'attractionImage',maxCount:1},
 ]), controller.createAttraction);
 
-router.get('/fetchByCategory',validateToken,controller.attractionByCategory);
+router.get('/fetchByCategory',controller.attractionByCategory);
 router.get('/fetchAll',validateToken,controller.attractionAllFetch);
 router.post('/updateAttraction',validateToken,controller.updateAttraction);
 router.post('/deleteAttraction',validateToken,controller.deleteAttraction);

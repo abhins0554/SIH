@@ -1,8 +1,10 @@
-import React from 'react';
-import {SafeAreaView, StyleSheet, View, ScrollView} from 'react-native';
+import React,{useState} from 'react';
+import {SafeAreaView, StyleSheet, View, ScrollView, FlatList} from 'react-native';
 
 import Header from '../Component/Atom/Header';
 import AccomodationCard from '../Component/Atom/AccomodationCard';
+import { getAccomodattion } from '../Api/AccAPI';
+import { BASE_URL, Image_BASE_URL } from '../Constant/Constant';
 
 function AccomodationScreen({navigation}) {
   const styles = StyleSheet.create({
@@ -10,98 +12,51 @@ function AccomodationScreen({navigation}) {
       flex: 1,
     },
   });
+
+  const [data,set_data]=useState([]);
+
+  const get_data= async () => {
+    getAccomodattion()
+    .then(response=>{
+      if (response.data.code===200) {
+        set_data(response?.data?.data);
+      }
+    })
+    .catch(error=>{
+      console.log(error);
+    })
+  }
+
+  React.useEffect(() => {
+    get_data();
+    console.log("hero");
+  }, []);
+
+
   return (
     <SafeAreaView style={styles.mainframe}>
-      <Header title={'Accomodation'} />
+      <Header title={'Accomodation'} navigation={navigation} />
       <ScrollView>
-        <View style={{flexDirection: 'row'}}>
-          <AccomodationCard
-            hotel_name={'UNAHotels Deco Roma'}
-            price={'600'}
-            feature={'Wifi, Breakfast, Parking'}
+      <FlatList 
+        data={data}
+        keyExtractor={data=>data._id}
+        renderItem={({item,index})=>{
+          return(
+            <AccomodationCard
+            hotel_name={item?.name}
+            price={item?.price}
+            feature={item?.tags}
             no_of_reviews={'20'}
-            image={
-              'https://www.swissotel.com/assets/0/92/3686/3768/3770/6442451433/ae87da19-9f23-450a-8927-6f4c700aa104.jpg'
-            }
+            image={`${Image_BASE_URL}${item?.image}`}
+            item={item}
             navigation={navigation}
           />
-          <AccomodationCard
-            hotel_name={'UNAHotels Deco Roma2'}
-            price={'900'}
-            feature={'Breakfast, Parking'}
-            no_of_reviews={'600'}
-            image={
-              'https://www.swissotel.com/assets/0/92/3686/3768/3770/6442451433/ae87da19-9f23-450a-8927-6f4c700aa104.jpg'
-            }
-            navigation={navigation}
-          />
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <AccomodationCard
-            hotel_name={'Amit Internation'}
-            price={'600'}
-            feature={'Wifi, Breakfast, Parking'}
-            no_of_reviews={'20'}
-            image={
-              'https://www.swissotel.com/assets/0/92/3686/3768/3770/6442451433/ae87da19-9f23-450a-8927-6f4c700aa104.jpg'
-            }
-            navigation={navigation}
-          />
-          <AccomodationCard
-            hotel_name={'Dream Night Stay'}
-            price={'900'}
-            feature={'Breakfast, Parking'}
-            no_of_reviews={'600'}
-            image={
-              'https://www.swissotel.com/assets/0/92/3686/3768/3770/6442451433/ae87da19-9f23-450a-8927-6f4c700aa104.jpg'
-            }
-            navigation={navigation}
-          />
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <AccomodationCard
-            hotel_name={'UNAHotels Deco Roma'}
-            price={'600'}
-            feature={'Wifi, Breakfast, Parking'}
-            no_of_reviews={'20'}
-            image={
-              'https://www.swissotel.com/assets/0/92/3686/3768/3770/6442451433/ae87da19-9f23-450a-8927-6f4c700aa104.jpg'
-            }
-            navigation={navigation}
-          />
-          <AccomodationCard
-            hotel_name={'UNAHotels Deco Roma2'}
-            price={'900'}
-            feature={'Breakfast, Parking'}
-            no_of_reviews={'600'}
-            image={
-              'https://www.swissotel.com/assets/0/92/3686/3768/3770/6442451433/ae87da19-9f23-450a-8927-6f4c700aa104.jpg'
-            }
-            navigation={navigation}
-          />
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <AccomodationCard
-            hotel_name={'Amit Internation'}
-            price={'600'}
-            feature={'Wifi, Breakfast, Parking'}
-            no_of_reviews={'20'}
-            image={
-              'https://www.swissotel.com/assets/0/92/3686/3768/3770/6442451433/ae87da19-9f23-450a-8927-6f4c700aa104.jpg'
-            }
-            navigation={navigation}
-          />
-          <AccomodationCard
-            hotel_name={'Dream Night Stay'}
-            price={'900'}
-            feature={'Breakfast, Parking'}
-            no_of_reviews={'600'}
-            image={
-              'https://www.swissotel.com/assets/0/92/3686/3768/3770/6442451433/ae87da19-9f23-450a-8927-6f4c700aa104.jpg'
-            }
-            navigation={navigation}
-          />
-        </View>
+          )
+        }}
+        numColumns={2}
+      />
+          
+
       </ScrollView>
     </SafeAreaView>
   );

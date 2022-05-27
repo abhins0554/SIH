@@ -20,7 +20,8 @@ function AccomodationCard({
   feature,
   no_of_reviews,
   rating,
-  navigation
+  navigation,
+  item,
 }) {
   const styles = StyleSheet.create({
     cardview: {
@@ -56,7 +57,7 @@ function AccomodationCard({
     },
   });
   return (
-    <TouchableOpacity style={styles.cardview} onPress={()=>navigation.navigate('AccomodationDetailScreen')}>
+    <TouchableOpacity style={styles.cardview} onPress={()=>navigation.navigate('AccomodationDetailScreen',{item:item})}>
       <Image
         source={{
           uri: image,

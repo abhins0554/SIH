@@ -16,13 +16,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import VideoPlayer from 'react-native-video-player';
 
 import Header from '../Component/Atom/Header';
-import { BASE_URL } from '../Constant/Constant';
+import { BASE_URL, Image_BASE_URL } from '../Constant/Constant';
 import ColorTheme from '../Theme/ColorTheme';
 
 function AttractionDetails({navigation, route}) {
   const [active_tab, set_active_tab] = useState('info');
   const images = [
-    `${BASE_URL}${route?.params?.item?.image}`,
+    `${Image_BASE_URL}${route?.params?.item?.image}`,
   ];
   const styles = StyleSheet.create({
     mainframe: {

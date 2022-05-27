@@ -8,7 +8,7 @@ function NavBar(props) {
 
     const logout = async () => {
         localStorage.clear();
-        window.location.href();
+        window.location='/';
     }
 
     return (
@@ -30,6 +30,9 @@ function NavBar(props) {
                     </li>
                     <li>
                         <Link to="/attraction">Attraction Management</Link>
+                    </li>
+                    <li>
+                        <Link to="/Accommodation">Accommodation Management</Link>
                     </li>
                     <li>
                         <a onClick={()=>logout()}>Logout</a>

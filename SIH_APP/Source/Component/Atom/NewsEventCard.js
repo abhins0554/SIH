@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, Dimensions, Image,TouchableOpacity} from 'react-native';
-import { BASE_URL } from '../../Constant/Constant';
+import { Image_BASE_URL } from '../../Constant/Constant';
 
 import ColorTheme from "../../Theme/ColorTheme";
 
@@ -35,7 +35,7 @@ function NewsEventCard({navigation,item}) {
   return (
     <TouchableOpacity style={styles.cardframe} onPress={navigation}>
       <Image
-        source={{uri:`${BASE_URL}${item.image}`}}
+        source={{uri:`${Image_BASE_URL}${item.image}`}}
         style={styles.img}
         resizeMode="cover"
       />
