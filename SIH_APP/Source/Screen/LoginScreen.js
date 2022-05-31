@@ -44,6 +44,8 @@ function LoginScreen({navigation}) {
       .catch(error => {
         console.log(error);
       });
+
+      console.log("HAKHS");
   };
 
 

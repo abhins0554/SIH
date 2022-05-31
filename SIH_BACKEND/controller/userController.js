@@ -68,6 +68,7 @@ exports.userSignup = async (req, res) => {
 };
 
 exports.userLogin = async (req,res) => {
+  console.log("hello");
   userModel.find({ email: req?.body?.email }, async (err, result) => {
     if (err) {
       return res.json({

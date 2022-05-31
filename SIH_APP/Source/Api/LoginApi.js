@@ -15,13 +15,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginAPI = async (response, navigation,email) => {
       const idTokenResult = await auth().currentUser.getIdTokenResult();
-      // console.log('User JWT: ', idTokenResult.token);
       await axios.post(`${BASE_URL}user/login`,{email:email},{
         headers: {
           authorization: `Bearer ${idTokenResult.token}`
         }
       })
       .then(response=>{
+
         saving_data_async(response?.data,navigation,idTokenResult.token);
       })
       .catch(error=>{
