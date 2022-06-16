@@ -14,16 +14,16 @@ import {SliderBox} from 'react-native-image-slider-box';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import VideoPlayer from 'react-native-video-player';
+import YoutubePlayer from 'react-native-youtube-iframe';
+import WebView from 'react-native-webview';
 
 import Header from '../Component/Atom/Header';
-import { BASE_URL, Image_BASE_URL } from '../Constant/Constant';
+import {BASE_URL, Image_BASE_URL} from '../Constant/Constant';
 import ColorTheme from '../Theme/ColorTheme';
 
 function AttractionDetails({navigation, route}) {
   const [active_tab, set_active_tab] = useState('info');
-  const images = [
-    `${Image_BASE_URL}${route?.params?.item?.image}`,
-  ];
+  const images = [`${Image_BASE_URL}${route?.params?.item?.image}`];
   const styles = StyleSheet.create({
     mainframe: {
       flex: 1,
@@ -53,13 +53,7 @@ function AttractionDetails({navigation, route}) {
     <SafeAreaView style={styles.mainframe}>
       <Header navigation={navigation} title={route?.params?.item?.name} />
       <ScrollView style={{flex: 1}}>
-        <SliderBox
-          images={images}
-          onCurrentImagePressed={index =>
-            console.warn(`image ${index} pressed`)
-          }
-          sliderBoxHeight={240}
-        />
+        <SliderBox images={images} sliderBoxHeight={240} />
         <View style={{position: 'absolute'}}>
           {/* <Text style={styles.headingimage}>Kedarnath</Text> */}
         </View>
@@ -148,7 +142,9 @@ function AttractionDetails({navigation, route}) {
         />
         {active_tab === 'info' ? (
           <>
-            <Text style={styles.descriptiontxt}>{route?.params?.item?.description}</Text>
+            <Text style={styles.descriptiontxt}>
+              {route?.params?.item?.description}
+            </Text>
             <View style={{flexDirection: 'row'}}>
               <View style={{flex: 1}}>
                 <View style={{flexDirection: 'row', alignSelf: 'center'}}>
@@ -237,20 +233,17 @@ function AttractionDetails({navigation, route}) {
           </>
         ) : active_tab === 'video' ? (
           <>
-            <VideoPlayer
-              video={{
-                uri: route?.params?.item?.video
+            <WebView
+              style={{
+                marginTop: Platform.OS == 'ios' ? 20 : 0,
+                height: 250,
+                width: '100%',
+                backgroundColor:'black'
               }}
-              videoWidth={1600}
-              videoHeight={900}
-              thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+              javaScriptEnabled={true}
+              domStorageEnabled={true}
+              source={{uri: `https://www.youtube.com/embed/${route?.params?.item?.video.split('https://youtu.be/')[1]}`}}
             />
-                {/* <WebView
-        style={ {  marginTop: (Platform.OS == 'ios') ? 20 : 0,} }
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        source={{uri: 'https://www.youtube.com/embed/'+this.state.pictureData.idVideo }}
-    /> */}
           </>
         ) : active_tab === 'nearby' ? (
           <></>

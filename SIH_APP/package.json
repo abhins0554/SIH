@@ -7,6 +7,7 @@
     "ios": "npx react-native run-ios",
     "start": "npx react-native start",
     "test": "jest",
+    "link": "npx react-native link",
     "lint": "eslint .",
     "build": "npx react-native run-android --variant=release"
   },
@@ -45,6 +46,8 @@
     "react-native-vector-icons": "^9.1.0",
     "react-native-video": "^5.2.0",
     "react-native-video-player": "^0.12.0",
+    "react-native-webview": "^11.22.2",
+    "react-native-youtube-iframe": "^2.2.2",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1"
