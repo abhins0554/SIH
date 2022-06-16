@@ -25,7 +25,7 @@ const LoginAPI = async (response, navigation,email) => {
         saving_data_async(response?.data,navigation,idTokenResult.token);
       })
       .catch(error=>{
-        console.log('Error ', error);
+        console.log('Error 1', error);
         console.log('Error ', error?.response?.message);
         console.log('Error ', error?.response?.data);
       })

@@ -35,7 +35,7 @@ function AttractionCategoryScreen({navigation,route}) {
   });
   return (
     <SafeAreaView style={styles.mainframe}>
-      <Header navigation={navigation} title={'Char Dham'} />
+      <Header navigation={navigation} title={route?.params?.type.toUpperCase()} />
       <ScrollView style={{flex: 1}}>
         {
           attraction_list.map((item,index)=>{

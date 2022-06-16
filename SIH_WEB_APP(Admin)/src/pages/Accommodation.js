@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+
+import Modal from "react-modal";
+import { toast } from "react-toastify";
+
 import NavBar from '../component/NavBar';
 import { get_Accommodation_Data } from '../services/accommodationService';
+
+import $ from 'jquery';
 
 function Accommodation(props) {
 
@@ -42,6 +48,17 @@ function Accommodation(props) {
         .catch(error=>{
             console.log(error);
         })
+    }
+
+    const [name,set_name]=useState("");
+    const [latitude,set_latitude]=useState("");
+    const [longitude,set_longitude]=useState("");
+    const [description,set_description]=useState("");
+    const [image,set_image]=useState("");
+
+
+    const add_accommodation = async () =>{
+      
     }
 
     React.useEffect(() => {
@@ -131,6 +148,60 @@ function Accommodation(props) {
           </tbody>
         </table>
         </div>
+        <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <h2>Add Attraction</h2>
+        <button onClick={closeModal}>close</button>
+        <form onSubmit={(e) => e.preventDefault()}>
+            <div className="form-wrapper">
+              <label htmlFor="">Name:</label>
+              <div className="form-holder">
+                <input type="text" className="form-control" value={name} onChange={e=>set_name(e.target.value)} />
+              </div>
+            </div>
+          <div className="form-group">
+            <div className="form-wrapper">
+              <label htmlFor="">Latitude:</label>
+              <div className="form-holder">
+                <input
+                  type="text"
+                  className="form-control"
+                  value={latitude} onChange={e=>set_latitude(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="form-wrapper">
+              <label htmlFor="">Longitude:</label>
+              <div className="form-holder">
+                <input
+                  type="text"
+                  className="form-control"
+                  value={longitude} onChange={e=>set_longitude(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+            <div className="form-wrapper">
+              <label htmlFor="">Description:</label>
+              <div className="form-holder">
+                <textarea type="text" className="form-control" value={description} onChange={e=>set_description(e.target.value)} />
+              </div>
+            </div>
+            <div className="form-wrapper">
+              <label htmlFor="">Image:</label>
+              <div className="form-holder">
+                <input type="file"  className="form-control" accept="image/*" onChange={e=>set_image(e.target.files[0])} />
+              </div>
+            </div>
+          <div className="d-flex justify-content-around">
+            <button onClick={()=>add_accommodation()}>Add</button>
+          </div>
+        </form>
+      </Modal>
         </div>
     );
 }
