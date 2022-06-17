@@ -12,6 +12,16 @@ export const _fetch_news_data = async () => {
     return response;
 }
 
+export const _delete_news_data = async (id) => {
+    let t =await localStorage.getItem('token');
+    let response = await axios.post(`${BASE_URL}/news/deleteNews`,{id:id},{
+        headers:{
+            authorization:`Bearer ${t}`
+        }
+    });
+    return response;
+}
+
 export const _add_News_API = async (title,description,image) =>{
 
     let t =await localStorage.getItem('token');

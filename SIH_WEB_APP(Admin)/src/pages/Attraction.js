@@ -18,6 +18,7 @@ function Attraction(props) {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
+      height:'90vh'
     },
   };
 

@@ -16,6 +16,10 @@ const accommodationRoute = require('./router/accommodationRoute');
 
 const serviceAccount = require("./serviceAccountKey.json");
 
+
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger_output.json')
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -40,7 +44,9 @@ app.use('/news',newsRoute);
 app.use('/attraction',attractionRoute);
 app.use('/accommodation',accommodationRoute);
 
-app.get('/test',(req,res)=>{
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
+app.get('/ping',(req,res)=>{
   res.send("Network Working !");
 })
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import NavBar from "../component/NavBar";
 
 import $ from "jquery";
-import { _add_News_API, _fetch_news_data } from "../services/newsService";
+import { _add_News_API, _fetch_news_data,_delete_news_data } from "../services/newsService";
 import { Link } from "react-router-dom";
 
 import Modal from "react-modal";
@@ -18,9 +18,9 @@ function News(props) {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
+      height:'90vh'
     },
   };
-
   function toggledrawer(params) {
     $("#sidebar").toggleClass("active");
   }
@@ -33,7 +33,7 @@ function News(props) {
         set_news_list(response?.data?.data);
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error);
       });
   };
 
@@ -68,7 +68,21 @@ function News(props) {
       }
     })
     .catch(error=>{
-      console.log(error);
+      toast.error(error);
+    })
+  }
+
+  const _delete_news_by_id = async (id) => {
+    _delete_news_data(id)
+    .then(response=>{
+      if(response.data.code===200){
+          response.data.message
+          toast.success(response?.data?.message);
+          _get_data();
+      }
+    })
+    .catch(error=>{
+      toast.error(error);
     })
   }
 
@@ -128,15 +142,16 @@ function News(props) {
                       data-dismiss="alert"
                       aria-label="Close"
                     >
-                      Delete
+                      Edit
                     </button>
                     <button
                       type="button"
                       className="close"
                       data-dismiss="alert"
                       aria-label="Close"
+                      onClick={()=>_delete_news_by_id(item?._id)}
                     >
-                      Block
+                      Delete
                     </button>
                   </td>
                 </tr>
