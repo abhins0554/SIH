@@ -44,7 +44,11 @@ function Accommodation(props) {
         set_attraction_list(response.data.data);
       })
       .catch((error) => {
-        console.log(error);
+        if(error.response.status===403){
+          localStorage.clear();
+          window.location.reload();
+          toast.error("Session Expired !");
+        }
       });
   };
 

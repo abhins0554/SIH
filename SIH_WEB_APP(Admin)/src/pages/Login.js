@@ -23,21 +23,6 @@ function Login(props) {
                     <p className="text-mute">
                         Enter your credentials to access your account.
                     </p>
-                    <div className="login-wrapper">
-                        <Link to={""} className="btn btn-google">
-                            <img
-                                src="https://img.icons8.com/fluency/48/000000/google-logo.png"
-                                alt=""
-                            />
-                            Log In with Google
-                        </Link>
-                        <div className="line-breaker">
-                            <span className="line"></span>
-                            <span>or</span>
-                            <span className="line"></span>
-                        </div>
-                    </div>
-
                     <form className="signup-form" onSubmit={(e) => submitLogin(e)}>
                         <label className="inp">
                             <input
