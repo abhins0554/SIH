@@ -5,6 +5,7 @@ import $ from "jquery";
 import { Link } from "react-router-dom";
 
 import Modal from "react-modal";
+import { toast } from "react-toastify";
 import { _fetch_user_data_mongodDB } from "../services/homeServices";
 
 const customStyles = {
@@ -44,8 +45,8 @@ function Home(props) {
       .catch((error) => {
         if(error.response.status===403){
           localStorage.clear();
-          window.location.reload();
           toast.error("Session Expired !");
+          window.location="/";
         }
       });
   };

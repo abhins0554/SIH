@@ -35,8 +35,8 @@ function News(props) {
       .catch((error) => {
         if(error.response.status===403){
           localStorage.clear();
-          window.location.reload();
           toast.error("Session Expired !");
+          window.location="/";
         }
       });
   };
