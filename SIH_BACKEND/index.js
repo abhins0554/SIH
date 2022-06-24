@@ -44,7 +44,7 @@ app.use('/news',newsRoute);
 app.use('/attraction',attractionRoute);
 app.use('/accommodation',accommodationRoute);
 
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 app.get('/ping',(req,res)=>{
   res.send("Network Working !");

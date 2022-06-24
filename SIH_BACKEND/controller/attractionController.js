@@ -160,3 +160,52 @@ exports.deleteAttraction = async (req, res) => {
         }
     );
 };
+
+
+
+exports.createOtherAttraction = async (req, res) => {
+    let {
+        name,
+        description,
+        image,
+    } = req.body;
+    attractionModel.find({name:name}, async (err, result) => {
+        if (err) {
+            return res.json({
+                code: 500,
+                message: "Database Error",
+                error: err,
+            });
+        }
+        if (result.length===0) {
+            const attraction = new attractionModel({
+                name: name,
+                description: description,
+                image: image,
+                category: "other",
+            });
+        
+            await attraction.save((err, result) => {
+                if (err) {
+                    return res.json({
+                        code: 500,
+                        message: "Database Error",
+                        error: err,
+                    });
+                } else {
+                    return res.json({
+                        code: 200,
+                        message: "Attraction added Successfully",
+                        data: result,
+                    });
+                }
+            });
+        }
+        else{
+            return res.json({
+                code: 400,
+                message: "Attraction already added",
+            });
+        }
+    })
+};

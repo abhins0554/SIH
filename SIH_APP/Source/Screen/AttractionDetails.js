@@ -23,7 +23,7 @@ import ColorTheme from '../Theme/ColorTheme';
 
 function AttractionDetails({navigation, route}) {
   const [active_tab, set_active_tab] = useState('info');
-  const images = [`${Image_BASE_URL}${route?.params?.item?.image}`];
+  const images = [route.params.item.category=="other" ? `${route?.params?.item?.image}` :`${Image_BASE_URL}${route?.params?.item?.image}`];
   const styles = StyleSheet.create({
     mainframe: {
       flex: 1,
@@ -49,6 +49,7 @@ function AttractionDetails({navigation, route}) {
       fontSize: 22,
     },
   });
+
   return (
     <SafeAreaView style={styles.mainframe}>
       <Header navigation={navigation} title={route?.params?.item?.name} />

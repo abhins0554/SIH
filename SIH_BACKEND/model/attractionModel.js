@@ -15,15 +15,12 @@ const attractionModel = mongoose.Schema({
     },
     email:{
         type:String,
-        required:true
     },
     phone:{
         type:String,
-        required:true
     },
     video:{
         type:String,
-        required:true
     },
     category:{
         type:String,
@@ -34,8 +31,8 @@ const attractionModel = mongoose.Schema({
         default:"N",
     },
     location: {
-        longitude: {type: String, required: true},
-        latitude: {type: String, required: true},
+        longitude: {type: String,},
+        latitude: {type: String,},
     },
     createdOn:{
         type:Date,

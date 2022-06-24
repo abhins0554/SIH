@@ -46,7 +46,7 @@ function AttractionCategoryScreen({navigation,route}) {
               item={item}
               title={item?.name}
               subtitle={item?.description}
-              image={`${BASE_URL}${item?.image}`}
+              image={route?.params?.type==='other'? `${item?.image}` : `${BASE_URL}${item?.image}`}
             />
             )
           })

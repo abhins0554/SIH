@@ -140,6 +140,18 @@ function AttractionScreen({navigation}) {
             <Text style={styles.heading2}>Camping</Text>
           </TouchableOpacity>
         </View>
+        <View style={{flex: 1}}>
+          <TouchableOpacity
+            style={styles.att1container}
+            onPress={() => navigation.navigate('AttractionCategoryScreen',{type:'other'})}>
+            <Image
+              source={{uri:'https://images.unsplash.com/photo-1626593261859-4fe4865d8cb1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGNvcHlyaWdodHxlbnwwfHwwfHw%3D&w=1000&q=80'}}
+              style={styles.attraction1img}
+              resizeMode={'cover'}
+            />
+            <Text style={styles.heading}>Other</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );

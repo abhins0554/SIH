@@ -33,11 +33,11 @@ function News(props) {
         set_news_list(response?.data?.data);
       })
       .catch((error) => {
-        if(error.response.status===403){
-          localStorage.clear();
-          toast.error("Session Expired !");
-          window.location="/";
-        }
+        // if(error.response.status===403){
+        //   localStorage.clear();
+        //   toast.error("Session Expired !");
+        //   window.location="/";
+        // }
       });
   };
 

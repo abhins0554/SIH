@@ -6,10 +6,7 @@ import {signOut}  from 'firebase/auth'
 
 function NavBar(props) {
 
-    const logout = async () => {
-        localStorage.clear();
-        window.location='/';
-    }
+
 
     return (
         <div>
@@ -35,10 +32,7 @@ function NavBar(props) {
                         <Link to="/Accommodation">Accommodation Management</Link>
                     </li>
                     <li>
-                        <Link to="/">Disaster Management</Link>
-                    </li>
-                    <li>
-                        <Link to="/">RazorPay Management</Link>
+                        <Link to="/">Notification</Link>
                     </li>
                     <li>
                         <a onClick={()=>logout()}>Logout</a>

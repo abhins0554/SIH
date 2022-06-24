@@ -2,22 +2,15 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Smart India Hackthon API Endpoint",
+    "title": "REST API",
     "description": ""
   },
-  "host": "developmentserver.quickblog.tech",
+  "host": "localhost:5000",
   "basePath": "/",
   "schemes": [
-    "http",
-    "https"
+    "https",
+    "http"
   ],
-  "securityDefinitions": {
-    "api_key": {
-      "type": "apiKey",
-      "name": "Berear Token",
-      "in": "header"
-    }
-  },
   "paths": {
     "/ping": {
       "get": {
@@ -723,6 +716,36 @@
           },
           "403": {
             "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/attraction/createOtherAttraction": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "image": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
