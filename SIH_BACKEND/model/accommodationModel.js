@@ -13,10 +13,6 @@ const accommodationModel = mongoose.Schema({
         type:String,
         required : true
     },
-    tags:{
-        type:String,
-        required:true
-    },
     description:{
         type:String,
     },

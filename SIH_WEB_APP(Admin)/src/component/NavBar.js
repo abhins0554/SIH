@@ -32,7 +32,7 @@ function NavBar(props) {
                         <Link to="/Accommodation">Accommodation Management</Link>
                     </li>
                     <li>
-                        <Link to="/">Notification</Link>
+                        <Link to="/Notification">Notification</Link>
                     </li>
                     <li>
                         <a onClick={()=>logout()}>Logout</a>

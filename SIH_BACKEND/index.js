@@ -44,7 +44,7 @@ app.use('/news',newsRoute);
 app.use('/attraction',attractionRoute);
 app.use('/accommodation',accommodationRoute);
 
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 app.get('/ping',(req,res)=>{
   res.send("Network Working !");
@@ -61,9 +61,10 @@ app.get('/ping',(req,res)=>{
 //   }
 // });
 
-app.listen(5000, (req, res) => {
-  console.log("NodeJS Server Started");
   mongoose.connect(process.env.DB_URL)
   .then(()=>console.log("MongoDB Connection Successful"))
   .catch((error)=>console.log("error",error))
+
+app.listen(5000, (req, res) => {
+  console.log("NodeJS Server Started");
 });

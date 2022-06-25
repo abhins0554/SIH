@@ -8,6 +8,8 @@ import NavBar from "../component/NavBar";
 import { get_Accommodation_Data } from "../services/accommodationService";
 
 import $ from "jquery";
+import axios from "axios";
+import { BASE_URL } from "../constant/constant";
 
 function Accommodation(props) {
   const customStyles = {
@@ -53,12 +55,22 @@ function Accommodation(props) {
   };
 
   const [name, set_name] = useState("");
+  const [price,set_price]=useState("");
   const [latitude, set_latitude] = useState("");
   const [longitude, set_longitude] = useState("");
   const [description, set_description] = useState("");
   const [image, set_image] = useState("");
 
-  const add_accommodation = async () => {};
+  const add_accommodation = async () => {
+    axios.post(`${BASE_URL}/accommodation/createAccommodation`,{
+      name:name,
+      price:price,
+      description:description,
+      image:image,
+      longitude:longitude,
+      latitude:latitude,
+    })
+  };
 
   React.useEffect(() => {
     get_data();
@@ -171,8 +183,8 @@ function Accommodation(props) {
               <input
                 type="text"
                 className="form-control"
-                value={name}
-                onChange={(e) => set_name(e.target.value)}
+                value={price}
+                onChange={(e) => set_price(e.target.value)}
               />
             </div>
           </div>

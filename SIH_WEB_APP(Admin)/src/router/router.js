@@ -16,6 +16,7 @@ import News from '../pages/News';
 import Event from '../pages/Event';
 import Attraction from '../pages/Attraction';
 import Accommodation from '../pages/Accommodation';
+import Notification from '../pages/Notification';
 
 function Router() {
 
@@ -38,7 +39,7 @@ function Router() {
             <BrowserRouter>
               <Routes>
                 <Route path="/" exact element={<Login />} />
-                <Route path="/signup" exact element={<SignUp />} />
+                {/* <Route path="/signup" exact element={<SignUp />} /> */}
                 <Route path="/login" exact element={<Login />} />
               </Routes>
             </BrowserRouter>
@@ -53,6 +54,7 @@ function Router() {
                     <Route path="/event" exact element={<Event />} />
                     <Route path="/attraction" exact element={<Attraction />} />
                     <Route path="/accommodation" exact element={<Accommodation />} />
+                    <Route path="/Notification" exact element={<Notification />} />
                   </Routes>
                 </BrowserRouter>
           </>

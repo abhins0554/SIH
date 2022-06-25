@@ -37,24 +37,37 @@ function AccomodationScreen({navigation}) {
     <SafeAreaView style={styles.mainframe}>
       <Header title={'Accomodation'} navigation={navigation} />
       <ScrollView>
-      <FlatList 
+      {/* <FlatList 
         data={data}
         keyExtractor={data=>data._id}
         renderItem={({item,index})=>{
           return(
-            <AccomodationCard
-            hotel_name={item?.name}
-            price={item?.price}
-            feature={item?.tags}
-            no_of_reviews={'20'}
-            image={`${Image_BASE_URL}${item?.image}`}
-            item={item}
-            navigation={navigation}
-          />
+
           )
         }}
         numColumns={2}
-      />
+      /> */}
+
+      <View style={{flexDirection:'row'}}>
+      <AccomodationCard
+            hotel_name={"Hotel Height"}
+            price={400}
+            feature={"AC, WiFi,"}
+            no_of_reviews={'20'}
+            image={`https://thumbs.dreamstime.com/b/hotel-10732347.jpg`}
+            item={"item"}
+            navigation={navigation}
+          />
+          <AccomodationCard
+            hotel_name={"Hotel Motel"}
+            price={700}
+            feature={"AC, WiFi,"}
+            no_of_reviews={'50'}
+            image={`https://pix10.agoda.net/hotelImages/124/1246280/1246280_16061017110043391702.jpg?ca=6&ce=1&s=1024x768`}
+            item={"item"}
+            navigation={navigation}
+          />
+      </View>
           
 
       </ScrollView>

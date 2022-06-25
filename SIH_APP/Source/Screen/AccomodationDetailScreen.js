@@ -25,7 +25,7 @@ import { Image_BASE_URL } from '../Constant/Constant';
 
 function AccomodationDetailScreen({navigation,route}) {
   const images = [
-    `${Image_BASE_URL}${route?.params?.item?.image}`
+    `https://thumbs.dreamstime.com/b/hotel-10732347.jpg`
   ];
   const [datefrom, setDatefrom] = useState(new Date(1598051730000));
   const [dateto, setDateto] = useState(new Date(1598051730000));
@@ -191,8 +191,8 @@ function AccomodationDetailScreen({navigation,route}) {
             <View style={styles.seperator} />
           </View>
         </View>
-        <View style={{margin: 5}} />
-        <View
+        {/* <View style={{margin: 5}} /> */}
+        {/* <View
           style={{
             backgroundColor: '#F6F6F6',
             marginHorizontal: 20,
@@ -244,7 +244,7 @@ function AccomodationDetailScreen({navigation,route}) {
             style={{width: 150, alignSelf: 'center', marginTop: 15}}>
             Book Now
           </Button>
-        </View>
+        </View> */}
 
         <View style={{margin: 5}} />
         <View
