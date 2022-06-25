@@ -84,7 +84,7 @@ function AttractionDetails({navigation, route}) {
           </TouchableOpacity>
           <TouchableOpacity
             style={{flex: 1, flexDirection: 'column'}}
-            onPress={() => set_active_tab('video')}>
+            onPress={() => {route.params.item.category=="other" ?"":set_active_tab('video')}}>
             <Feather
               name="video"
               style={styles.icons}
@@ -198,7 +198,12 @@ function AttractionDetails({navigation, route}) {
               }}
               style={{width: '100%', height: 200}}
             />
-            <Text
+            {
+              route.params.item.category=="other" ?
+              <>
+              </>
+              :
+              <Text
               style={{
                 textAlign: 'left',
                 color: ColorTheme.textSecondary,
@@ -209,6 +214,8 @@ function AttractionDetails({navigation, route}) {
               }}>
               Nodal Officer :- {route?.params?.item?.phone}
             </Text>
+            }
+
             {/* <Text
               style={{
                 textAlign: 'left',
@@ -220,7 +227,12 @@ function AttractionDetails({navigation, route}) {
               }}>
               Website :- kedarnath.gov.in
             </Text> */}
-            <Text
+            {
+              route.params.item.category=="other" ?
+              <>
+              </>
+              :
+              <Text
               style={{
                 textAlign: 'left',
                 color: ColorTheme.textSecondary,
@@ -231,6 +243,7 @@ function AttractionDetails({navigation, route}) {
               }}>
               Email :- {route?.params?.item?.email}
             </Text>
+            }
           </>
         ) : active_tab === 'video' ? (
           <>
