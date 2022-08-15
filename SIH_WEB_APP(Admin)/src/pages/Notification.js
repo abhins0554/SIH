@@ -19,6 +19,7 @@ function Notification(props) {
     axios.post(`${BASE_URL}/user/sendNotification`,data)
       .then(function (response) {
         console.log(response.data);
+        alert("Notification Send !");
       })
       .catch(function (error) {
         console.log(error);

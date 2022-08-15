@@ -345,6 +345,20 @@ function LandingScreen({navigation}) {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              onPress={() => navigation.navigate('SuggestionComplaints')}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  margin: 7,
+                  borderWidth: 1,
+                  padding: 10,
+                  textAlign: 'center',
+                }}>
+                Donations
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
               style={{
                 flexDirection: 'row',
                 borderWidth: 1,
